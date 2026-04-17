@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TMS Logística - Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="logo">
+                <span class="destaque-ciano">TMS</span> Logística
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="ativo">Painel Principal</a></li>
+                    <li><a href="#">Caminhões</a></li>
+                    <li><a href="#">Motoristas</a></li>
+                    <li><a href="#" id="btnSair" class="sair">Sair do Sistema</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="conteudo">
+            <header>
+                <h2>Visão Geral do Sistema</h2>
+            </header>
+            
+            <div class="cards-container">
+                <div class="card">
+                    <h3>Total de Caminhões</h3>
+                    <p class="numero-destaque">--</p>
+                </div>
+                <div class="card">
+                    <h3>Total de Motoristas</h3>
+                    <p class="numero-destaque">--</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>

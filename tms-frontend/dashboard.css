@@ -1,0 +1,74 @@
+/* Paleta de Cores do Gustavo */
+:root {
+    --azul-marinho: #0A192F; /* Fundo do menu - Sóbrio e Seguro */
+    --ciano: #00E5FF;        /* Destaques - Moderno e Tecnológico */
+    --fundo-tela: #F4F7F6;   /* Fundo cinza bem clarinho para não cansar a vista */
+    --texto-claro: #E6F1FF;
+    --texto-escuro: #333333;
+}
+
+* { box-sizing: border-box; font-family: Arial, sans-serif; margin: 0; padding: 0; }
+
+body { background-color: var(--fundo-tela); color: var(--texto-escuro); }
+
+.layout { display: flex; height: 100vh; }
+
+/* Estilizando o Menu Lateral */
+.sidebar {
+    width: 250px;
+    background-color: var(--azul-marinho);
+    color: var(--texto-claro);
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    padding: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.destaque-ciano { color: var(--ciano); }
+
+nav ul { list-style: none; margin-top: 20px; }
+
+nav ul li a {
+    display: block;
+    padding: 15px 20px;
+    color: var(--texto-claro);
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+nav ul li a:hover, nav ul li a.ativo {
+    background-color: rgba(0, 229, 255, 0.1); /* Fundo ciano transparente ao passar o mouse */
+    border-left: 4px solid var(--ciano);
+    color: var(--ciano);
+}
+
+nav ul li a.sair { margin-top: 50px; color: #ff4c4c; }
+
+/* Estilizando a Área Central */
+.conteudo { flex: 1; padding: 30px; }
+
+header { margin-bottom: 30px; border-bottom: 2px solid #ddd; padding-bottom: 10px; }
+
+.cards-container { display: flex; gap: 20px; }
+
+.card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    flex: 1;
+    border-top: 4px solid var(--azul-marinho);
+}
+
+.numero-destaque {
+    font-size: 36px;
+    font-weight: bold;
+    color: var(--ciano);
+    margin-top: 10px;
+}
