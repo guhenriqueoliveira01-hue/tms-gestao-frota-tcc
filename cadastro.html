@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - TMS</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="login-container">
+        <h2>Criar Conta</h2>
+        <form id="formCadastro">
+            <div class="input-group">
+                <label for="nome">Nome Completo</label>
+                <input type="text" id="nome" placeholder="Digite seu nome" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" placeholder="exemplo@email.com" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="senha">Senha</label>
+                <input type="password" id="senha" placeholder="********" required>
+            </div>
+
+            <button type="submit">Finalizar Cadastro</button>
+            
+            <p style="text-align:center; margin-top:15px;">
+                <a href="login.html" style="color: #22d3ee; text-decoration:none;">Já tenho conta</a>
+            </p>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('formCadastro').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Capturando os valores dos inputs
+            const nome = document.getElementById('nome').value;
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
+
+            // Criando o objeto seguindo o que o seu UsuarioController.ts espera
+            const dados = {
+                nome: nome,
+                email: email,
+                senha: senha,
+                tipo_perfil: 'ADMIN' // Adicionado para evitar erro 400 no servidor
+            };
+
+            try {
+                const response = await fetch('http://localhost:3000/cadastro', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dados)
+                });
+
+                const resultado = await response.json();
+
+                if (response.ok) {
+                    alert('✅ Cadastro realizado com sucesso!');
+                    // Redireciona para o login (ajustado para a mesma pasta)
+                    window.location.href = 'login.html';
+                } else {
+                    alert('❌ Erro: ' + (resultado.erro || 'Falha ao cadastrar'));
+                }
+
+            } catch (erro) {
+                console.error('Erro na requisição:', erro);
+                alert('⚠️ O servidor está desligado ou houve um erro de conexão.');
+            }
+        });
+    </script>
+</body>
+</html>

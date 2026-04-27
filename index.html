@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TMS Logística - Gestão Inteligente</title>
+    <link rel="stylesheet" href="style.css"> <style>
+        /* Estilos específicos para a Landing Page */
+        .hero {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            padding: 20px;
+        }
+        .hero h1 { font-size: 3.5rem; color: #fff; margin-bottom: 20px; }
+        .hero p { font-size: 1.2rem; color: #94a3b8; max-width: 600px; margin-bottom: 30px; }
+        .cta-buttons { display: flex; gap: 20px; }
+        .btn-primary { background: #22d3ee; color: #0f172a; padding: 15px 30px; border-radius: 8px; text-decoration: none; font-weight: bold; }
+        .btn-secondary { border: 2px solid #22d3ee; color: #22d3ee; padding: 15px 30px; border-radius: 8px; text-decoration: none; font-weight: bold; }
+        .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; padding: 50px; background: #0f172a; }
+        .feature-card { background: #1e293b; padding: 30px; border-radius: 12px; text-align: center; color: white; }
+    </style>
+</head>
+<body>
+    <nav style="display: flex; justify-content: space-between; padding: 20px 50px; background: #0f172a; align-items: center;">
+        <div style="color: #22d3ee; font-weight: bold; font-size: 1.5rem;">TMS Logística</div>
+        <div>
+            <a href="login.html" style="color: white; margin-right: 20px; text-decoration: none;">Entrar</a>
+            <a href="cadastro.html" class="btn-primary">Criar Conta Grátis</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <h1>Controle sua frota com precisão.</h1>
+        <p>A plataforma completa para gestão de motoristas, caminhões e despesas em tempo real. Otimize sua logística hoje mesmo.</p>
+        <div class="cta-buttons">
+            <a href="cadastro.html" class="btn-primary">Começar Agora</a>
+            <a href="#funcionalidades" class="btn-secondary">Saber Mais</a>
+        </div>
+    </header>
+
+    <section id="funcionalidades" class="features">
+        <div class="feature-card">
+            <h3>🚚 Gestão de Frotas</h3>
+            <p>Cadastre e monitore todos os seus veículos em um só lugar.</p>
+        </div>
+        <div class="feature-card">
+            <h3>👤 Motoristas</h3>
+            <p>Controle de documentos, viagens e performance da sua equipe.</p>
+        </div>
+        <div class="feature-card">
+            <h3>📊 Dashboard Real</h3>
+            <p>Gráficos e indicadores precisos para tomada de decisão.</p>
+        </div>
+    </section>
+</body>
+</html>

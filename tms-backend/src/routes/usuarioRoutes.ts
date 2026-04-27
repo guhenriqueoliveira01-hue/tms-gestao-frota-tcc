@@ -4,15 +4,18 @@ import {
     listarUsuarios, 
     atualizarUsuario, 
     excluirUsuario,
-    loginUsuario
+    loginUsuario // Esta função vai conter a lógica de busca no banco
 } from '../controllers/UsuarioController';
 
 const router = Router();
 
-// Definindo as rotas (CRUD) usando o ID numérico automático como parâmetro nas rotas PUT e DELETE
-router.post('/usuarios', cadastrarUsuario);
+// Rotas do Usuário
+router.post('/cadastro', cadastrarUsuario); // Ajustado para bater com seu cadastro.html
 router.get('/usuarios', listarUsuarios);
 router.put('/usuarios/:id', atualizarUsuario);
 router.delete('/usuarios/:id', excluirUsuario);
-router.post('/login', loginUsuario); // <-- Nova rota de login
+
+// Rota de Login (apenas uma vez!)
+router.post('/login', loginUsuario);
+
 export default router;

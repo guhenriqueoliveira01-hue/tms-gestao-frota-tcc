@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - TMS</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="login-container">
+    <h2>Entrar no Sistema</h2>
+
+    <form id="formLogin">
+        <div class="input-group">
+            <label>E-mail</label>
+            <input type="email" id="email" required>
+        </div>
+
+        <div class="input-group">
+            <label>Senha</label>
+            <input type="password" id="senha" required>
+        </div>
+
+        <button type="submit">Entrar</button>
+
+        <p id="mensagemErro" class="erro-msg"></p>
+    </form>
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>

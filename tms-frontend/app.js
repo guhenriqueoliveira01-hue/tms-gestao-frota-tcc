@@ -51,3 +51,7 @@ formLogin.addEventListener('submit', async (evento) => {
         mensagemErro.style.display = 'block';
     }
 });
+
+// Dentro do seu app.js, após o login com sucesso:
+localStorage.setItem('token', dados.token);
+localStorage.setItem('nomeUsuario', dados.nome); // Guarda o nome do utilizador

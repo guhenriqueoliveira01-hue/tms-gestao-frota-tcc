@@ -2,44 +2,58 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TMS Logística - Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dashboard - TMS</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
     <div class="layout">
         <aside class="sidebar">
-            <div class="logo">
-                <span class="destaque-ciano">TMS</span> Logística
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="#" class="ativo">Painel Principal</a></li>
-                    <li><a href="#">Caminhões</a></li>
-                    <li><a href="#">Motoristas</a></li>
-                    <li><a href="#" id="btnSair" class="sair">Sair do Sistema</a></li>
-                </ul>
+            <div class="logo"><span class="destaque-ciano">TMS</span> Logística</div>
+            <nav class="menu">
+                <a class="ativo">Dashboard</a>
+                <a>Caminhões</a>
+                <a>Motoristas</a>
             </nav>
+            <div class="logout"><a id="btnSair">Sair</a></div>
         </aside>
 
         <main class="conteudo">
-            <header>
-                <h2>Visão Geral do Sistema</h2>
-            </header>
-            
-            <div class="cards-container">
-                <div class="card">
-                    <h3>Total de Caminhões</h3>
-                    <p class="numero-destaque">--</p>
+            <div class="wrapper">
+                <div class="topo">
+                    <h1>Visão Geral</h1>
+                    <p>Resumo das operações</p>
                 </div>
-                <div class="card">
-                    <h3>Total de Motoristas</h3>
-                    <p class="numero-destaque">--</p>
+                <div class="cards-container">
+                    <div class="card">
+                        <h3>Total Caminhões</h3>
+                        <p class="numero-destaque">--</p>
+                    </div>
+                    <div class="card">
+                        <h3>Total Motoristas</h3>
+                        <p class="numero-destaque">--</p>
+                    </div>
+                </div>
+                <div class="tabela-container">
+                    <h2>🚚 Caminhões</h2>
+                    <div class="tabela-responsiva">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Placa</th>
+                                    <th>Modelo</th>
+                                    <th>Capacidade</th>
+                                </tr>
+                            </thead>
+                            <tbody id="corpo-tabela-caminhoes"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </main>
     </div>
-
     <script src="dashboard.js"></script>
 </body>
 </html>
