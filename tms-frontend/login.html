@@ -2,33 +2,63 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Login - TMS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - TMS Logística</title>
     <link rel="stylesheet" href="style.css">
 </head>
+<body class="auth-page"> <div class="login-container">
+        <h2 style="text-align: center; margin-bottom: 25px; color: var(--primary);">Entrar no Sistema</h2>
+        
+        <form id="formLogin">
+            <div class="input-group">
+                <label>E-mail</label>
+                <input type="email" id="email" required placeholder="Digite o seu e-mail">
+            </div>
+            
+            <div class="input-group">
+                <label>Senha</label>
+                <input type="password" id="senha" required placeholder="********">
+            </div>
+            
+            <button type="submit" class="btn-auth">Entrar</button>
+            
+            <p style="text-align:center; margin-top:20px;">
+                <a href="cadastro.html" style="color: var(--primary); text-decoration:none;">Ainda não tenho conta</a>
+            </p>
+        </form>
+    </div>
 
-<body>
+    <script>
+        document.getElementById('formLogin').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const dados = {
+                email: document.getElementById('email').value,
+                senha: document.getElementById('senha').value
+            };
 
-<div class="login-container">
-    <h2>Entrar no Sistema</h2>
+            try {
+                const response = await fetch('http://localhost:3000/login', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(dados)
+                });
+                
+                const resultado = await response.json();
 
-    <form id="formLogin">
-        <div class="input-group">
-            <label>E-mail</label>
-            <input type="email" id="email" required>
-        </div>
-
-        <div class="input-group">
-            <label>Senha</label>
-            <input type="password" id="senha" required>
-        </div>
-
-        <button type="submit">Entrar</button>
-
-        <p id="mensagemErro" class="erro-msg"></p>
-    </form>
-</div>
-
-<script src="app.js"></script>
-
+                if(response.ok) {
+                    alert('Login realizado com sucesso!');
+                    // Guarda o token e redireciona para o painel
+                    localStorage.setItem('token', resultado.token);
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert('Erro: ' + (resultado.erro || 'E-mail ou senha incorretos'));
+                }
+            } catch (erro) {
+                console.error(erro);
+                alert('Erro de conexão com o servidor.');
+            }
+        });
+    </script>
 </body>
 </html>

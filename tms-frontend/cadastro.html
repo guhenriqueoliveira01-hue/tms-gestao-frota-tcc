@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - TMS Logística</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-page"> <div class="login-container">
+        <h2 style="text-align: center; margin-bottom: 25px; color: var(--primary);">Criar Conta</h2>
+        
+        <form id="formCadastro">
+            <div class="input-group">
+                <label>Nome Completo</label>
+                <input type="text" id="nome" required placeholder="Digite o seu nome">
+            </div>
+            
+            <div class="input-group">
+                <label>E-mail</label>
+                <input type="email" id="email" required placeholder="exemplo@email.com">
+            </div>
+            
+            <div class="input-group">
+                <label>Senha</label>
+                <input type="password" id="senha" required placeholder="********">
+            </div>
+            
+            <button type="submit" class="btn-auth">Finalizar Cadastro</button>
+            
+            <p style="text-align:center; margin-top:20px;">
+                <a href="login.html" style="color: var(--primary); text-decoration:none;">Já tenho conta</a>
+            </p>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('formCadastro').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // O tipo_perfil 'ADMIN' continua aqui para o Back-end aceitar!
+            const dados = {
+                nome: document.getElementById('nome').value,
+                email: document.getElementById('email').value,
+                senha: document.getElementById('senha').value,
+                tipo_perfil: 'ADMIN' 
+            };
+
+            try {
+                const response = await fetch('http://localhost:3000/cadastro', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(dados)
+                });
+
+                if(response.ok) {
+                    alert('Cadastro realizado! Agora faça login.');
+                    window.location.href = 'login.html';
+                } else {
+                    const erroInfo = await response.json();
+                    alert('Erro ao cadastrar: ' + (erroInfo.erro || 'Verifique os dados.'));
+                }
+            } catch (erro) {
+                console.error(erro);
+                alert('Erro de conexão com o servidor.');
+            }
+        });
+    </script>
+</body>
+</html>
