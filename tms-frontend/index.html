@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TMS Logística - Gestão de Frotas Profissional</title>
+    <title>TMS Logística - Gestão Profissional</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="bg-glow"></div>
 
     <nav class="navbar">
         <div class="logo">TMS<span>Logística</span></div>
@@ -18,34 +19,99 @@
     </nav>
 
     <header class="hero">
-        <h1>Sua frota sob controle, <span>em tempo real.</span></h1>
-        <p>A plataforma inteligente para gestão de motoristas, veículos e cargas. Otimize sua operação logística com tecnologia de ponta e painéis interativos.</p>
-        <div class="cta-group">
-            <a href="cadastro.html" class="btn-main">Criar Conta Grátis</a>
+        <div class="hero-content">
+            <span class="badge-tech">Tecnologia Inteligente</span>
+            <h1>Sua frota sob controle, <span>em tempo real.</span></h1>
+            <p>A plataforma definitiva para gerir motoristas, veículos e entregas. Tudo o que sua transportadora precisa para crescer com segurança.</p>
+            <div class="cta-group">
+                <a href="cadastro.html" class="btn-main">Testar Gratuitamente</a>
+            </div>
         </div>
     </header>
 
-    <section id="funcionalidades" class="features">
-        <div class="feature-card">
-            <span class="icon">🚚</span>
-            <h3>Gestão de Frotas</h3>
-            <p>Controle total de veículos, manutenções preventivas e disponibilidade da sua frota.</p>
+    <section class="bento-showcase">
+        <div class="bento-header">
+            <h2>Operação em <span>Alta Performance</span></h2>
+            <p>Dados que impulsionam sua tomada de decisão diária.</p>
         </div>
-        <div class="feature-card">
-            <span class="icon">👤</span>
-            <h3>Motoristas</h3>
-            <p>Gerencie escalas, documentos, pontuações e performance da sua equipe de campo.</p>
-        </div>
-        <div class="feature-card">
-            <span class="icon">📊</span>
-            <h3>Dashboard Real</h3>
-            <p>Indicadores precisos e relatórios em tempo real para uma tomada de decisão rápida.</p>
+
+        <div class="bento-grid">
+            <div class="bento-card col-span-2 reveal">
+                <div class="card-header">
+                    <h3>Volume de Entregas</h3>
+                </div>
+                <div class="chart-placeholder">
+                    <div class="bar" style="height: 40%;"></div>
+                    <div class="bar" style="height: 60%;"></div>
+                    <div class="bar" style="height: 30%;"></div>
+                    <div class="bar cyan" style="height: 90%;"></div>
+                    <div class="bar" style="height: 70%;"></div>
+                    <div class="bar" style="height: 50%;"></div>
+                </div>
+            </div>
+
+            <div class="bento-card reveal">
+                <h3>Eficiência Geral</h3>
+                <p class="big-number">98.5%</p>
+                <span class="trend up">▲ Performance Recorde</span>
+            </div>
+
+            <div class="bento-card reveal">
+                <h3>Frota em Campo</h3>
+                <ul class="mini-list">
+                    <li>Volvo FH 540 <span class="status-dot green"></span></li>
+                    <li>Scania R450 <span class="status-dot green"></span></li>
+                    <li>Mercedes Actros <span class="status-dot yellow"></span></li>
+                </ul>
+            </div>
+            
+            <div class="bento-card col-span-2 reveal">
+                <h3>Rastreio de Motoristas</h3>
+                <table class="mini-table">
+                    <thead>
+                        <tr>
+                            <th>Colaborador</th>
+                            <th>Localização</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>João Silva</td>
+                            <td>Ribeirão Preto, SP</td>
+                            <td><span class="badge green">No Prazo</span></td>
+                        </tr>
+                        <tr>
+                            <td>Carlos Mendes</td>
+                            <td>Curitiba, PR</td>
+                            <td><span class="badge yellow">Atraso Leve</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </section>
 
-    <footer style="text-align: center; padding: 40px; color: var(--text-muted); border-top: 1px solid var(--border-glass); margin-top: 50px;">
-        &copy; 2026 TMS Logística - Sistema de Gestão de Transportes
-    </footer>
+    <section id="funcionalidades" class="features">
+        <div class="feature-card">
+            <div class="f-icon">🚚</div>
+            <h3>Frotas</h3>
+            <p>Gestão completa de ativos e manutenção.</p>
+        </div>
+        <div class="feature-card">
+            <div class="f-icon">👤</div>
+            <h3>Equipe</h3>
+            <p>Controle de jornadas e documentos.</p>
+        </div>
+        <div class="feature-card">
+            <div class="f-icon">📊</div>
+            <h3>Analytics</h3>
+            <p>Relatórios automáticos em PDF e Excel.</p>
+        </div>
+    </section>
 
+    <footer class="footer">
+        <p>&copy; 2026 TMS Logística - Inovação em Transportes</p>
+    </footer>
 </body>
 </html>

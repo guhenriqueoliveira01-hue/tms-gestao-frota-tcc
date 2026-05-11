@@ -3,62 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - TMS Logística</title>
+    <title>Entrar - TMS Logística</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="auth-page"> <div class="login-container">
-        <h2 style="text-align: center; margin-bottom: 25px; color: var(--primary);">Entrar no Sistema</h2>
+<body class="auth-page">
+
+    <div class="login-container">
+        <div class="logo" style="text-align: center; margin-bottom: 30px;">
+            TMS<span>Logística</span>
+        </div>
         
-        <form id="formLogin">
+        <h2 style="text-align: center; margin-bottom: 20px; color: white;">Entrar no Sistema</h2>
+
+        <form id="loginForm">
             <div class="input-group">
                 <label>E-mail</label>
-                <input type="email" id="email" required placeholder="Digite o seu e-mail">
+                <input type="email" id="email" placeholder="Digite o seu e-mail" required>
             </div>
-            
             <div class="input-group">
                 <label>Senha</label>
-                <input type="password" id="senha" required placeholder="********">
+                <input type="password" id="senha" placeholder="••••••••" required>
             </div>
             
             <button type="submit" class="btn-auth">Entrar</button>
-            
-            <p style="text-align:center; margin-top:20px;">
-                <a href="cadastro.html" style="color: var(--primary); text-decoration:none;">Ainda não tenho conta</a>
-            </p>
         </form>
+
+        <div style="text-align: center; margin-top: 25px; font-size: 0.9rem;">
+            <span style="color: var(--text-muted);">Ainda não tem conta?</span> 
+            <a href="cadastro.html" style="color: var(--primary); font-weight: bold; margin-left: 5px;">Criar agora</a>
+        </div>
     </div>
 
-    <script>
-        document.getElementById('formLogin').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const dados = {
-                email: document.getElementById('email').value,
-                senha: document.getElementById('senha').value
-            };
-
-            try {
-                const response = await fetch('http://localhost:3000/login', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify(dados)
-                });
-                
-                const resultado = await response.json();
-
-                if(response.ok) {
-                    alert('Login realizado com sucesso!');
-                    // Guarda o token e redireciona para o painel
-                    localStorage.setItem('token', resultado.token);
-                    window.location.href = 'dashboard.html';
-                } else {
-                    alert('Erro: ' + (resultado.erro || 'E-mail ou senha incorretos'));
-                }
-            } catch (erro) {
-                console.error(erro);
-                alert('Erro de conexão com o servidor.');
-            }
-        });
-    </script>
+    <script src="auth.js"></script>
 </body>
 </html>
