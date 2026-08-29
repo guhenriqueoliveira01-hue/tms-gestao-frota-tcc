@@ -3,107 +3,67 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>TMS Logística - Gestão Inteligente</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
+    <meta
+        name="description"
+        content="TMS Logística — gestão inteligente de transportadoras, motoristas, veículos e operações."
+    >
+
+    <title>TMS Logística | Gestão Inteligente de Transportadoras</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- ========================================= -->
-    <!-- BACKGROUND GLOW -->
-    <!-- ========================================= -->
+    <!-- =========================
+         NAVBAR
+    ========================== -->
 
-    <div class="bg-glow"></div>
+    <header class="navbar">
 
-    <!-- ========================================= -->
-    <!-- NAVBAR -->
-    <!-- ========================================= -->
+        <div class="nav-container">
 
-    <nav class="navbar">
+            <a href="index.html" class="logo">
+                <span class="logo-mark">T</span>
 
-        <div class="logo">
-            TMS<span>Logística</span>
-        </div>
-
-        <div class="nav-links">
-
-            <a href="#funcionalidades">
-                Funcionalidades
+                <span>
+                    TMS <strong>Logística</strong>
+                </span>
             </a>
 
-            <a href="#operacao">
-                Operação
-            </a>
+            <nav class="nav-links">
 
-            <a href="login.html">
-                Entrar
-            </a>
+                <a href="#recursos">Recursos</a>
+                <a href="#como-funciona">Como funciona</a>
+                <a href="#sobre">Sobre o sistema</a>
 
-            <a href="cadastro.html" class="btn-nav">
-                Começar Agora
-            </a>
+            </nav>
 
-        </div>
+            <div class="nav-actions">
 
-    </nav>
-
-    <!-- ========================================= -->
-    <!-- HERO -->
-    <!-- ========================================= -->
-
-    <header class="hero">
-
-        <div class="hero-content">
-
-            <span class="badge-tech">
-                Plataforma Inteligente para Transportadoras
-            </span>
-
-            <h1>
-                Sua operação logística
-                <span>em tempo real.</span>
-            </h1>
-
-            <p>
-                Gerencie entregas, motoristas, veículos e indicadores operacionais
-                em uma plataforma moderna, segura e preparada para escalar sua transportadora.
-            </p>
-
-            <!-- BOTÕES -->
-
-            <div class="hero-actions">
-
-                <a href="cadastro.html" class="btn-main">
-                    Testar Gratuitamente
+                <a href="login.html" class="btn-login">
+                    Entrar
                 </a>
 
-                <a href="#operacao" class="btn-secondary">
-                    Ver Plataforma
+                <a href="cadastro.html" class="btn btn-primary">
+                    Criar conta
                 </a>
-
-            </div>
-
-            <!-- MINI STATS -->
-
-            <div class="hero-stats">
-
-                <div class="hero-stat">
-                    <strong>+12k</strong>
-                    <span>Entregas Monitoradas</span>
-                </div>
-
-                <div class="hero-stat">
-                    <strong>98.5%</strong>
-                    <span>Eficiência Operacional</span>
-                </div>
-
-                <div class="hero-stat">
-                    <strong>24/7</strong>
-                    <span>Rastreamento em Tempo Real</span>
-                </div>
 
             </div>
 
@@ -111,278 +71,694 @@
 
     </header>
 
-    <!-- ========================================= -->
-    <!-- OPERAÇÃO -->
-    <!-- ========================================= -->
 
-    <section class="bento-showcase" id="operacao">
+    <main>
 
-        <div class="section-label">
-            VISÃO OPERACIONAL
-        </div>
+        <!-- =========================
+             HERO
+        ========================== -->
 
-        <div class="bento-header">
+        <section class="hero">
 
-            <h2>
-                Controle total da
-                <span>operação logística</span>
-            </h2>
+            <div class="hero-container">
 
-            <p>
-                Monitore métricas, entregas e desempenho da frota em tempo real.
-            </p>
+                <div class="hero-content">
 
-        </div>
+                    <div class="hero-badge">
+                        <span class="status-dot"></span>
+                        Gestão inteligente para transportadoras
+                    </div>
 
-        <!-- GRID -->
+                    <h1>
+                        Controle sua operação
+                        <span>logística</span>
+                        em um só lugar.
+                    </h1>
 
-        <div class="bento-grid">
+                    <p class="hero-description">
+                        Centralize motoristas, veículos, entregas e
+                        informações operacionais em uma plataforma
+                        moderna desenvolvida para simplificar a gestão
+                        de transportadoras.
+                    </p>
 
-            <!-- CARD 1 -->
+                    <div class="hero-buttons">
 
-            <div class="bento-card col-span-2">
+                        <a
+                            href="cadastro.html"
+                            class="btn btn-primary btn-large"
+                        >
+                            Começar agora
+                            <span>→</span>
+                        </a>
 
-                <div class="card-top">
+                        <a
+                            href="#recursos"
+                            class="btn btn-secondary btn-large"
+                        >
+                            Conhecer o sistema
+                        </a>
 
-                    <h3>
-                        Volume de Entregas
-                    </h3>
+                    </div>
 
-                    <span class="card-tag">
-                        +18%
-                    </span>
+                    <div class="hero-trust">
+
+                        <div class="trust-item">
+                            <span>✓</span>
+                            Gestão centralizada
+                        </div>
+
+                        <div class="trust-item">
+                            <span>✓</span>
+                            Interface moderna
+                        </div>
+
+                        <div class="trust-item">
+                            <span>✓</span>
+                            Dados organizados
+                        </div>
+
+                    </div>
 
                 </div>
 
-                <div class="chart-placeholder">
 
-                    <div class="bar" style="height: 40%;"></div>
-                    <div class="bar" style="height: 55%;"></div>
-                    <div class="bar" style="height: 35%;"></div>
-                    <div class="bar cyan" style="height: 90%;"></div>
-                    <div class="bar" style="height: 70%;"></div>
-                    <div class="bar" style="height: 58%;"></div>
+                <!-- PAINEL VISUAL -->
+
+                <div class="hero-dashboard">
+
+                    <div class="dashboard-window">
+
+                        <div class="window-header">
+
+                            <div class="window-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+
+                            <div class="window-title">
+                                TMS Logística
+                            </div>
+
+                            <div></div>
+
+                        </div>
+
+
+                        <div class="dashboard-preview">
+
+                            <div class="preview-header">
+
+                                <div>
+                                    <small>Visão geral</small>
+                                    <h3>Operação</h3>
+                                </div>
+
+                                <div class="online-status">
+                                    ● Operacional
+                                </div>
+
+                            </div>
+
+
+                            <div class="preview-kpis">
+
+                                <div class="preview-card">
+
+                                    <small>Veículos</small>
+
+                                    <strong>48</strong>
+
+                                    <span class="positive">
+                                        ↑ 12%
+                                    </span>
+
+                                </div>
+
+                                <div class="preview-card">
+
+                                    <small>Motoristas</small>
+
+                                    <strong>36</strong>
+
+                                    <span class="positive">
+                                        ↑ 8%
+                                    </span>
+
+                                </div>
+
+                                <div class="preview-card">
+
+                                    <small>Entregas</small>
+
+                                    <strong>124</strong>
+
+                                    <span class="positive">
+                                        ↑ 18%
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="preview-chart">
+
+                                <div class="chart-header">
+                                    <span>Desempenho operacional</span>
+                                    <span>Últimos 7 dias</span>
+                                </div>
+
+                                <div class="chart">
+
+                                    <div class="chart-line line-1"></div>
+                                    <div class="chart-line line-2"></div>
+                                    <div class="chart-line line-3"></div>
+
+                                    <div class="chart-bars">
+
+                                        <span style="height: 35%"></span>
+                                        <span style="height: 50%"></span>
+                                        <span style="height: 42%"></span>
+                                        <span style="height: 68%"></span>
+                                        <span style="height: 55%"></span>
+                                        <span style="height: 82%"></span>
+                                        <span style="height: 92%"></span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
 
                 </div>
 
             </div>
 
-            <!-- CARD 2 -->
+        </section>
 
-            <div class="bento-card">
 
-                <h3>
-                    Eficiência Geral
-                </h3>
+        <!-- =========================
+             STATS
+        ========================== -->
 
-                <p class="big-number">
-                    98.5%
+        <section class="stats-section">
+
+            <div class="stats-container">
+
+                <div class="stat-item">
+                    <strong>100%</strong>
+                    <span>Gestão centralizada</span>
+                </div>
+
+                <div class="stat-item">
+                    <strong>24/7</strong>
+                    <span>Acesso às informações</span>
+                </div>
+
+                <div class="stat-item">
+                    <strong>+6</strong>
+                    <span>Áreas operacionais</span>
+                </div>
+
+                <div class="stat-item">
+                    <strong>1</strong>
+                    <span>Plataforma integrada</span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             RECURSOS
+        ========================== -->
+
+        <section
+            class="section"
+            id="recursos"
+        >
+
+            <div class="section-header">
+
+                <div class="section-label">
+                    RECURSOS
+                </div>
+
+                <h2>
+                    Tudo que sua operação
+                    precisa em um só lugar.
+                </h2>
+
+                <p>
+                    O TMS Logística foi pensado para centralizar
+                    as principais informações da operação de uma
+                    transportadora.
                 </p>
 
-                <span class="trend up">
-                    ▲ Performance Recorde
-                </span>
-
             </div>
 
-            <!-- CARD 3 -->
 
-            <div class="bento-card">
+            <div class="bento-grid">
 
-                <h3>
-                    Frota em Campo
-                </h3>
+                <!-- CARD PRINCIPAL -->
 
-                <ul class="mini-list">
+                <article class="bento-card bento-large">
 
-                    <li>
-                        Volvo FH 540
-                        <span class="status-dot green"></span>
-                    </li>
+                    <div class="card-icon">
+                        ◈
+                    </div>
 
-                    <li>
-                        Scania R450
-                        <span class="status-dot green"></span>
-                    </li>
+                    <div class="card-content">
 
-                    <li>
-                        Mercedes Actros
-                        <span class="status-dot yellow"></span>
-                    </li>
+                        <h3>
+                            Gestão operacional
+                        </h3>
 
-                </ul>
+                        <p>
+                            Tenha uma visão centralizada das principais
+                            atividades da transportadora e acompanhe
+                            o funcionamento da operação.
+                        </p>
 
-            </div>
+                        <div class="card-tags">
 
-            <!-- CARD 4 -->
+                            <span>Dashboard</span>
+                            <span>KPIs</span>
+                            <span>Indicadores</span>
 
-            <div class="bento-card col-span-2">
+                        </div>
 
-                <div class="card-top">
+                    </div>
+
+                    <div class="card-decoration"></div>
+
+                </article>
+
+
+                <!-- MOTORISTAS -->
+
+                <article class="bento-card">
+
+                    <div class="card-icon">
+                        ◉
+                    </div>
 
                     <h3>
-                        Rastreamento de Motoristas
+                        Motoristas
                     </h3>
 
-                    <span class="card-tag online">
-                        Online
-                    </span>
+                    <p>
+                        Organize os dados dos motoristas
+                        e facilite o gerenciamento da equipe.
+                    </p>
+
+                </article>
+
+
+                <!-- VEÍCULOS -->
+
+                <article class="bento-card">
+
+                    <div class="card-icon">
+                        ▣
+                    </div>
+
+                    <h3>
+                        Veículos
+                    </h3>
+
+                    <p>
+                        Centralize informações da frota
+                        e acompanhe seus veículos.
+                    </p>
+
+                </article>
+
+
+                <!-- ENTREGAS -->
+
+                <article class="bento-card">
+
+                    <div class="card-icon">
+                        ◎
+                    </div>
+
+                    <h3>
+                        Entregas
+                    </h3>
+
+                    <p>
+                        Organize as entregas e acompanhe
+                        o andamento das operações.
+                    </p>
+
+                </article>
+
+
+                <!-- ROTAS -->
+
+                <article class="bento-card">
+
+                    <div class="card-icon">
+                        ↗
+                    </div>
+
+                    <h3>
+                        Rotas
+                    </h3>
+
+                    <p>
+                        Estruture informações relacionadas
+                        às rotas e operações de transporte.
+                    </p>
+
+                </article>
+
+
+                <!-- RELATÓRIOS -->
+
+                <article class="bento-card bento-wide">
+
+                    <div class="card-icon">
+                        ≋
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Relatórios e indicadores
+                        </h3>
+
+                        <p>
+                            Transforme os dados da operação em
+                            informações úteis para acompanhar
+                            o desempenho da transportadora.
+                        </p>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             COMO FUNCIONA
+        ========================== -->
+
+        <section
+            class="section workflow-section"
+            id="como-funciona"
+        >
+
+            <div class="section-header">
+
+                <div class="section-label">
+                    COMO FUNCIONA
+                </div>
+
+                <h2>
+                    Uma operação mais organizada.
+                </h2>
+
+                <p>
+                    O sistema foi pensado para reduzir a
+                    complexidade da gestão e concentrar
+                    as informações importantes em uma única plataforma.
+                </p>
+
+            </div>
+
+
+            <div class="workflow">
+
+                <div class="workflow-line"></div>
+
+
+                <div class="workflow-step">
+
+                    <div class="step-number">
+                        01
+                    </div>
+
+                    <h3>
+                        Cadastre
+                    </h3>
+
+                    <p>
+                        Registre motoristas, veículos e
+                        informações necessárias para a operação.
+                    </p>
 
                 </div>
 
-                <table class="mini-table">
 
-                    <thead>
+                <div class="workflow-step">
 
-                        <tr>
-                            <th>Motorista</th>
-                            <th>Localização</th>
-                            <th>Status</th>
-                        </tr>
+                    <div class="step-number">
+                        02
+                    </div>
 
-                    </thead>
+                    <h3>
+                        Organize
+                    </h3>
 
-                    <tbody>
+                    <p>
+                        Centralize os dados e mantenha
+                        as informações organizadas.
+                    </p>
 
-                        <tr>
-                            <td>João Silva</td>
+                </div>
 
-                            <td>
-                                Ribeirão Preto, SP
-                            </td>
 
-                            <td>
-                                <span class="badge green">
-                                    No Prazo
-                                </span>
-                            </td>
-                        </tr>
+                <div class="workflow-step">
 
-                        <tr>
-                            <td>Carlos Mendes</td>
+                    <div class="step-number">
+                        03
+                    </div>
 
-                            <td>
-                                Curitiba, PR
-                            </td>
+                    <h3>
+                        Acompanhe
+                    </h3>
 
-                            <td>
-                                <span class="badge yellow">
-                                    Atraso Leve
-                                </span>
-                            </td>
-                        </tr>
+                    <p>
+                        Visualize indicadores e acompanhe
+                        o andamento da operação.
+                    </p>
 
-                    </tbody>
+                </div>
 
-                </table>
+
+                <div class="workflow-step">
+
+                    <div class="step-number">
+                        04
+                    </div>
+
+                    <h3>
+                        Gerencie
+                    </h3>
+
+                    <p>
+                        Utilize as informações para tomar
+                        decisões mais eficientes.
+                    </p>
+
+                </div>
 
             </div>
 
-        </div>
+        </section>
 
-    </section>
 
-    <!-- ========================================= -->
-    <!-- FUNCIONALIDADES -->
-    <!-- ========================================= -->
+        <!-- =========================
+             SOBRE
+        ========================== -->
 
-    <section class="features" id="funcionalidades">
+        <section
+            class="section about-section"
+            id="sobre"
+        >
 
-        <!-- FEATURE 1 -->
+            <div class="about-card">
 
-        <div class="feature-card">
+                <div class="about-content">
 
-            <div class="f-icon">
-                🚚
+                    <div class="section-label">
+                        TMS LOGÍSTICA
+                    </div>
+
+                    <h2>
+                        Tecnologia para transformar
+                        a gestão do transporte.
+                    </h2>
+
+                    <p>
+                        O TMS Logística é uma plataforma desenvolvida
+                        para centralizar e facilitar o gerenciamento
+                        das operações de uma transportadora.
+                    </p>
+
+                    <p>
+                        A proposta é oferecer uma experiência moderna,
+                        organizada e intuitiva, permitindo que gestores
+                        tenham acesso às informações necessárias para
+                        acompanhar a operação.
+                    </p>
+
+                    <a
+                        href="cadastro.html"
+                        class="btn btn-primary"
+                    >
+                        Conhecer a plataforma →
+                    </a>
+
+                </div>
+
+
+                <div class="about-visual">
+
+                    <div class="floating-card floating-card-1">
+                        <span>Frota</span>
+                        <strong>48 veículos</strong>
+                    </div>
+
+                    <div class="floating-card floating-card-2">
+                        <span>Entregas</span>
+                        <strong>124 operações</strong>
+                    </div>
+
+                    <div class="about-glow"></div>
+
+                    <div class="about-logo">
+                        TMS
+                    </div>
+
+                </div>
+
             </div>
 
-            <h3>
-                Gestão de Frotas
-            </h3>
+        </section>
 
-            <p>
-                Controle completo de veículos, manutenção preventiva
-                e disponibilidade operacional.
-            </p>
 
-        </div>
+        <!-- =========================
+             CTA
+        ========================== -->
 
-        <!-- FEATURE 2 -->
+        <section class="cta-section">
 
-        <div class="feature-card">
+            <div class="cta-card">
 
-            <div class="f-icon">
-                👤
+                <div class="cta-glow"></div>
+
+                <div class="cta-content">
+
+                    <div class="section-label">
+                        COMECE AGORA
+                    </div>
+
+                    <h2>
+                        Sua operação.
+                        <span>Mais inteligente.</span>
+                    </h2>
+
+                    <p>
+                        Centralize a gestão da sua transportadora
+                        em uma plataforma moderna e organizada.
+                    </p>
+
+                    <a
+                        href="cadastro.html"
+                        class="btn btn-primary btn-large"
+                    >
+                        Criar minha conta →
+                    </a>
+
+                </div>
+
             </div>
 
-            <h3>
-                Gestão de Motoristas
-            </h3>
+        </section>
 
-            <p>
-                Gerencie jornadas, documentos, desempenho e localização
-                dos colaboradores.
-            </p>
+    </main>
 
-        </div>
 
-        <!-- FEATURE 3 -->
-
-        <div class="feature-card">
-
-            <div class="f-icon">
-                📊
-            </div>
-
-            <h3>
-                Analytics Inteligente
-            </h3>
-
-            <p>
-                Relatórios automatizados com métricas operacionais
-                e indicadores estratégicos.
-            </p>
-
-        </div>
-
-    </section>
-
-    <!-- ========================================= -->
-    <!-- CTA FINAL -->
-    <!-- ========================================= -->
-
-    <section class="final-cta">
-
-        <div class="cta-box">
-
-            <h2>
-                Transforme sua transportadora com tecnologia.
-            </h2>
-
-            <p>
-                Centralize sua operação em uma plataforma moderna,
-                segura e preparada para crescer.
-            </p>
-
-            <a href="cadastro.html" class="btn-main">
-                Criar Conta Agora
-            </a>
-
-        </div>
-
-    </section>
-
-    <!-- ========================================= -->
-    <!-- FOOTER -->
-    <!-- ========================================= -->
+    <!-- =========================
+         FOOTER
+    ========================== -->
 
     <footer class="footer">
 
-        <p>
-            © 2026 TMS Logística — Plataforma de Gestão para Transportadoras
-        </p>
+        <div class="footer-container">
+
+            <div class="footer-brand">
+
+                <div class="logo">
+                    <span class="logo-mark">T</span>
+
+                    <span>
+                        TMS <strong>Logística</strong>
+                    </span>
+                </div>
+
+                <p>
+                    Gestão inteligente para operações
+                    de transporte.
+                </p>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <div>
+
+                    <h4>Plataforma</h4>
+
+                    <a href="#recursos">Recursos</a>
+                    <a href="#como-funciona">Como funciona</a>
+                    <a href="login.html">Login</a>
+
+                </div>
+
+
+                <div>
+
+                    <h4>Conta</h4>
+
+                    <a href="cadastro.html">Criar conta</a>
+                    <a href="login.html">Entrar</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <span>
+                © 2026 TMS Logística
+            </span>
+
+            <span>
+                Sistema de Gestão de Transportadoras
+            </span>
+
+        </div>
 
     </footer>
+
 
 </body>
 
