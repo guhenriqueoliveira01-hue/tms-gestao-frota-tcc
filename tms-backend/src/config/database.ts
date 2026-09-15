@@ -1,11 +1,17 @@
 import mysql from 'mysql2/promise';
+import dotenv from 'dotenv';
 
-// Criando a "piscina" de conexões com o banco de dados do XAMPP
+dotenv.config();
+
 const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',       // O usuário padrão do XAMPP
-    password: '',       // A senha padrão do XAMPP é vazia
-    database: 'tms_logistica' // O banco que você criou ontem!
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
 });
 
 export default pool;
