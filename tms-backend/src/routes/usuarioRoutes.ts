@@ -1,21 +1,53 @@
 import { Router } from 'express';
-import { 
-    cadastrarUsuario, 
-    listarUsuarios, 
-    atualizarUsuario, 
-    excluirUsuario,
-    loginUsuario // Esta função vai conter a lógica de busca no banco
+
+import {
+    cadastrarUsuario,
+    loginUsuario,
+    listarUsuarios,
+    atualizarUsuario,
+    excluirUsuario
 } from '../controllers/UsuarioController';
+
+import {
+    verificarToken,
+    verificarAdmin
+} from '../middlewares/authMiddleware';
 
 const router = Router();
 
-// Rotas do Usuário
-router.post('/cadastro', cadastrarUsuario); // Ajustado para bater com seu cadastro.html
-router.get('/usuarios', listarUsuarios);
-router.put('/usuarios/:id', atualizarUsuario);
-router.delete('/usuarios/:id', excluirUsuario);
+// ======================================================
+// ROTAS PÚBLICAS
+// ======================================================
 
-// Rota de Login (apenas uma vez!)
+// Cadastro de usuário
+router.post('/cadastro', cadastrarUsuario);
+
+// Login de usuário
 router.post('/login', loginUsuario);
+
+// ======================================================
+// ROTAS PROTEGIDAS
+// ======================================================
+
+router.get(
+    '/usuarios',
+    verificarToken,
+    verificarAdmin,
+    listarUsuarios
+);
+
+router.put(
+    '/usuarios/:id',
+    verificarToken,
+    verificarAdmin,
+    atualizarUsuario
+);
+
+router.delete(
+    '/usuarios/:id',
+    verificarToken,
+    verificarAdmin,
+    excluirUsuario
+);
 
 export default router;

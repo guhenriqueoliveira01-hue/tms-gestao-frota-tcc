@@ -1,37 +1,98 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import 'dotenv/config';
 
-// Esta função é o nosso "segurança"
-export const verificarToken = (req: Request, res: Response, next: NextFunction) => {
-    // 1. O crachá (token) deve vir no "cabeçalho" (header) de autorização da requisição
-    const cabecalhoAuth = req.headers.authorization;
+const JWT_SECRET = process.env.JWT_SECRET;
 
-    // Se o usuário tentar entrar sem mostrar o crachá, é barrado na hora
-    if (!cabecalhoAuth) {
-        return res.status(401).json({ erro: 'Acesso negado. Crachá (Token) não fornecido.' });
-    }
+if (!JWT_SECRET) {
+    throw new Error(
+        'JWT_SECRET não foi definida no arquivo .env.'
+    );
+}
 
-    // O padrão da web é enviar o cabeçalho no formato: "Bearer eyJhbGciOi..."
-    // Precisamos separar a palavra "Bearer" (portador) do código do token em si
-    const partes = cabecalhoAuth.split(' ');
-    
-    if (partes.length !== 2 || partes[0] !== 'Bearer') {
-        return res.status(401).json({ erro: 'Formato do crachá inválido.' });
-    }
+export interface AuthenticatedRequest extends Request {
+    usuario?: {
+        id: number;
+        email?: string;
+        tipo_perfil?: string;
+    };
+}
 
-    const token = partes[1];
-
+export const verificarToken = (
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+) => {
     try {
-        // 2. O segurança usa a chave secreta do servidor para ver se o crachá é verdadeiro
-        const decodificado = jwt.verify(token, 'chave_secreta_do_tcc');
+        const authHeader = req.headers.authorization;
 
-        // Se o crachá for verdadeiro, guardamos os dados decodificados na requisição
-        (req as any).usuario = decodificado;
-        
-        // 3. Tudo certo! O comando 'next()' é o segurança abrindo a porta para o Controller
+        if (!authHeader) {
+            return res.status(401).json({
+                erro: 'Token de autenticação não informado.'
+            });
+        }
+
+        const partes = authHeader.split(' ');
+
+        if (
+            partes.length !== 2 ||
+            partes[0] !== 'Bearer'
+        ) {
+            return res.status(401).json({
+                erro: 'Formato do token inválido.'
+            });
+        }
+
+        const token = partes[1];
+
+        const decoded = jwt.verify(
+            token,
+            JWT_SECRET
+        );
+
+        if (typeof decoded === 'string') {
+            return res.status(401).json({
+                erro: 'Token inválido.'
+            });
+        }
+
+        req.usuario = {
+            id: Number(decoded.id),
+            email:
+                typeof decoded.email === 'string'
+                    ? decoded.email
+                    : undefined,
+            tipo_perfil:
+                typeof decoded.tipo_perfil === 'string'
+                    ? decoded.tipo_perfil
+                    : undefined
+        };
+
         next();
+
     } catch (erro) {
-        // Se o token for falso, tiver sido alterado ou se as 8 horas tiverem passado
-        return res.status(401).json({ erro: 'Crachá (Token) inválido ou expirado. Faça login novamente.' });
+        return res.status(401).json({
+            erro: 'Token inválido ou expirado.'
+        });
     }
+};
+
+export const verificarAdmin = (
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+) => {
+    if (!req.usuario) {
+        return res.status(401).json({
+            erro: 'Usuário não autenticado.'
+        });
+    }
+
+    if (req.usuario.tipo_perfil !== 'ADMIN') {
+        return res.status(403).json({
+            erro: 'Acesso permitido apenas para administradores.'
+        });
+    }
+
+    next();
 };
