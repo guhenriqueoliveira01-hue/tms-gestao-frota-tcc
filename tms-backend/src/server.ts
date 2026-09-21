@@ -4,6 +4,8 @@ import caminhaoRoutes from './routes/caminhaoRoutes'; // <-- 1. Importando a rot
 import motoristaRoutes from './routes/motoristaRoutes';
 import usuarioRoutes from './routes/usuarioRoutes';
 import cors from 'cors'; // <-- 1. Importe o cors aqui
+import produtoRoutes from './routes/produtoRoutes';
+import estoqueRoutes from './routes/estoqueRoutes';
 
 const app = express();
 const PORTA = process.env.PORT || 3000;
@@ -15,6 +17,8 @@ app.use(cors());
 app.use(caminhaoRoutes); 
 app.use(motoristaRoutes);
 app.use(usuarioRoutes);
+app.use(produtoRoutes);
+app.use(estoqueRoutes);
 
 app.get('/teste-banco', async (req, res) => {
     try {
