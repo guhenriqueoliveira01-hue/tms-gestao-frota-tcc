@@ -6,6 +6,7 @@ import usuarioRoutes from './routes/usuarioRoutes';
 import cors from 'cors'; // <-- 1. Importe o cors aqui
 import produtoRoutes from './routes/produtoRoutes';
 import estoqueRoutes from './routes/estoqueRoutes';
+import pedidoRoutes from './routes/pedidoRoutes';
 
 const app = express();
 const PORTA = process.env.PORT || 3000;
@@ -19,6 +20,7 @@ app.use(motoristaRoutes);
 app.use(usuarioRoutes);
 app.use(produtoRoutes);
 app.use(estoqueRoutes);
+app.use(pedidoRoutes);
 
 app.get('/teste-banco', async (req, res) => {
     try {
