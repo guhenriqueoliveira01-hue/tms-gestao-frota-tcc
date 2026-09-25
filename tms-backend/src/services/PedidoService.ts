@@ -8,6 +8,8 @@ import pool from '../config/database';
 
 import {
     reservarEstoqueTransacional,
+    liberarReservaEstoqueTransacional,
+    confirmarSaidaEstoqueTransacional,
     EstoqueServiceError
 } from './EstoqueService';
 
@@ -371,6 +373,379 @@ export const criarPedido = async (
 
         throw new PedidoServiceError(
             'Erro interno ao criar pedido.',
+            500
+        );
+
+
+    } finally {
+
+        conexao.release();
+    }
+};
+
+interface PedidoResumo extends RowDataPacket {
+    id: number;
+    cliente_nome: string;
+    cliente_email: string | null;
+    cliente_telefone: string | null;
+    endereco_entrega: string;
+    status: string;
+    valor_total: string;
+    criado_em: Date;
+    atualizado_em: Date;
+}
+
+
+export const listarPedidos = async () => {
+
+    const [pedidos] = await pool.execute<PedidoResumo[]>(
+        `
+        SELECT
+            id,
+            cliente_nome,
+            cliente_email,
+            cliente_telefone,
+            endereco_entrega,
+            status,
+            valor_total,
+            criado_em,
+            atualizado_em
+        FROM pedidos
+        ORDER BY criado_em DESC, id DESC
+        `
+    );
+
+
+    return pedidos.map((pedido) => ({
+        ...pedido,
+        valor_total: Number(pedido.valor_total)
+    }));
+};
+
+interface PedidoDetalhado extends RowDataPacket {
+    id: number;
+    cliente_nome: string;
+    cliente_email: string | null;
+    cliente_telefone: string | null;
+    endereco_entrega: string;
+    status: string;
+    valor_total: string;
+    criado_em: Date;
+    atualizado_em: Date;
+}
+
+interface ItemPedidoDetalhado extends RowDataPacket {
+    id: number;
+    produto_id: number;
+    sku: string;
+    nome: string;
+    quantidade: number;
+    preco_unitario: string;
+    subtotal: string;
+}
+
+export const buscarPedidoPorId = async (id: number) => {
+
+    const [pedidos] = await pool.execute<PedidoDetalhado[]>(
+        `
+        SELECT
+            id,
+            cliente_nome,
+            cliente_email,
+            cliente_telefone,
+            endereco_entrega,
+            status,
+            valor_total,
+            criado_em,
+            atualizado_em
+        FROM pedidos
+        WHERE id = ?
+        `,
+        [id]
+    );
+
+    if (pedidos.length === 0) {
+        throw new PedidoServiceError(
+            'Pedido não encontrado.',
+            404
+        );
+    }
+
+    const pedido = pedidos[0];
+
+    const [itens] = await pool.execute<ItemPedidoDetalhado[]>(
+        `
+        SELECT
+            ip.id,
+            ip.produto_id,
+            p.sku,
+            p.nome,
+            ip.quantidade,
+            ip.preco_unitario,
+            ip.subtotal
+        FROM itens_pedido ip
+        INNER JOIN produtos p
+            ON p.id = ip.produto_id
+        WHERE ip.pedido_id = ?
+        ORDER BY ip.id ASC
+        `,
+        [id]
+    );
+
+    return {
+        ...pedido,
+        valor_total: Number(pedido.valor_total),
+        itens: itens.map((item) => ({
+            ...item,
+            preco_unitario: Number(item.preco_unitario),
+            subtotal: Number(item.subtotal)
+        }))
+    };
+};
+
+type PedidoStatus =
+    | 'PENDENTE'
+    | 'SEPARANDO'
+    | 'PRONTO_PARA_ENVIO'
+    | 'EM_TRANSPORTE'
+    | 'ENTREGUE'
+    | 'CANCELADO';
+
+
+interface PedidoStatusBanco extends RowDataPacket {
+    id: number;
+    status: PedidoStatus;
+}
+
+
+interface ItemMovimentacaoEstoque extends RowDataPacket {
+    produto_id: number;
+    quantidade: number;
+}
+
+
+const statusValidos: PedidoStatus[] = [
+    'PENDENTE',
+    'SEPARANDO',
+    'PRONTO_PARA_ENVIO',
+    'EM_TRANSPORTE',
+    'ENTREGUE',
+    'CANCELADO'
+];
+
+
+const transicoesPermitidas: Record<
+    PedidoStatus,
+    PedidoStatus[]
+> = {
+
+    PENDENTE: [
+        'SEPARANDO',
+        'CANCELADO'
+    ],
+
+    SEPARANDO: [
+        'PRONTO_PARA_ENVIO',
+        'CANCELADO'
+    ],
+
+    PRONTO_PARA_ENVIO: [
+        'EM_TRANSPORTE',
+        'CANCELADO'
+    ],
+
+    EM_TRANSPORTE: [
+        'ENTREGUE'
+    ],
+
+    ENTREGUE: [],
+
+    CANCELADO: []
+};
+
+
+export const atualizarStatusPedido = async (
+    pedidoId: number,
+    novoStatusRecebido: string
+) => {
+
+    if (
+        !Number.isInteger(pedidoId) ||
+        pedidoId <= 0
+    ) {
+        throw new PedidoServiceError(
+            'ID do pedido inválido.',
+            400
+        );
+    }
+
+
+    const novoStatus =
+        String(novoStatusRecebido)
+            .trim()
+            .toUpperCase() as PedidoStatus;
+
+
+    if (!statusValidos.includes(novoStatus)) {
+        throw new PedidoServiceError(
+            'Status de pedido inválido.',
+            400
+        );
+    }
+
+
+    const conexao = await pool.getConnection();
+
+
+    try {
+
+        await conexao.beginTransaction();
+
+
+        const [pedidos] =
+            await conexao.execute<PedidoStatusBanco[]>(
+                `
+                SELECT
+                    id,
+                    status
+                FROM pedidos
+                WHERE id = ?
+                FOR UPDATE
+                `,
+                [pedidoId]
+            );
+
+
+        if (pedidos.length === 0) {
+            throw new PedidoServiceError(
+                'Pedido não encontrado.',
+                404
+            );
+        }
+
+
+        const statusAtual =
+            pedidos[0].status;
+
+
+        if (statusAtual === novoStatus) {
+            throw new PedidoServiceError(
+                `O pedido já está com o status ${novoStatus}.`,
+                409
+            );
+        }
+
+
+        if (
+            !transicoesPermitidas[
+                statusAtual
+            ].includes(novoStatus)
+        ) {
+
+            throw new PedidoServiceError(
+                `Não é permitido alterar o pedido de ${statusAtual} para ${novoStatus}.`,
+                409
+            );
+        }
+
+
+        if (
+            novoStatus === 'CANCELADO' ||
+            novoStatus === 'EM_TRANSPORTE'
+        ) {
+
+            const [itens] =
+                await conexao.execute<ItemMovimentacaoEstoque[]>(
+                    `
+                    SELECT
+                        produto_id,
+                        quantidade
+                    FROM itens_pedido
+                    WHERE pedido_id = ?
+                    ORDER BY id ASC
+                    `,
+                    [pedidoId]
+                );
+
+
+            if (itens.length === 0) {
+                throw new PedidoServiceError(
+                    'O pedido não possui itens para movimentação de estoque.',
+                    409
+                );
+            }
+
+
+            for (const item of itens) {
+
+                if (novoStatus === 'CANCELADO') {
+
+                    await liberarReservaEstoqueTransacional(
+                        conexao,
+                        item.produto_id,
+                        item.quantidade
+                    );
+
+                }
+
+
+                if (novoStatus === 'EM_TRANSPORTE') {
+
+                    await confirmarSaidaEstoqueTransacional(
+                        conexao,
+                        item.produto_id,
+                        item.quantidade
+                    );
+
+                }
+            }
+        }
+
+
+        await conexao.execute<ResultSetHeader>(
+            `
+            UPDATE pedidos
+            SET status = ?
+            WHERE id = ?
+            `,
+            [
+                novoStatus,
+                pedidoId
+            ]
+        );
+
+
+        await conexao.commit();
+
+
+        return {
+            id: pedidoId,
+            status_anterior: statusAtual,
+            status_atual: novoStatus
+        };
+
+
+    } catch (erro) {
+
+        await conexao.rollback();
+
+
+        if (
+            erro instanceof PedidoServiceError ||
+            erro instanceof EstoqueServiceError
+        ) {
+            throw erro;
+        }
+
+
+        console.error(
+            'Erro ao atualizar status do pedido:',
+            erro
+        );
+
+
+        throw new PedidoServiceError(
+            'Erro interno ao atualizar status do pedido.',
             500
         );
 

@@ -1,7 +1,10 @@
 import { Router } from 'express';
 
 import {
-    criarNovoPedido
+    criarNovoPedido,
+    listarTodosPedidos,
+    buscarPedidoDetalhado,
+      atualizarStatusDoPedido
 } from '../controllers/PedidoController';
 
 import {
@@ -12,6 +15,25 @@ import {
 
 const router = Router();
 
+router.get(
+    '/pedidos',
+    verificarToken,
+    verificarAdmin,
+    listarTodosPedidos,
+);
+router.get(
+    '/pedidos/:id',
+    verificarToken,
+    verificarAdmin,
+    buscarPedidoDetalhado
+);
+
+router.patch(
+    '/pedidos/:id/status',
+    verificarToken,
+    verificarAdmin,
+    atualizarStatusDoPedido
+);
 
 router.post(
     '/pedidos',
