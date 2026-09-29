@@ -565,7 +565,8 @@ export const atualizarStatusViagem = async (
 
     const statusPermitidos = [
         'EM_ANDAMENTO',
-        'CONCLUIDA'
+        'CONCLUIDA',
+        'CANCELADA'
     ];
 
 
@@ -727,6 +728,81 @@ export const atualizarStatusViagem = async (
                 status_anterior: viagem.status,
                 status_atual: 'CONCLUIDA',
                 pedido_status: 'ENTREGUE'
+            };
+        }
+
+
+        /*
+         * PLANEJADA → CANCELADA
+         */
+        if (novoStatus === 'CANCELADA') {
+
+            if (viagem.status !== 'PLANEJADA') {
+
+                throw new ViagemServiceError(
+                    `Não é permitido alterar a viagem de ${viagem.status} para CANCELADA.`,
+                    409
+                );
+            }
+
+
+            /*
+             * Como uma viagem PLANEJADA ainda não iniciou o transporte,
+             * o pedido deve continuar disponível para um novo planejamento.
+             */
+            const [pedidos] =
+                await conexao.execute<PedidoViagem[]>(
+                    `
+                    SELECT
+                        id,
+                        status
+                    FROM pedidos
+                    WHERE id = ?
+                    FOR UPDATE
+                    `,
+                    [viagem.pedido_id]
+                );
+
+
+            if (pedidos.length === 0) {
+
+                throw new ViagemServiceError(
+                    'Pedido associado à viagem não foi encontrado.',
+                    404
+                );
+            }
+
+
+            if (
+                pedidos[0].status !==
+                'PRONTO_PARA_ENVIO'
+            ) {
+
+                throw new ViagemServiceError(
+                    'O pedido associado não está PRONTO_PARA_ENVIO.',
+                    409
+                );
+            }
+
+
+            await conexao.execute<ResultSetHeader>(
+                `
+                UPDATE viagens
+                SET status = 'CANCELADA'
+                WHERE id = ?
+                `,
+                [id]
+            );
+
+
+            await conexao.commit();
+
+
+            return {
+                id,
+                status_anterior: viagem.status,
+                status_atual: 'CANCELADA',
+                pedido_status: 'PRONTO_PARA_ENVIO'
             };
         }
 
