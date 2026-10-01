@@ -8,6 +8,8 @@ import produtoRoutes from './routes/produtoRoutes';
 import estoqueRoutes from './routes/estoqueRoutes';
 import pedidoRoutes from './routes/pedidoRoutes';
 import viagemRoutes from './routes/viagemRoutes';
+import despesaRoutes from './routes/despesaRoutes';
+import dashboardRoutes from './routes/dashboardRoutes';
 
 const app = express();
 const PORTA = process.env.PORT || 3000;
@@ -23,6 +25,8 @@ app.use(produtoRoutes);
 app.use(estoqueRoutes);
 app.use(pedidoRoutes);
 app.use(viagemRoutes);
+app.use(despesaRoutes);
+app.use(dashboardRoutes);
 
 app.get('/teste-banco', async (req, res) => {
     try {
