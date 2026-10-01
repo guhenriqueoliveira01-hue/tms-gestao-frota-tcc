@@ -176,25 +176,31 @@ export const criarViagem = async (
 
 
         // Impede mais de uma viagem para o mesmo pedido.
-        const [viagensPedido] =
-            await conexao.execute<ViagemExistente[]>(
-                `
-                SELECT id
-                FROM viagens
-                WHERE pedido_id = ?
-                LIMIT 1
-                `,
-                [pedido_id]
-            );
+// Impede mais de uma viagem ATIVA para o mesmo pedido.
+// Viagens CANCELADAS ficam preservadas no histórico
+// e não impedem um novo planejamento.
+            const [viagensPedido] =
+                await conexao.execute<ViagemExistente[]>(
+                    `
+                    SELECT id
+                    FROM viagens
+                    WHERE pedido_id = ?
+                    AND status IN (
+                        'PLANEJADA',
+                        'EM_ANDAMENTO'
+                    )
+                    LIMIT 1
+                    `,
+                    [pedido_id]
+                );
 
+            if (viagensPedido.length > 0) {
 
-        if (viagensPedido.length > 0) {
-
-            throw new ViagemServiceError(
-                'Este pedido já possui uma viagem.',
-                409
-            );
-        }
+                throw new ViagemServiceError(
+                    'Este pedido já possui uma viagem ativa.',
+                    409
+                );
+            }
 
 
         // Verifica o motorista.
