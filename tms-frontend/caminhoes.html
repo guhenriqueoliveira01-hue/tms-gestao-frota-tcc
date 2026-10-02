@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Caminhões - TMS Logística</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+
+    <div class="layout">
+
+        <!-- =================================================
+             SIDEBAR
+        ================================================== -->
+        <aside class="sidebar">
+
+            <div class="logo">
+                <span class="destaque-ciano">TMS</span>
+                Logística
+            </div>
+
+
+            <nav class="menu">
+
+                <a href="dashboard.html">
+                    Dashboard
+                </a>
+
+                <a
+                    href="caminhoes.html"
+                    class="ativo"
+                >
+                    Caminhões
+                </a>
+
+                <a href="#">
+                    Motoristas
+                </a>
+
+                <a href="#">
+                    Pedidos
+                </a>
+
+                <a href="#">
+                    Viagens
+                </a>
+
+                <a href="#">
+                    Despesas
+                </a>
+
+            </nav>
+
+
+            <div class="logout">
+
+                <a id="btnSair">
+                    Sair
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- =================================================
+             CONTEÚDO PRINCIPAL
+        ================================================== -->
+        <main class="conteudo">
+
+            <div class="wrapper">
+
+
+                <!-- =================================================
+                     CABEÇALHO
+                ================================================== -->
+                <div class="topo">
+
+                    <div>
+
+                        <h1>
+                            Caminhões
+                        </h1>
+
+                        <p>
+                            Gerencie os veículos cadastrados na frota
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        id="btnNovoCaminhao"
+                        class="btn-acao-principal"
+                    >
+                        + Novo caminhão
+                    </button>
+
+                </div>
+
+
+                <!-- =================================================
+                     MENSAGENS
+                ================================================== -->
+                <div
+                    id="mensagemCaminhoes"
+                    class="mensagem-sistema"
+                    hidden
+                ></div>
+
+
+                <!-- =================================================
+                     CARDS DE RESUMO
+                ================================================== -->
+                <section class="cards-container cards-frota">
+
+                    <div class="card">
+
+                        <h3>
+                            Total de Caminhões
+                        </h3>
+
+                        <p
+                            id="totalCaminhoes"
+                            class="numero-destaque"
+                        >
+                            --
+                        </p>
+
+                        <span class="card-legenda">
+                            Veículos cadastrados
+                        </span>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <h3>
+                            Disponíveis
+                        </h3>
+
+                        <p
+                            id="caminhoesDisponiveis"
+                            class="numero-destaque"
+                        >
+                            --
+                        </p>
+
+                        <span class="card-legenda">
+                            Prontos para operação
+                        </span>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <h3>
+                            Em manutenção
+                        </h3>
+
+                        <p
+                            id="caminhoesManutencao"
+                            class="numero-destaque"
+                        >
+                            --
+                        </p>
+
+                        <span class="card-legenda">
+                            Temporariamente indisponíveis
+                        </span>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <h3>
+                            Inativos
+                        </h3>
+
+                        <p
+                            id="caminhoesInativos"
+                            class="numero-destaque"
+                        >
+                            --
+                        </p>
+
+                        <span class="card-legenda">
+                            Fora de operação
+                        </span>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     TABELA
+                ================================================== -->
+                <section class="tabela-container">
+
+                    <div class="painel-titulo">
+
+                        <div>
+
+                            <h2>
+                                Frota cadastrada
+                            </h2>
+
+                            <span>
+                                Caminhões registrados no sistema
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="tabela-responsiva">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Placa</th>
+                                    <th>Modelo</th>
+                                    <th>Capacidade</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="corpoTabelaCaminhoes">
+
+                                <tr>
+
+                                    <td colspan="6">
+                                        Carregando caminhões...
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <!-- =================================================
+         MODAL / FORMULÁRIO DE CAMINHÃO
+    ================================================== -->
+    <div
+        id="modalCaminhao"
+        class="modal-overlay"
+        hidden
+    >
+
+        <div class="modal-card">
+
+            <div class="modal-cabecalho">
+
+                <div>
+
+                    <h2 id="tituloModalCaminhao">
+                        Novo caminhão
+                    </h2>
+
+                    <p>
+                        Informe os dados do veículo
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="btnFecharModal"
+                    class="btn-fechar-modal"
+                    aria-label="Fechar"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="formCaminhao">
+
+
+                <!-- Placa -->
+                <div class="campo-formulario">
+
+                    <label for="placa">
+                        Placa
+                    </label>
+
+                    <input
+                        type="text"
+                        id="placa"
+                        name="placa"
+                        placeholder="Ex: ABC-1234"
+                        maxlength="10"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Modelo -->
+                <div class="campo-formulario">
+
+                    <label for="modelo">
+                        Modelo
+                    </label>
+
+                    <input
+                        type="text"
+                        id="modelo"
+                        name="modelo"
+                        placeholder="Ex: Volvo FH 540"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Capacidade -->
+                <div class="campo-formulario">
+
+                    <label for="capacidade_kg">
+                        Capacidade em kg
+                    </label>
+
+                    <input
+                        type="number"
+                        id="capacidade_kg"
+                        name="capacidade_kg"
+                        min="1"
+                        step="0.01"
+                        placeholder="Ex: 35500"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Status -->
+                <div class="campo-formulario">
+
+                    <label for="status">
+                        Status
+                    </label>
+
+                    <select
+                        id="status"
+                        name="status"
+                        required
+                    >
+
+                        <option value="DISPONIVEL">
+                            Disponível
+                        </option>
+
+                        <option value="EM_MANUTENCAO">
+                            Em manutenção
+                        </option>
+
+                        <option value="INATIVO">
+                            Inativo
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Botões -->
+                <div class="acoes-formulario">
+
+                    <button
+                        type="button"
+                        id="btnCancelarFormulario"
+                        class="btn-secundario"
+                    >
+                        Cancelar
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        id="btnSalvarCaminhao"
+                        class="btn-acao-principal"
+                    >
+                        Salvar caminhão
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <script src="caminhoes.js"></script>
+
+</body>
+
+</html>

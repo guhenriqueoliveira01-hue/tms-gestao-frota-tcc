@@ -19,9 +19,9 @@
 
     <div class="layout">
 
-        <!-- =========================
-             MENU LATERAL
-        ========================== -->
+        <!-- =================================================
+             SIDEBAR
+        ================================================== -->
         <aside class="sidebar">
 
             <div class="logo">
@@ -29,44 +29,80 @@
                 Logística
             </div>
 
+
             <nav class="menu">
-                <a class="ativo">Dashboard</a>
-                <a>Caminhões</a>
-                <a>Motoristas</a>
-                <a>Pedidos</a>
-                <a>Viagens</a>
-                <a>Despesas</a>
+
+                <a
+                    href="dashboard.html"
+                    class="ativo"
+                >
+                    Dashboard
+                </a>
+
+                <a href="caminhoes.html">
+                    Caminhões
+                </a>
+
+                <a href="#">
+                    Motoristas
+                </a>
+
+                <a href="#">
+                    Pedidos
+                </a>
+
+                <a href="#">
+                    Viagens
+                </a>
+
+                <a href="#">
+                    Despesas
+                </a>
+
             </nav>
 
+
             <div class="logout">
-                <a id="btnSair">Sair</a>
+
+                <a id="btnSair">
+                    Sair
+                </a>
+
             </div>
 
         </aside>
 
 
-        <!-- =========================
+        <!-- =================================================
              CONTEÚDO PRINCIPAL
-        ========================== -->
+        ================================================== -->
         <main class="conteudo">
 
             <div class="wrapper">
 
-                <!-- TOPO -->
+                <!-- =================================================
+                     CABEÇALHO
+                ================================================== -->
                 <div class="topo">
 
                     <div>
-                        <h1>Visão Geral</h1>
+
+                        <h1>
+                            Visão Geral
+                        </h1>
 
                         <p>
                             Resumo das operações do TMS Logística
                         </p>
+
                     </div>
 
                 </div>
 
 
-                <!-- MENSAGEM DE ERRO -->
+                <!-- =================================================
+                     MENSAGEM DE ERRO
+                ================================================== -->
                 <div
                     id="dashboard-erro"
                     class="dashboard-erro"
@@ -74,14 +110,16 @@
                 ></div>
 
 
-                <!-- =========================
+                <!-- =================================================
                      CARDS PRINCIPAIS
-                ========================== -->
+                ================================================== -->
                 <section class="cards-container">
 
                     <div class="card">
 
-                        <h3>Total de Pedidos</h3>
+                        <h3>
+                            Total de Pedidos
+                        </h3>
 
                         <p
                             id="total-pedidos"
@@ -99,7 +137,9 @@
 
                     <div class="card">
 
-                        <h3>Total de Viagens</h3>
+                        <h3>
+                            Total de Viagens
+                        </h3>
 
                         <p
                             id="total-viagens"
@@ -117,7 +157,9 @@
 
                     <div class="card">
 
-                        <h3>Total de Despesas</h3>
+                        <h3>
+                            Total de Despesas
+                        </h3>
 
                         <p
                             id="total-despesas"
@@ -135,7 +177,9 @@
 
                     <div class="card">
 
-                        <h3>Caminhões Disponíveis</h3>
+                        <h3>
+                            Caminhões Disponíveis
+                        </h3>
 
                         <p
                             id="caminhoes-disponiveis"
@@ -156,7 +200,9 @@
 
                     <div class="card">
 
-                        <h3>Motoristas Disponíveis</h3>
+                        <h3>
+                            Motoristas Disponíveis
+                        </h3>
 
                         <p
                             id="motoristas-disponiveis"
@@ -177,22 +223,32 @@
                 </section>
 
 
-                <!-- =========================
+                <!-- =================================================
                      RESUMO OPERACIONAL
-                ========================== -->
+                ================================================== -->
                 <section class="resumo-operacional">
 
                     <!-- PEDIDOS -->
                     <div class="painel-resumo">
 
                         <div class="painel-titulo">
-                            <h2>Pedidos</h2>
-                            <span>Resumo por status</span>
+
+                            <h2>
+                                Pedidos
+                            </h2>
+
+                            <span>
+                                Resumo por status
+                            </span>
+
                         </div>
+
 
                         <div class="linha-indicador">
 
-                            <span>Entregues</span>
+                            <span>
+                                Entregues
+                            </span>
 
                             <strong id="pedidos-entregues">
                                 --
@@ -203,7 +259,9 @@
 
                         <div class="linha-indicador">
 
-                            <span>Cancelados</span>
+                            <span>
+                                Cancelados
+                            </span>
 
                             <strong id="pedidos-cancelados">
                                 --
@@ -218,13 +276,23 @@
                     <div class="painel-resumo">
 
                         <div class="painel-titulo">
-                            <h2>Viagens</h2>
-                            <span>Resumo por status</span>
+
+                            <h2>
+                                Viagens
+                            </h2>
+
+                            <span>
+                                Resumo por status
+                            </span>
+
                         </div>
+
 
                         <div class="linha-indicador">
 
-                            <span>Concluídas</span>
+                            <span>
+                                Concluídas
+                            </span>
 
                             <strong id="viagens-concluidas">
                                 --
@@ -235,7 +303,9 @@
 
                         <div class="linha-indicador">
 
-                            <span>Canceladas</span>
+                            <span>
+                                Canceladas
+                            </span>
 
                             <strong id="viagens-canceladas">
                                 --
@@ -250,13 +320,23 @@
                     <div class="painel-resumo">
 
                         <div class="painel-titulo">
-                            <h2>Despesas</h2>
-                            <span>Custos por categoria</span>
+
+                            <h2>
+                                Despesas
+                            </h2>
+
+                            <span>
+                                Custos por categoria
+                            </span>
+
                         </div>
+
 
                         <div class="linha-indicador">
 
-                            <span>Combustível</span>
+                            <span>
+                                Combustível
+                            </span>
 
                             <strong id="despesas-combustivel">
                                 R$ --
@@ -267,7 +347,9 @@
 
                         <div class="linha-indicador">
 
-                            <span>Pedágio</span>
+                            <span>
+                                Pedágio
+                            </span>
 
                             <strong id="despesas-pedagio">
                                 R$ --
@@ -278,7 +360,9 @@
 
                         <div class="linha-indicador">
 
-                            <span>Manutenção</span>
+                            <span>
+                                Manutenção
+                            </span>
 
                             <strong id="despesas-manutencao">
                                 R$ --
@@ -289,7 +373,9 @@
 
                         <div class="linha-indicador">
 
-                            <span>Outros</span>
+                            <span>
+                                Outros
+                            </span>
 
                             <strong id="despesas-outros">
                                 R$ --
@@ -302,19 +388,23 @@
                 </section>
 
 
-                <!-- =========================
+                <!-- =================================================
                      TABELA DE CAMINHÕES
-                ========================== -->
+                ================================================== -->
                 <section class="tabela-container">
 
                     <div class="painel-titulo">
 
                         <div>
-                            <h2>Caminhões</h2>
+
+                            <h2>
+                                Caminhões
+                            </h2>
 
                             <span>
                                 Frota cadastrada no sistema
                             </span>
+
                         </div>
 
                     </div>
