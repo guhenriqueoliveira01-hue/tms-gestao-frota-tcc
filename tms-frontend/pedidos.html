@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Pedidos - TMS Logística</title>
+
+    <link
+        rel="stylesheet"
+        href="dashboard.css"
+    >
+</head>
+
+
+<body>
+
+    <div class="layout">
+
+        <!-- ============================================= -->
+        <!-- SIDEBAR -->
+        <!-- ============================================= -->
+
+        <aside class="sidebar">
+
+            <div class="logo">
+                <strong class="destaque-ciano">
+                    TMS
+                </strong>
+
+                <strong>
+                    Logística
+                </strong>
+            </div>
+
+
+         <nav class="menu">
+
+            <a href="dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="caminhoes.html">
+                Caminhões
+            </a>
+
+            <a href="motoristas.html">
+                Motoristas
+            </a>
+
+            <a
+                href="pedidos.html"
+                class="ativo"
+            >
+                Pedidos
+            </a>
+
+            <a href="#">
+                Viagens
+            </a>
+
+            <a href="#">
+                Despesas
+            </a>
+
+        </nav>
+
+
+            <a
+                href="#"
+                id="btnLogout"
+                class="logout"
+            >
+                Sair
+            </a>
+
+        </aside>
+
+
+        <!-- ============================================= -->
+        <!-- CONTEÚDO PRINCIPAL -->
+        <!-- ============================================= -->
+
+        <main class="conteudo">
+
+            <div class="wrapper">
+
+                <!-- ===================================== -->
+                <!-- CABEÇALHO -->
+                <!-- ===================================== -->
+
+                <div class="pagina-cabecalho">
+
+                    <div>
+
+                        <h1>
+                            Pedidos
+                        </h1>
+
+                        <p>
+                            Gerencie os pedidos cadastrados no sistema
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        id="btnNovoPedido"
+                        class="btn-primario"
+                    >
+                        + Novo pedido
+                    </button>
+
+                </div>
+
+
+                <!-- ===================================== -->
+                <!-- MENSAGENS -->
+                <!-- ===================================== -->
+
+                <div
+                    id="mensagemPedidos"
+                    class="mensagem-sistema"
+                    hidden
+                ></div>
+
+
+                <!-- ===================================== -->
+                <!-- CARDS -->
+                <!-- ===================================== -->
+
+                <section class="cards-container">
+
+                    <div class="card">
+
+                        <strong>
+                            Total de Pedidos
+                        </strong>
+
+                        <div
+                            id="totalPedidos"
+                            class="numero-destaque"
+                        >
+                            —
+                        </div>
+
+                        <p>
+                            Pedidos cadastrados
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <strong>
+                            Pendentes
+                        </strong>
+
+                        <div
+                            id="totalPendentes"
+                            class="numero-destaque"
+                        >
+                            —
+                        </div>
+
+                        <p>
+                            Aguardando separação
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <strong>
+                            Separando
+                        </strong>
+
+                        <div
+                            id="totalSeparando"
+                            class="numero-destaque"
+                        >
+                            —
+                        </div>
+
+                        <p>
+                            Em preparação
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <strong>
+                            Prontos
+                        </strong>
+
+                        <div
+                            id="totalProntos"
+                            class="numero-destaque"
+                        >
+                            —
+                        </div>
+
+                        <p>
+                            Prontos para envio
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <strong>
+                            Em transporte
+                        </strong>
+
+                        <div
+                            id="totalEmTransporte"
+                            class="numero-destaque"
+                        >
+                            —
+                        </div>
+
+                        <p>
+                            Em rota de entrega
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <strong>
+                            Entregues
+                        </strong>
+
+                        <div
+                            id="totalEntregues"
+                            class="numero-destaque"
+                        >
+                            —
+                        </div>
+
+                        <p>
+                            Pedidos finalizados
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <strong>
+                            Cancelados
+                        </strong>
+
+                        <div
+                            id="totalCancelados"
+                            class="numero-destaque"
+                        >
+                            —
+                        </div>
+
+                        <p>
+                            Pedidos cancelados
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ===================================== -->
+                <!-- TABELA -->
+                <!-- ===================================== -->
+
+                <section class="tabela-container">
+
+                    <div class="secao-cabecalho">
+
+                        <div>
+
+                            <h2>
+                                Pedidos cadastrados
+                            </h2>
+
+                            <p>
+                                Pedidos registrados no sistema
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="tabela-responsiva">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        ID
+                                    </th>
+
+                                    <th>
+                                        CLIENTE
+                                    </th>
+
+                                    <th>
+                                        ENDEREÇO
+                                    </th>
+
+                                    <th>
+                                        VALOR
+                                    </th>
+
+                                    <th>
+                                        STATUS
+                                    </th>
+
+                                    <th>
+                                        AÇÕES
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="corpoTabelaPedidos">
+
+                                <tr>
+
+                                    <td colspan="6">
+                                        Carregando pedidos...
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <!-- ============================================= -->
+    <!-- MODAL - DETALHES DO PEDIDO -->
+    <!-- ============================================= -->
+
+    <div
+        id="modalDetalhesPedido"
+        class="modal-overlay"
+        hidden
+    >
+
+        <div class="modal-card">
+
+            <div class="modal-cabecalho">
+
+                <div>
+
+                    <h2>
+                        Detalhes do pedido
+                    </h2>
+
+                    <p>
+                        Informações completas do pedido
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="btnFecharDetalhes"
+                    class="btn-fechar-modal"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div id="conteudoDetalhesPedido">
+
+                <p>
+                    Carregando...
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ============================================= -->
+    <!-- MODAL - NOVO PEDIDO -->
+    <!-- ============================================= -->
+
+    <div
+        id="modalNovoPedido"
+        class="modal-overlay"
+        hidden
+    >
+
+        <div class="modal-card">
+
+            <div class="modal-cabecalho">
+
+                <div>
+
+                    <h2>
+                        Novo pedido
+                    </h2>
+
+                    <p>
+                        Preencha os dados do novo pedido
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="btnFecharNovoPedido"
+                    class="btn-fechar-modal"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="formNovoPedido">
+
+                <!-- CLIENTE -->
+
+                <div class="campo-formulario">
+
+                    <label for="clienteNome">
+                        Nome do cliente
+                    </label>
+
+                    <input
+                        type="text"
+                        id="clienteNome"
+                        required
+                        placeholder="Nome completo do cliente"
+                    >
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="campo-formulario">
+
+                    <label for="clienteEmail">
+                        E-mail
+                    </label>
+
+                    <input
+                        type="email"
+                        id="clienteEmail"
+                        placeholder="cliente@email.com"
+                    >
+
+                </div>
+
+
+                <!-- TELEFONE -->
+
+                <div class="campo-formulario">
+
+                    <label for="clienteTelefone">
+                        Telefone
+                    </label>
+
+                    <input
+                        type="text"
+                        id="clienteTelefone"
+                        placeholder="(11) 99999-9999"
+                    >
+
+                </div>
+
+
+                <!-- ENDEREÇO -->
+
+                <div class="campo-formulario">
+
+                    <label for="enderecoEntrega">
+                        Endereço de entrega
+                    </label>
+
+                    <input
+                        type="text"
+                        id="enderecoEntrega"
+                        required
+                        placeholder="Endereço completo"
+                    >
+
+                </div>
+
+
+                <!-- PRODUTO -->
+
+                <div class="campo-formulario">
+
+                    <label for="produtoSku">
+                        SKU do produto
+                    </label>
+
+                    <input
+                        type="text"
+                        id="produtoSku"
+                        required
+                        placeholder="Ex.: PROD-001"
+                    >
+
+                </div>
+
+
+                <!-- QUANTIDADE -->
+
+                <div class="campo-formulario">
+
+                    <label for="produtoQuantidade">
+                        Quantidade
+                    </label>
+
+                    <input
+                        type="number"
+                        id="produtoQuantidade"
+                        required
+                        min="1"
+                        value="1"
+                    >
+
+                </div>
+
+
+                <!-- BOTÕES -->
+
+                <div class="acoes-formulario">
+
+                    <button
+                        type="button"
+                        id="btnCancelarNovoPedido"
+                        class="btn-secundario"
+                    >
+                        Cancelar
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        class="btn-primario"
+                    >
+                        Salvar pedido
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ============================================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ============================================= -->
+
+    <script src="auth.js"></script>
+    <script src="pedidos.js"></script>
+
+</body>
+
+</html>

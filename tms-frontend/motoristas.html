@@ -9,73 +9,90 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Caminhões - TMS Logística</title>
+    <title>Motoristas - TMS Logística</title>
 
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="dashboard.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="dashboard.css"
+    >
 </head>
 
-<body>
+
+<body class="pagina-motoristas">
 
     <div class="layout">
 
-        <!-- =================================================
+
+        <!-- =====================================================
              SIDEBAR
-        ================================================== -->
+        ====================================================== -->
+
         <aside class="sidebar">
 
-            <div class="logo">
-                <span class="destaque-ciano">TMS</span>
-                Logística
-            </div>
+    <div class="logo">
+        <span class="destaque-ciano">
+            TMS
+        </span>
+
+        Logística
+    </div>
 
 
-           <nav class="menu">
+    <nav class="menu">
 
-            <a href="dashboard.html">
-                Dashboard
-            </a>
+        <a href="dashboard.html">
+            Dashboard
+        </a>
 
-            <a
-                href="caminhoes.html"
-                class="ativo"
-            >
-                Caminhões
-            </a>
+        <a href="caminhoes.html">
+            Caminhões
+        </a>
 
-            <a href="motoristas.html">
-                Motoristas
-            </a>
+        <a
+            href="motoristas.html"
+            class="ativo"
+        >
+            Motoristas
+        </a>
 
-            <a href="pedidos.html">
-                Pedidos
-            </a>
+        <a href="pedidos.html">
+            Pedidos
+        </a>
 
-            <a href="#">
-                Viagens
-            </a>
+        <a href="#">
+            Viagens
+        </a>
 
-            <a href="#">
-                Despesas
-            </a>
+        <a href="#">
+            Despesas
+        </a>
 
-        </nav>
-
-
-            <div class="logout">
-
-                <a id="btnSair">
-                    Sair
-                </a>
-
-            </div>
-
-        </aside>
+    </nav>
 
 
-        <!-- =================================================
+    <div class="logout">
+
+        <a
+            href="#"
+            id="btnSair"
+        >
+            Sair
+        </a>
+
+    </div>
+
+</aside>
+
+
+        <!-- =====================================================
              CONTEÚDO PRINCIPAL
-        ================================================== -->
+        ====================================================== -->
+
         <main class="conteudo">
 
             <div class="wrapper">
@@ -84,16 +101,18 @@
                 <!-- =================================================
                      CABEÇALHO
                 ================================================== -->
+
                 <div class="topo">
 
                     <div>
 
                         <h1>
-                            Caminhões
+                            Motoristas
                         </h1>
 
                         <p>
-                            Gerencie os veículos cadastrados na frota
+                            Gerencie os motoristas cadastrados
+                            no sistema
                         </p>
 
                     </div>
@@ -101,45 +120,48 @@
 
                     <button
                         type="button"
-                        id="btnNovoCaminhao"
+                        id="btnNovoMotorista"
                         class="btn-acao-principal"
                     >
-                        + Novo caminhão
+                        + Novo motorista
                     </button>
 
                 </div>
 
 
                 <!-- =================================================
-                     MENSAGENS
+                     MENSAGEM DE SUCESSO / ERRO
                 ================================================== -->
+
                 <div
-                    id="mensagemCaminhoes"
+                    id="mensagemMotoristas"
                     class="mensagem-sistema"
                     hidden
                 ></div>
 
 
                 <!-- =================================================
-                     CARDS DE RESUMO
+                     CARDS
                 ================================================== -->
-                <section class="cards-container cards-frota">
+
+                <div class="cards-container cards-frota">
+
 
                     <div class="card">
 
                         <h3>
-                            Total de Caminhões
+                            Total de Motoristas
                         </h3>
 
                         <p
-                            id="totalCaminhoes"
                             class="numero-destaque"
+                            id="totalMotoristas"
                         >
                             --
                         </p>
 
-                        <span class="card-legenda">
-                            Veículos cadastrados
+                        <span class="card-descricao">
+                            Motoristas cadastrados
                         </span>
 
                     </div>
@@ -152,34 +174,14 @@
                         </h3>
 
                         <p
-                            id="caminhoesDisponiveis"
                             class="numero-destaque"
+                            id="motoristasDisponiveis"
                         >
                             --
                         </p>
 
-                        <span class="card-legenda">
+                        <span class="card-descricao">
                             Prontos para operação
-                        </span>
-
-                    </div>
-
-
-                    <div class="card">
-
-                        <h3>
-                            Em manutenção
-                        </h3>
-
-                        <p
-                            id="caminhoesManutencao"
-                            class="numero-destaque"
-                        >
-                            --
-                        </p>
-
-                        <span class="card-legenda">
-                            Temporariamente indisponíveis
                         </span>
 
                     </div>
@@ -192,37 +194,39 @@
                         </h3>
 
                         <p
-                            id="caminhoesInativos"
                             class="numero-destaque"
+                            id="motoristasInativos"
                         >
                             --
                         </p>
 
-                        <span class="card-legenda">
+                        <span class="card-descricao">
                             Fora de operação
                         </span>
 
                     </div>
 
-                </section>
+
+                </div>
 
 
                 <!-- =================================================
                      TABELA
                 ================================================== -->
+
                 <section class="tabela-container">
 
-                    <div class="painel-titulo">
+                    <div class="cabecalho-secao">
 
                         <div>
 
                             <h2>
-                                Frota cadastrada
+                                Motoristas cadastrados
                             </h2>
 
-                            <span>
-                                Caminhões registrados no sistema
-                            </span>
+                            <p>
+                                Profissionais registrados no sistema
+                            </p>
 
                         </div>
 
@@ -236,26 +240,33 @@
                             <thead>
 
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Placa</th>
-                                    <th>Modelo</th>
-                                    <th>Capacidade</th>
-                                    <th>Status</th>
-                                    <th>Ações</th>
+
+                                    <th>
+                                        CNH
+                                    </th>
+
+                                    <th>
+                                        NOME
+                                    </th>
+
+                                    <th>
+                                        TELEFONE
+                                    </th>
+
+                                    <th>
+                                        STATUS
+                                    </th>
+
+                                    <th>
+                                        AÇÕES
+                                    </th>
+
                                 </tr>
 
                             </thead>
 
 
-                            <tbody id="corpoTabelaCaminhoes">
-
-                                <tr>
-
-                                    <td colspan="6">
-                                        Carregando caminhões...
-                                    </td>
-
-                                </tr>
+                            <tbody id="corpoTabelaMotoristas">
 
                             </tbody>
 
@@ -272,27 +283,31 @@
     </div>
 
 
-    <!-- =================================================
-         MODAL / FORMULÁRIO DE CAMINHÃO
-    ================================================== -->
+    <!-- =========================================================
+         MODAL DE MOTORISTA
+    ========================================================== -->
+
     <div
-        id="modalCaminhao"
+        id="modalMotorista"
         class="modal-overlay"
         hidden
     >
 
         <div class="modal-card">
 
+
+            <!-- CABEÇALHO -->
+
             <div class="modal-cabecalho">
 
                 <div>
 
-                    <h2 id="tituloModalCaminhao">
-                        Novo caminhão
+                    <h2 id="tituloModalMotorista">
+                        Novo motorista
                     </h2>
 
                     <p>
-                        Informe os dados do veículo
+                        Preencha os dados do motorista
                     </p>
 
                 </div>
@@ -300,7 +315,7 @@
 
                 <button
                     type="button"
-                    id="btnFecharModal"
+                    id="btnFecharModalMotorista"
                     class="btn-fechar-modal"
                     aria-label="Fechar"
                 >
@@ -310,85 +325,84 @@
             </div>
 
 
-            <form id="formCaminhao">
+            <!-- FORMULÁRIO -->
+
+            <form id="formMotorista">
 
 
-                <!-- Placa -->
+                <!-- CNH -->
+
                 <div class="campo-formulario">
 
-                    <label for="placa">
-                        Placa
+                    <label for="cnh">
+                        CNH
                     </label>
 
                     <input
                         type="text"
-                        id="placa"
-                        name="placa"
-                        placeholder="Ex: ABC-1234"
-                        maxlength="10"
+                        id="cnh"
+                        name="cnh"
+                        placeholder="Ex.: 12345678900"
+                        maxlength="20"
                         required
                     >
 
                 </div>
 
 
-                <!-- Modelo -->
+                <!-- NOME -->
+
                 <div class="campo-formulario">
 
-                    <label for="modelo">
-                        Modelo
+                    <label for="nome">
+                        Nome
                     </label>
 
                     <input
                         type="text"
-                        id="modelo"
-                        name="modelo"
-                        placeholder="Ex: Volvo FH 540"
+                        id="nome"
+                        name="nome"
+                        placeholder="Nome completo do motorista"
                         required
                     >
 
                 </div>
 
 
-                <!-- Capacidade -->
+                <!-- TELEFONE -->
+
                 <div class="campo-formulario">
 
-                    <label for="capacidade_kg">
-                        Capacidade em kg
+                    <label for="telefone">
+                        Telefone
                     </label>
 
                     <input
-                        type="number"
-                        id="capacidade_kg"
-                        name="capacidade_kg"
-                        min="1"
-                        step="0.01"
-                        placeholder="Ex: 35500"
-                        required
+                        type="text"
+                        id="telefone"
+                        name="telefone"
+                        placeholder="Ex.: 11999999999"
                     >
 
                 </div>
 
 
-                <!-- Status -->
+                <!-- STATUS -->
+
                 <div class="campo-formulario">
 
-                    <label for="status">
+                    <label for="statusMotorista">
                         Status
                     </label>
 
                     <select
-                        id="status"
+                        id="statusMotorista"
                         name="status"
                         required
                     >
 
                         <option value="DISPONIVEL">
                             Disponível
-                        </option>
-
-                        <option value="EM_MANUTENCAO">
-                            Em manutenção
                         </option>
 
                         <option value="INATIVO">
@@ -400,12 +414,13 @@
                 </div>
 
 
-                <!-- Botões -->
+                <!-- AÇÕES -->
+
                 <div class="acoes-formulario">
 
                     <button
                         type="button"
-                        id="btnCancelarFormulario"
+                        id="btnCancelarMotorista"
                         class="btn-secundario"
                     >
                         Cancelar
@@ -414,10 +429,10 @@
 
                     <button
                         type="submit"
-                        id="btnSalvarCaminhao"
+                        id="btnSalvarMotorista"
                         class="btn-acao-principal"
                     >
-                        Salvar caminhão
+                        Salvar motorista
                     </button>
 
                 </div>
@@ -429,7 +444,11 @@
     </div>
 
 
-    <script src="caminhoes.js"></script>
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
+
+    <script src="motoristas.js"></script>
 
 </body>
 

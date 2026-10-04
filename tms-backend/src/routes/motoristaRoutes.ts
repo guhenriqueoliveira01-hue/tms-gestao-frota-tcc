@@ -1,21 +1,67 @@
 import { Router } from 'express';
-// Aqui ficam as importações das suas funções do controller de motoristas
-import { 
-    cadastrarMotorista, 
-    listarMotoristas, 
-    atualizarMotorista, 
-    excluirMotorista 
+
+import {
+    cadastrarMotorista,
+    listarMotoristas,
+    atualizarMotorista,
+    excluirMotorista
 } from '../controllers/MotoristaController';
 
-// 1. Importando o nosso segurança
-import { verificarToken } from '../middlewares/authMiddleware';
+import {
+    verificarToken,
+    verificarAdmin
+} from '../middlewares/authMiddleware';
+
 
 const router = Router();
 
-// 2. Colocando o segurança na porta de todas as rotas de motoristas!
-router.post('/motoristas', verificarToken, cadastrarMotorista);
-router.get('/motoristas', verificarToken, listarMotoristas);
-router.put('/motoristas/:id', verificarToken, atualizarMotorista); // Obs: pode ser :cpf no seu projeto
-router.delete('/motoristas/:id', verificarToken, excluirMotorista);
+
+// ======================================================
+// CADASTRAR MOTORISTA
+// ======================================================
+
+router.post(
+    '/motoristas',
+    verificarToken,
+    verificarAdmin,
+    cadastrarMotorista
+);
+
+
+// ======================================================
+// LISTAR MOTORISTAS
+// ======================================================
+
+router.get(
+    '/motoristas',
+    verificarToken,
+    verificarAdmin,
+    listarMotoristas
+);
+
+
+// ======================================================
+// ATUALIZAR MOTORISTA
+// ======================================================
+
+router.put(
+    '/motoristas/:cnh',
+    verificarToken,
+    verificarAdmin,
+    atualizarMotorista
+);
+
+
+// ======================================================
+// EXCLUIR MOTORISTA
+// ======================================================
+
+router.delete(
+    '/motoristas/:cnh',
+    verificarToken,
+    verificarAdmin,
+    excluirMotorista
+);
+
 
 export default router;

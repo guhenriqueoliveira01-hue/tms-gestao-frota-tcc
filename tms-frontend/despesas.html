@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Despesas - TMS Logística
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="dashboard.css"
+    >
+
+</head>
+
+
+<body>
+
+    <div class="layout">
+
+        <!-- =========================================
+             SIDEBAR
+        ========================================== -->
+
+        <aside class="sidebar">
+
+            <div class="logo">
+
+                <span class="destaque-ciano">
+                    TMS
+                </span>
+
+                Logística
+
+            </div>
+
+
+            <nav class="menu">
+
+                <a href="dashboard.html">
+                    Dashboard
+                </a>
+
+                <a href="caminhoes.html">
+                    Caminhões
+                </a>
+
+                <a href="motoristas.html">
+                    Motoristas
+                </a>
+
+                <a href="pedidos.html">
+                    Pedidos
+                </a>
+
+                <a href="viagens.html">
+                    Viagens
+                </a>
+
+                <a
+                    href="despesas.html"
+                    class="ativo"
+                >
+                    Despesas
+                </a>
+
+            </nav>
+
+
+            <div class="logout">
+
+                <a
+                    href="#"
+                    id="btnSair"
+                >
+                    Sair
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- =========================================
+             CONTEÚDO
+        ========================================== -->
+
+        <main class="conteudo">
+
+            <div class="wrapper">
+
+
+                <!-- =====================================
+                     CABEÇALHO
+                ====================================== -->
+
+                <div class="pagina-cabecalho">
+
+                    <div>
+
+                        <h1>
+                            Despesas
+                        </h1>
+
+                        <p>
+                            Gerencie os custos operacionais das viagens
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="btn-primario"
+                        id="btnNovaDespesa"
+                    >
+                        + Nova despesa
+                    </button>
+
+                </div>
+
+
+                <!-- =====================================
+                     MENSAGENS
+                ====================================== -->
+
+                <div
+                    id="mensagemDespesas"
+                    class="mensagem-sistema"
+                    hidden
+                >
+                </div>
+
+
+                <!-- =====================================
+                     BUSCA POR VIAGEM
+                ====================================== -->
+
+                <section class="tabela-container">
+
+                    <div class="secao-cabecalho">
+
+                        <div>
+
+                            <h2>
+                                Consultar viagem
+                            </h2>
+
+                            <p>
+                                Informe o ID da viagem para visualizar seus custos
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <form id="formBuscarViagem">
+
+                        <div class="campo-formulario">
+
+                            <label for="viagemConsultaId">
+                                ID da viagem
+                            </label>
+
+                            <input
+                                type="number"
+                                id="viagemConsultaId"
+                                min="1"
+                                placeholder="Ex.: 6"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="acoes-formulario">
+
+                            <button
+                                type="submit"
+                                class="btn-primario"
+                            >
+                                Buscar despesas
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </section>
+
+
+                <!-- =====================================
+                     CARDS
+                ====================================== -->
+
+                <section class="cards-container">
+
+                    <div class="card">
+
+                        <strong>
+                            Total da viagem
+                        </strong>
+
+                        <span id="totalDespesas">
+                            R$ 0,00
+                        </span>
+
+                        <p>
+                            Total de despesas registradas
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <strong>
+                            Combustível
+                        </strong>
+
+                        <span id="totalCombustivel">
+                            R$ 0,00
+                        </span>
+
+                        <p>
+                            Gastos com abastecimento
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <strong>
+                            Pedágio
+                        </strong>
+
+                        <span id="totalPedagio">
+                            R$ 0,00
+                        </span>
+
+                        <p>
+                            Gastos com pedágios
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <strong>
+                            Manutenção
+                        </strong>
+
+                        <span id="totalManutencao">
+                            R$ 0,00
+                        </span>
+
+                        <p>
+                            Custos de manutenção
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <strong>
+                            Outros
+                        </strong>
+
+                        <span id="totalOutros">
+                            R$ 0,00
+                        </span>
+
+                        <p>
+                            Outras despesas
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =====================================
+                     TABELA
+                ====================================== -->
+
+                <section class="tabela-container">
+
+                    <div class="secao-cabecalho">
+
+                        <div>
+
+                            <h2>
+                                Despesas da viagem
+                            </h2>
+
+                            <p id="textoViagemSelecionada">
+                                Nenhuma viagem selecionada
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="tabela-responsiva">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        ID
+                                    </th>
+
+                                    <th>
+                                        TIPO
+                                    </th>
+
+                                    <th>
+                                        DESCRIÇÃO
+                                    </th>
+
+                                    <th>
+                                        VALOR
+                                    </th>
+
+                                    <th>
+                                        DATA
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="corpoTabelaDespesas">
+
+                                <tr>
+
+                                    <td colspan="5">
+                                        Informe uma viagem para consultar as despesas.
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =====================================
+                     MODAL NOVA DESPESA
+                ====================================== -->
+
+                <div
+                    class="modal-overlay"
+                    id="modalNovaDespesa"
+                    hidden
+                >
+
+                    <div class="modal-card">
+
+                        <div class="modal-cabecalho">
+
+                            <div>
+
+                                <h2>
+                                    Nova despesa
+                                </h2>
+
+                                <p>
+                                    Registre um custo operacional da viagem
+                                </p>
+
+                            </div>
+
+
+                            <button
+                                type="button"
+                                class="btn-fechar-modal"
+                                id="btnFecharNovaDespesa"
+                            >
+                                ×
+                            </button>
+
+                        </div>
+
+
+                        <form id="formNovaDespesa">
+
+
+                            <div class="campo-formulario">
+
+                                <label for="despesaViagemId">
+                                    ID da viagem
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="despesaViagemId"
+                                    min="1"
+                                    placeholder="Ex.: 6"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="campo-formulario">
+
+                                <label for="tipoDespesa">
+                                    Tipo de despesa
+                                </label>
+
+                                <select
+                                    id="tipoDespesa"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Selecione
+                                    </option>
+
+                                    <option value="COMBUSTIVEL">
+                                        Combustível
+                                    </option>
+
+                                    <option value="PEDAGIO">
+                                        Pedágio
+                                    </option>
+
+                                    <option value="MANUTENCAO">
+                                        Manutenção
+                                    </option>
+
+                                    <option value="OUTROS">
+                                        Outros
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <div class="campo-formulario">
+
+                                <label for="valorDespesa">
+                                    Valor
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="valorDespesa"
+                                    min="0.01"
+                                    step="0.01"
+                                    placeholder="Ex.: 150,00"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="campo-formulario">
+
+                                <label for="descricaoDespesa">
+                                    Descrição
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="descricaoDespesa"
+                                    maxlength="255"
+                                    placeholder="Ex.: Abastecimento durante a viagem"
+                                >
+
+                            </div>
+
+
+                            <div class="acoes-formulario">
+
+                                <button
+                                    type="button"
+                                    class="btn-secundario"
+                                    id="btnCancelarNovaDespesa"
+                                >
+                                    Cancelar
+                                </button>
+
+
+                                <button
+                                    type="submit"
+                                    class="btn-primario"
+                                >
+                                    Salvar despesa
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <script src="auth.js"></script>
+
+    <script src="despesas.js"></script>
+
+</body>
+
+</html>

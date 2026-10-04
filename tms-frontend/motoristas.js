@@ -8,91 +8,86 @@ const token = localStorage.getItem('token');
 // ======================================================
 
 if (!token) {
-
     alert('Acesso negado! Faça login novamente.');
-
     window.location.href = 'login.html';
 }
 
 
 // ======================================================
-// ESTADO DA PÁGINA
+// ESTADO
 // ======================================================
 
-let caminhoesCarregados = [];
+let motoristasCarregados = [];
 
 let modoEdicao = false;
 
-let placaEmEdicao = null;
+let cnhEmEdicao = null;
 
 
 // ======================================================
 // ELEMENTOS DA PÁGINA
 // ======================================================
 
-const corpoTabelaCaminhoes =
-    document.getElementById('corpoTabelaCaminhoes');
+const corpoTabelaMotoristas =
+    document.getElementById('corpoTabelaMotoristas');
 
-const totalCaminhoes =
-    document.getElementById('totalCaminhoes');
+const totalMotoristas =
+    document.getElementById('totalMotoristas');
 
-const caminhoesDisponiveis =
-    document.getElementById('caminhoesDisponiveis');
+const motoristasDisponiveis =
+    document.getElementById('motoristasDisponiveis');
 
-const caminhoesManutencao =
-    document.getElementById('caminhoesManutencao');
+const motoristasInativos =
+    document.getElementById('motoristasInativos');
 
-const caminhoesInativos =
-    document.getElementById('caminhoesInativos');
+const mensagemMotoristas =
+    document.getElementById('mensagemMotoristas');
 
 const btnSair =
     document.getElementById('btnSair');
-
-const mensagemCaminhoes =
-    document.getElementById('mensagemCaminhoes');
 
 
 // ======================================================
 // MODAL
 // ======================================================
 
-const modalCaminhao =
-    document.getElementById('modalCaminhao');
+const modalMotorista =
+    document.getElementById('modalMotorista');
 
-const btnNovoCaminhao =
-    document.getElementById('btnNovoCaminhao');
+const btnNovoMotorista =
+    document.getElementById('btnNovoMotorista');
 
-const btnFecharModal =
-    document.getElementById('btnFecharModal');
+const btnFecharModalMotorista =
+    document.getElementById('btnFecharModalMotorista');
 
-const btnCancelarFormulario =
-    document.getElementById('btnCancelarFormulario');
+const btnCancelarMotorista =
+    document.getElementById('btnCancelarMotorista');
 
-const formCaminhao =
-    document.getElementById('formCaminhao');
+const formMotorista =
+    document.getElementById('formMotorista');
 
-const btnSalvarCaminhao =
-    document.getElementById('btnSalvarCaminhao');
+const btnSalvarMotorista =
+    document.getElementById('btnSalvarMotorista');
 
-const tituloModalCaminhao =
-    document.getElementById('tituloModalCaminhao');
+const tituloModalMotorista =
+    document.getElementById('tituloModalMotorista');
 
 
 // ======================================================
-// CAMPOS DO FORMULÁRIO
+// CAMPOS
 // ======================================================
 
-const campoPlaca =
-    document.getElementById('placa');
+const campoCnh =
+    document.getElementById('cnh');
 
-const campoModelo =
-    document.getElementById('modelo');
+const campoNome =
+    document.getElementById('nome');
 
-const campoCapacidade =
-    document.getElementById('capacidade_kg');
+const campoTelefone =
+    document.getElementById('telefone');
 
 const campoStatus =
-    document.getElementById('status');
+    document.getElementById('statusMotorista');
 
 
 // ======================================================
@@ -144,39 +139,37 @@ function mostrarMensagem(
     tipo = 'sucesso'
 ) {
 
-    mensagemCaminhoes.hidden = false;
+    mensagemMotoristas.hidden = false;
 
-    mensagemCaminhoes.textContent = texto;
+    mensagemMotoristas.textContent = texto;
 
 
     if (tipo === 'erro') {
 
-        mensagemCaminhoes.style.background =
+        mensagemMotoristas.style.background =
             'rgba(239, 68, 68, 0.08)';
 
-        mensagemCaminhoes.style.borderColor =
+        mensagemMotoristas.style.borderColor =
             'rgba(239, 68, 68, 0.20)';
 
-        mensagemCaminhoes.style.color =
+        mensagemMotoristas.style.color =
             '#fecaca';
 
     } else {
 
-        mensagemCaminhoes.style.background =
+        mensagemMotoristas.style.background =
             'rgba(34, 197, 94, 0.08)';
 
-        mensagemCaminhoes.style.borderColor =
+        mensagemMotoristas.style.borderColor =
             'rgba(34, 197, 94, 0.20)';
 
-        mensagemCaminhoes.style.color =
+        mensagemMotoristas.style.color =
             '#bbf7d0';
     }
 
 
     setTimeout(() => {
-
-        mensagemCaminhoes.hidden = true;
-
+        mensagemMotoristas.hidden = true;
     }, 4000);
 }
 
@@ -185,18 +178,6 @@ function mostrarMensagem(
 // FORMATAÇÃO
 // ======================================================
 
-function formatarCapacidade(valor) {
-
-    const numero = Number(valor);
-
-    if (!Number.isFinite(numero)) {
-        return '-';
-    }
-
-    return `${numero.toLocaleString('pt-BR')} kg`;
-}
-
-
 function formatarStatus(status) {
 
     switch (status) {
@@ -204,15 +185,41 @@ function formatarStatus(status) {
         case 'DISPONIVEL':
             return 'Disponível';
 
-        case 'EM_MANUTENCAO':
-            return 'Em manutenção';
-
         case 'INATIVO':
             return 'Inativo';
 
         default:
             return status || '-';
     }
+}
+
+
+function formatarTelefone(telefone) {
+
+    const numeros =
+        String(telefone ?? '')
+            .replace(/\D/g, '');
+
+
+    if (numeros.length === 11) {
+
+        return numeros.replace(
+            /(\d{2})(\d{5})(\d{4})/,
+            '($1) $2-$3'
+        );
+    }
+
+
+    if (numeros.length === 10) {
+
+        return numeros.replace(
+            /(\d{2})(\d{4})(\d{4})/,
+            '($1) $2-$3'
+        );
+    }
+
+
+    return telefone || '-';
 }
 
 
@@ -228,50 +235,50 @@ function escaparHtml(valor) {
 
 
 // ======================================================
-// ABRIR MODAL PARA CADASTRO
+// ABRIR MODAL DE CADASTRO
 // ======================================================
 
 function abrirModalCadastro() {
 
     modoEdicao = false;
 
-    placaEmEdicao = null;
+    cnhEmEdicao = null;
 
-    formCaminhao.reset();
+    formMotorista.reset();
 
-    campoPlaca.disabled = false;
+    campoCnh.disabled = false;
 
     campoStatus.value = 'DISPONIVEL';
 
-    tituloModalCaminhao.textContent =
-        'Novo caminhão';
+    tituloModalMotorista.textContent =
+        'Novo motorista';
 
-    btnSalvarCaminhao.textContent =
-        'Salvar caminhão';
+    btnSalvarMotorista.textContent =
+        'Salvar motorista';
 
-    modalCaminhao.hidden = false;
+    modalMotorista.hidden = false;
 
-    campoPlaca.focus();
+    campoCnh.focus();
 }
 
 
 // ======================================================
-// ABRIR MODAL PARA EDIÇÃO
+// ABRIR MODAL DE EDIÇÃO
 // ======================================================
 
-function abrirModalEdicao(placa) {
+function abrirModalEdicao(cnh) {
 
-    const caminhao =
-        caminhoesCarregados.find(
+    const motorista =
+        motoristasCarregados.find(
             (item) =>
-                item.placa === placa
+                String(item.cnh) === String(cnh)
         );
 
 
-    if (!caminhao) {
+    if (!motorista) {
 
         mostrarMensagem(
-            'Caminhão não encontrado.',
+            'Motorista não encontrado.',
             'erro'
         );
 
@@ -281,44 +288,45 @@ function abrirModalEdicao(placa) {
 
     modoEdicao = true;
 
-    placaEmEdicao = caminhao.placa;
+    cnhEmEdicao =
+        motorista.cnh;
 
 
-    campoPlaca.value =
-        caminhao.placa;
+    campoCnh.value =
+        motorista.cnh;
 
-    campoModelo.value =
-        caminhao.modelo;
+    campoNome.value =
+        motorista.nome ?? '';
 
-    campoCapacidade.value =
-        Number(caminhao.capacidade_kg);
+    campoTelefone.value =
+        motorista.telefone ?? '';
 
     campoStatus.value =
-        caminhao.status;
+        motorista.status;
 
 
     /*
-     * A placa identifica o caminhão na rota:
+     * A CNH identifica o motorista em:
      *
-     * PUT /caminhoes/:placa
+     * PUT /motoristas/:cnh
      *
-     * Por isso não permitimos alterar a placa
-     * durante a edição.
+     * Portanto ela fica bloqueada durante
+     * a edição.
      */
 
-    campoPlaca.disabled = true;
+    campoCnh.disabled = true;
 
 
-    tituloModalCaminhao.textContent =
-        'Editar caminhão';
+    tituloModalMotorista.textContent =
+        'Editar motorista';
 
-    btnSalvarCaminhao.textContent =
+    btnSalvarMotorista.textContent =
         'Salvar alterações';
 
 
-    modalCaminhao.hidden = false;
+    modalMotorista.hidden = false;
 
-    campoModelo.focus();
+    campoNome.focus();
 }
 
 
@@ -328,21 +336,21 @@ function abrirModalEdicao(placa) {
 
 function fecharModal() {
 
-    modalCaminhao.hidden = true;
+    modalMotorista.hidden = true;
 
-    formCaminhao.reset();
+    formMotorista.reset();
 
-    campoPlaca.disabled = false;
+    campoCnh.disabled = false;
 
     modoEdicao = false;
 
-    placaEmEdicao = null;
+    cnhEmEdicao = null;
 
-    tituloModalCaminhao.textContent =
-        'Novo caminhão';
+    tituloModalMotorista.textContent =
+        'Novo motorista';
 
-    btnSalvarCaminhao.textContent =
-        'Salvar caminhão';
+    btnSalvarMotorista.textContent =
+        'Salvar motorista';
 }
 
 
@@ -350,35 +358,21 @@ function fecharModal() {
 // EVENTOS DO MODAL
 // ======================================================
 
-btnNovoCaminhao.addEventListener(
+btnNovoMotorista.addEventListener(
     'click',
     abrirModalCadastro
 );
 
 
-btnFecharModal.addEventListener(
+btnFecharModalMotorista.addEventListener(
     'click',
     fecharModal
 );
 
 
-btnCancelarFormulario.addEventListener(
+btnCancelarMotorista.addEventListener(
     'click',
     fecharModal
-);
-
-
-modalCaminhao.addEventListener(
-    'click',
-    (evento) => {
-
-        if (
-            evento.target === modalCaminhao
-        ) {
-
-            fecharModal();
-        }
-    }
 );
 
 
@@ -388,9 +382,21 @@ document.addEventListener(
 
         if (
             evento.key === 'Escape' &&
-            !modalCaminhao.hidden
+            !modalMotorista.hidden
         ) {
+            fecharModal();
+        }
+    }
+);
 
+document.addEventListener(
+    'keydown',
+    (evento) => {
+
+        if (
+            evento.key === 'Escape' &&
+            !modalMotorista.hidden
+        ) {
             fecharModal();
         }
     }
@@ -398,16 +404,16 @@ document.addEventListener(
 
 
 // ======================================================
-// CLIQUE NO BOTÃO EDITAR
+// CLIQUE EM EDITAR
 // ======================================================
 
-corpoTabelaCaminhoes.addEventListener(
+corpoTabelaMotoristas.addEventListener(
     'click',
     (evento) => {
 
         const botaoEditar =
             evento.target.closest(
-                '.btn-editar-caminhao'
+                '.btn-editar-motorista'
             );
 
 
@@ -416,26 +422,24 @@ corpoTabelaCaminhoes.addEventListener(
         }
 
 
-        const placa =
-            botaoEditar.dataset.placa;
-
-
-        abrirModalEdicao(placa);
+        abrirModalEdicao(
+            botaoEditar.dataset.cnh
+        );
     }
 );
 
 
 // ======================================================
-// CLIQUE NO BOTÃO EXCLUIR
+// CLIQUE EM EXCLUIR
 // ======================================================
 
-corpoTabelaCaminhoes.addEventListener(
+corpoTabelaMotoristas.addEventListener(
     'click',
     async (evento) => {
 
         const botaoExcluir =
             evento.target.closest(
-                '.btn-excluir-caminhao'
+                '.btn-excluir-motorista'
             );
 
 
@@ -444,24 +448,24 @@ corpoTabelaCaminhoes.addEventListener(
         }
 
 
-        const placa =
-            botaoExcluir.dataset.placa;
+        const cnh =
+            botaoExcluir.dataset.cnh;
 
 
-        if (!placa) {
-
-            mostrarMensagem(
-                'Não foi possível identificar o caminhão.',
-                'erro'
+        const motorista =
+            motoristasCarregados.find(
+                (item) =>
+                    String(item.cnh) === String(cnh)
             );
 
-            return;
-        }
+
+        const nome =
+            motorista?.nome || cnh;
 
 
         const confirmar =
             window.confirm(
-                `Tem certeza que deseja excluir o caminhão ${placa}?`
+                `Tem certeza que deseja excluir o motorista ${nome}?`
             );
 
 
@@ -483,7 +487,7 @@ corpoTabelaCaminhoes.addEventListener(
 
 
             const resposta = await fetch(
-                `${API_URL}/caminhoes/${encodeURIComponent(placa)}`,
+                `${API_URL}/motoristas/${encodeURIComponent(cnh)}`,
                 {
                     method: 'DELETE',
 
@@ -508,31 +512,31 @@ corpoTabelaCaminhoes.addEventListener(
 
                 throw new Error(
                     dados.erro ||
-                    'Não foi possível excluir o caminhão.'
+                    'Não foi possível excluir o motorista.'
                 );
             }
 
 
             mostrarMensagem(
                 dados.mensagem ||
-                'Caminhão excluído com sucesso!'
+                'Motorista removido com sucesso!'
             );
 
 
-            await carregarCaminhoes();
+            await carregarMotoristas();
 
 
         } catch (erro) {
 
             console.error(
-                'Erro ao excluir caminhão:',
+                'Erro ao excluir motorista:',
                 erro
             );
 
 
             mostrarMensagem(
                 erro.message ||
-                'Erro ao excluir caminhão.',
+                'Erro ao excluir motorista.',
                 'erro'
             );
 
@@ -547,41 +551,37 @@ corpoTabelaCaminhoes.addEventListener(
 
 
 // ======================================================
-// SALVAR CADASTRO OU EDIÇÃO
+// CADASTRAR OU EDITAR
 // ======================================================
 
-formCaminhao.addEventListener(
+formMotorista.addEventListener(
     'submit',
     async (evento) => {
 
         evento.preventDefault();
 
 
-        const placa =
-            campoPlaca.value
-                .trim()
-                .toUpperCase();
+        const cnh =
+            campoCnh.value.trim();
 
-        const modelo =
-            campoModelo.value.trim();
+        const nome =
+            campoNome.value.trim();
 
-        const capacidade_kg =
-            Number(campoCapacidade.value);
+        const telefone =
+            campoTelefone.value.trim();
 
         const status =
             campoStatus.value;
 
 
         if (
-            !placa ||
-            !modelo ||
-            !Number.isFinite(capacidade_kg) ||
-            capacidade_kg <= 0 ||
+            !cnh ||
+            !nome ||
             !status
         ) {
 
             mostrarMensagem(
-                'Preencha corretamente todos os campos.',
+                'Preencha corretamente os campos obrigatórios.',
                 'erro'
             );
 
@@ -591,28 +591,18 @@ formCaminhao.addEventListener(
 
         try {
 
-            btnSalvarCaminhao.disabled = true;
+            btnSalvarMotorista.disabled = true;
 
-            btnSalvarCaminhao.textContent =
+            btnSalvarMotorista.textContent =
                 modoEdicao
                     ? 'Salvando...'
                     : 'Cadastrando...';
 
 
-            /*
-             * Se estiver editando:
-             *
-             * PUT /caminhoes/:placa
-             *
-             * Caso contrário:
-             *
-             * POST /caminhoes
-             */
-
             const url =
                 modoEdicao
-                    ? `${API_URL}/caminhoes/${encodeURIComponent(placaEmEdicao)}`
-                    : `${API_URL}/caminhoes`;
+                    ? `${API_URL}/motoristas/${encodeURIComponent(cnhEmEdicao)}`
+                    : `${API_URL}/motoristas`;
 
 
             const metodo =
@@ -624,14 +614,14 @@ formCaminhao.addEventListener(
             const corpo =
                 modoEdicao
                     ? {
-                        modelo,
-                        capacidade_kg,
+                        nome,
+                        telefone,
                         status
                     }
                     : {
-                        placa,
-                        modelo,
-                        capacidade_kg,
+                        cnh,
+                        nome,
+                        telefone,
                         status
                     };
 
@@ -671,8 +661,8 @@ formCaminhao.addEventListener(
                     dados.erro ||
                     (
                         modoEdicao
-                            ? 'Não foi possível atualizar o caminhão.'
-                            : 'Não foi possível cadastrar o caminhão.'
+                            ? 'Não foi possível atualizar o motorista.'
+                            : 'Não foi possível cadastrar o motorista.'
                     )
                 );
             }
@@ -689,53 +679,53 @@ formCaminhao.addEventListener(
                 dados.mensagem ||
                 (
                     estavaEditando
-                        ? 'Caminhão atualizado com sucesso!'
-                        : 'Caminhão cadastrado com sucesso!'
+                        ? 'Motorista atualizado com sucesso!'
+                        : 'Motorista cadastrado com sucesso!'
                 )
             );
 
 
-            await carregarCaminhoes();
+            await carregarMotoristas();
 
 
         } catch (erro) {
 
             console.error(
-                'Erro ao salvar caminhão:',
+                'Erro ao salvar motorista:',
                 erro
             );
 
 
             mostrarMensagem(
                 erro.message ||
-                'Erro ao salvar caminhão.',
+                'Erro ao salvar motorista.',
                 'erro'
             );
 
 
         } finally {
 
-            btnSalvarCaminhao.disabled = false;
+            btnSalvarMotorista.disabled = false;
 
-            btnSalvarCaminhao.textContent =
+            btnSalvarMotorista.textContent =
                 modoEdicao
                     ? 'Salvar alterações'
-                    : 'Salvar caminhão';
+                    : 'Salvar motorista';
         }
     }
 );
 
 
 // ======================================================
-// CARREGAR CAMINHÕES
+// CARREGAR MOTORISTAS
 // ======================================================
 
-async function carregarCaminhoes() {
+async function carregarMotoristas() {
 
     try {
 
         const resposta = await fetch(
-            `${API_URL}/caminhoes`,
+            `${API_URL}/motoristas`,
             {
                 method: 'GET',
 
@@ -760,46 +750,46 @@ async function carregarCaminhoes() {
 
             throw new Error(
                 dados.erro ||
-                'Não foi possível carregar os caminhões.'
+                'Não foi possível carregar os motoristas.'
             );
         }
 
 
-        caminhoesCarregados =
+        motoristasCarregados =
             Array.isArray(dados)
                 ? dados
                 : [];
 
 
         atualizarResumo(
-            caminhoesCarregados
+            motoristasCarregados
         );
 
 
         preencherTabela(
-            caminhoesCarregados
+            motoristasCarregados
         );
 
 
     } catch (erro) {
 
         console.error(
-            'Erro ao carregar caminhões:',
+            'Erro ao carregar motoristas:',
             erro
         );
 
 
-        corpoTabelaCaminhoes.innerHTML = `
+        corpoTabelaMotoristas.innerHTML = `
             <tr>
-                <td colspan="6">
-                    Não foi possível carregar os caminhões.
+                <td colspan="5">
+                    Não foi possível carregar os motoristas.
                 </td>
             </tr>
         `;
 
 
         mostrarMensagem(
-            'Não foi possível carregar os caminhões.',
+            'Não foi possível carregar os motoristas.',
             'erro'
         );
     }
@@ -810,32 +800,24 @@ async function carregarCaminhoes() {
 // CARDS
 // ======================================================
 
-function atualizarResumo(caminhoes) {
+function atualizarResumo(motoristas) {
 
-    totalCaminhoes.textContent =
-        caminhoes.length;
+    totalMotoristas.textContent =
+        motoristas.length;
 
 
-    caminhoesDisponiveis.textContent =
-        caminhoes.filter(
-            (caminhao) =>
-                caminhao.status ===
+    motoristasDisponiveis.textContent =
+        motoristas.filter(
+            (motorista) =>
+                motorista.status ===
                 'DISPONIVEL'
         ).length;
 
 
-    caminhoesManutencao.textContent =
-        caminhoes.filter(
-            (caminhao) =>
-                caminhao.status ===
-                'EM_MANUTENCAO'
-        ).length;
-
-
-    caminhoesInativos.textContent =
-        caminhoes.filter(
-            (caminhao) =>
-                caminhao.status ===
+    motoristasInativos.textContent =
+        motoristas.filter(
+            (motorista) =>
+                motorista.status ===
                 'INATIVO'
         ).length;
 }
@@ -845,17 +827,17 @@ function atualizarResumo(caminhoes) {
 // TABELA
 // ======================================================
 
-function preencherTabela(caminhoes) {
+function preencherTabela(motoristas) {
 
-    corpoTabelaCaminhoes.innerHTML = '';
+    corpoTabelaMotoristas.innerHTML = '';
 
 
-    if (caminhoes.length === 0) {
+    if (motoristas.length === 0) {
 
-        corpoTabelaCaminhoes.innerHTML = `
+        corpoTabelaMotoristas.innerHTML = `
             <tr>
-                <td colspan="6">
-                    Nenhum caminhão cadastrado.
+                <td colspan="5">
+                    Nenhum motorista cadastrado.
                 </td>
             </tr>
         `;
@@ -864,7 +846,7 @@ function preencherTabela(caminhoes) {
     }
 
 
-    caminhoes.forEach((caminhao) => {
+    motoristas.forEach((motorista) => {
 
         const linha =
             document.createElement('tr');
@@ -872,27 +854,25 @@ function preencherTabela(caminhoes) {
 
         linha.innerHTML = `
             <td>
-                ${escaparHtml(caminhao.id)}
+                ${escaparHtml(motorista.cnh)}
             </td>
 
             <td>
-                ${escaparHtml(caminhao.placa)}
+                ${escaparHtml(motorista.nome)}
             </td>
 
             <td>
-                ${escaparHtml(caminhao.modelo)}
-            </td>
-
-            <td>
-                ${formatarCapacidade(
-                    caminhao.capacidade_kg
+                ${escaparHtml(
+                    formatarTelefone(
+                        motorista.telefone
+                    )
                 )}
             </td>
 
             <td>
                 ${escaparHtml(
                     formatarStatus(
-                        caminhao.status
+                        motorista.status
                     )
                 )}
             </td>
@@ -901,16 +881,16 @@ function preencherTabela(caminhoes) {
 
                 <button
                     type="button"
-                    class="btn-tabela btn-editar-caminhao"
-                    data-placa="${escaparHtml(caminhao.placa)}"
+                    class="btn-tabela btn-editar-motorista"
+                    data-cnh="${escaparHtml(motorista.cnh)}"
                 >
                     Editar
                 </button>
 
                 <button
                     type="button"
-                    class="btn-tabela btn-excluir-caminhao"
-                    data-placa="${escaparHtml(caminhao.placa)}"
+                    class="btn-tabela btn-excluir-caminhao btn-excluir-motorista"
+                    data-cnh="${escaparHtml(motorista.cnh)}"
                 >
                     Excluir
                 </button>
@@ -919,7 +899,7 @@ function preencherTabela(caminhoes) {
         `;
 
 
-        corpoTabelaCaminhoes.appendChild(
+        corpoTabelaMotoristas.appendChild(
             linha
         );
     });
@@ -932,5 +912,5 @@ function preencherTabela(caminhoes) {
 
 document.addEventListener(
     'DOMContentLoaded',
-    carregarCaminhoes
+    carregarMotoristas
 );

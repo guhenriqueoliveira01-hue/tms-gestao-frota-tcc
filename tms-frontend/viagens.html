@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Viagens - TMS Logística
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="dashboard.css"
+    >
+
+</head>
+
+
+<body>
+
+    <div class="layout">
+
+        <!-- =========================================
+             SIDEBAR
+        ========================================== -->
+
+        <aside class="sidebar">
+
+            <div class="logo">
+
+                <span class="destaque-ciano">
+                    TMS
+                </span>
+
+                Logística
+
+            </div>
+
+
+            <nav class="menu">
+
+                <a href="dashboard.html">
+                    Dashboard
+                </a>
+
+                <a href="caminhoes.html">
+                    Caminhões
+                </a>
+
+                <a href="motoristas.html">
+                    Motoristas
+                </a>
+
+                <a href="pedidos.html">
+                    Pedidos
+                </a>
+
+                <a
+                    href="viagens.html"
+                    class="ativo"
+                >
+                    Viagens
+                </a>
+
+                <a href="#">
+                    Despesas
+                </a>
+
+            </nav>
+
+
+            <div class="logout">
+
+                <a
+                    href="#"
+                    id="btnSair"
+                >
+                    Sair
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- =========================================
+             CONTEÚDO PRINCIPAL
+        ========================================== -->
+
+        <main class="conteudo">
+
+            <!-- ESSA WRAPPER ESTAVA FALTANDO -->
+            <div class="wrapper">
+
+
+                <!-- =====================================
+                     CABEÇALHO
+                ====================================== -->
+
+                <div class="pagina-cabecalho">
+
+                    <div>
+
+                        <h1>
+                            Viagens
+                        </h1>
+
+                        <p>
+                            Gerencie as viagens e entregas da operação
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="btn-primario"
+                        id="btnNovaViagem"
+                    >
+                        + Nova viagem
+                    </button>
+
+                </div>
+
+
+                <!-- =====================================
+                     MENSAGENS
+                ====================================== -->
+
+                <div
+                    id="mensagemViagens"
+                    class="mensagem-sistema"
+                    hidden
+                >
+                </div>
+
+
+                <!-- =====================================
+                     CARDS
+                ====================================== -->
+
+                <section class="cards-container">
+
+                    <div class="card">
+
+                        <strong>
+                            Total de Viagens
+                        </strong>
+
+                        <span id="totalViagens">
+                            —
+                        </span>
+
+                        <p>
+                            Viagens registradas
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <strong>
+                            Planejadas
+                        </strong>
+
+                        <span id="totalPlanejadas">
+                            —
+                        </span>
+
+                        <p>
+                            Aguardando início
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <strong>
+                            Em andamento
+                        </strong>
+
+                        <span id="totalEmAndamento">
+                            —
+                        </span>
+
+                        <p>
+                            Em transporte
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <strong>
+                            Concluídas
+                        </strong>
+
+                        <span id="totalConcluidas">
+                            —
+                        </span>
+
+                        <p>
+                            Entregas finalizadas
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <strong>
+                            Canceladas
+                        </strong>
+
+                        <span id="totalCanceladas">
+                            —
+                        </span>
+
+                        <p>
+                            Viagens canceladas
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =====================================
+                     TABELA
+                ====================================== -->
+
+                <section class="tabela-container">
+
+                    <div class="secao-cabecalho">
+
+                        <div>
+
+                            <h2>
+                                Viagens cadastradas
+                            </h2>
+
+                            <p>
+                                Histórico e viagens atuais da operação
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="tabela-responsiva">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        ID
+                                    </th>
+
+                                    <th>
+                                        PEDIDO
+                                    </th>
+
+                                    <th>
+                                        MOTORISTA
+                                    </th>
+
+                                    <th>
+                                        CAMINHÃO
+                                    </th>
+
+                                    <th>
+                                        STATUS
+                                    </th>
+
+                                    <th>
+                                        AÇÕES
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="corpoTabelaViagens">
+
+                                <tr>
+
+                                    <td colspan="6">
+
+                                        Carregando viagens...
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =====================================
+                     MODAL NOVA VIAGEM
+                ====================================== -->
+
+                <div
+                    class="modal-overlay"
+                    id="modalNovaViagem"
+                    hidden
+                >
+
+                    <div class="modal-card">
+
+                        <div class="modal-cabecalho">
+
+                            <div>
+
+                                <h2>
+                                    Nova viagem
+                                </h2>
+
+                                <p>
+                                    Vincule um pedido a um motorista e caminhão
+                                </p>
+
+                            </div>
+
+
+                            <button
+                                type="button"
+                                class="btn-fechar-modal"
+                                id="btnFecharNovaViagem"
+                            >
+                                ×
+                            </button>
+
+                        </div>
+
+
+                        <form id="formNovaViagem">
+
+
+                            <div class="campo-formulario">
+
+                                <label for="pedidoId">
+                                    ID do pedido
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="pedidoId"
+                                    min="1"
+                                    placeholder="Ex.: 7"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="campo-formulario">
+
+                                <label for="motoristaCnh">
+                                    CNH do motorista
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="motoristaCnh"
+                                    placeholder="Ex.: 12345678900"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="campo-formulario">
+
+                                <label for="caminhaoId">
+                                    ID do caminhão
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="caminhaoId"
+                                    min="1"
+                                    placeholder="Ex.: 2"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="campo-formulario">
+
+                                <label for="saidaPrevista">
+                                    Saída prevista
+                                </label>
+
+                                <input
+                                    type="datetime-local"
+                                    id="saidaPrevista"
+                                >
+
+                            </div>
+
+
+                            <div class="acoes-formulario">
+
+                                <button
+                                    type="button"
+                                    class="btn-secundario"
+                                    id="btnCancelarNovaViagem"
+                                >
+                                    Cancelar
+                                </button>
+
+
+                                <button
+                                    type="submit"
+                                    class="btn-primario"
+                                >
+                                    Criar viagem
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+            <!-- FIM DA WRAPPER -->
+
+        </main>
+
+    </div>
+
+
+    <script src="auth.js"></script>
+
+    <script src="viagens.js"></script>
+
+</body>
+
+</html>

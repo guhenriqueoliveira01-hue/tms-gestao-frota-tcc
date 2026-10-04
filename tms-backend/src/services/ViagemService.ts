@@ -5,6 +5,11 @@ import {
 
 import pool from '../config/database';
 
+import {
+    confirmarSaidaEstoqueTransacional,
+    EstoqueServiceError
+} from './EstoqueService';
+
 interface ViagemStatusAtual extends RowDataPacket {
     id: number;
     pedido_id: number;
@@ -63,6 +68,11 @@ interface ViagemListagem extends RowDataPacket {
 
     criado_em: Date;
     atualizado_em: Date;
+}
+
+interface ItemViagemEstoque extends RowDataPacket {
+    produto_id: number;
+    quantidade: number;
 }
 
 
@@ -620,9 +630,10 @@ export const atualizarStatusViagem = async (
         const viagem = viagens[0];
 
 
-        /*
-         * PLANEJADA → EM_ANDAMENTO
-         */
+        // ======================================================
+        // PLANEJADA → EM_ANDAMENTO
+        // ======================================================
+
         if (novoStatus === 'EM_ANDAMENTO') {
 
             if (viagem.status !== 'PLANEJADA') {
@@ -633,6 +644,13 @@ export const atualizarStatusViagem = async (
                 );
             }
 
+
+            /*
+             * Primeiro alteramos o pedido.
+             *
+             * Como tudo está dentro da mesma transação,
+             * qualquer erro posterior desfaz essa alteração.
+             */
 
             const [pedidoAtualizado] =
                 await conexao.execute<ResultSetHeader>(
@@ -654,6 +672,51 @@ export const atualizarStatusViagem = async (
                 );
             }
 
+
+            // ==================================================
+            // BUSCA OS ITENS DO PEDIDO
+            // ==================================================
+
+            const [itensPedido] =
+                await conexao.execute<ItemViagemEstoque[]>(
+                    `
+                    SELECT
+                        produto_id,
+                        quantidade
+                    FROM itens_pedido
+                    WHERE pedido_id = ?
+                    ORDER BY id ASC
+                    `,
+                    [viagem.pedido_id]
+                );
+
+
+            if (itensPedido.length === 0) {
+
+                throw new ViagemServiceError(
+                    'O pedido não possui itens para movimentação de estoque.',
+                    409
+                );
+            }
+
+
+            // ==================================================
+            // CONFIRMA A SAÍDA FÍSICA DO ESTOQUE
+            // ==================================================
+
+            for (const item of itensPedido) {
+
+                await confirmarSaidaEstoqueTransacional(
+                    conexao,
+                    item.produto_id,
+                    item.quantidade
+                );
+            }
+
+
+            // ==================================================
+            // INICIA A VIAGEM
+            // ==================================================
 
             await conexao.execute<ResultSetHeader>(
                 `
@@ -679,9 +742,10 @@ export const atualizarStatusViagem = async (
         }
 
 
-        /*
-         * EM_ANDAMENTO → CONCLUIDA
-         */
+        // ======================================================
+        // EM_ANDAMENTO → CONCLUIDA
+        // ======================================================
+
         if (novoStatus === 'CONCLUIDA') {
 
             if (viagem.status !== 'EM_ANDAMENTO') {
@@ -738,9 +802,10 @@ export const atualizarStatusViagem = async (
         }
 
 
-        /*
-         * PLANEJADA → CANCELADA
-         */
+        // ======================================================
+        // PLANEJADA → CANCELADA
+        // ======================================================
+
         if (novoStatus === 'CANCELADA') {
 
             if (viagem.status !== 'PLANEJADA') {
@@ -753,9 +818,13 @@ export const atualizarStatusViagem = async (
 
 
             /*
-             * Como uma viagem PLANEJADA ainda não iniciou o transporte,
-             * o pedido deve continuar disponível para um novo planejamento.
+             * Uma viagem PLANEJADA ainda não iniciou
+             * o transporte.
+             *
+             * Portanto, o pedido continua disponível
+             * para um novo planejamento.
              */
+
             const [pedidos] =
                 await conexao.execute<PedidoViagem[]>(
                     `
@@ -826,6 +895,20 @@ export const atualizarStatusViagem = async (
 
         if (erro instanceof ViagemServiceError) {
             throw erro;
+        }
+
+
+        /*
+         * Converte um erro do EstoqueService
+         * para o padrão de erro do módulo de viagens.
+         */
+
+        if (erro instanceof EstoqueServiceError) {
+
+            throw new ViagemServiceError(
+                erro.message,
+                erro.statusHttp
+            );
         }
 
 

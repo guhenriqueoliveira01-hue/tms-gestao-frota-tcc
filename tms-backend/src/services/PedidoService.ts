@@ -14,11 +14,14 @@ import {
 } from './EstoqueService';
 
 
+// ======================================================
+// TIPOS DE ENTRADA
+// ======================================================
+
 interface ItemPedidoEntrada {
     sku: string;
     quantidade: number;
 }
-
 
 interface CriarPedidoEntrada {
     cliente_nome: string;
@@ -29,6 +32,10 @@ interface CriarPedidoEntrada {
 }
 
 
+// ======================================================
+// TIPOS DO BANCO
+// ======================================================
+
 interface ProdutoBanco extends RowDataPacket {
     id: number;
     sku: string;
@@ -36,7 +43,6 @@ interface ProdutoBanco extends RowDataPacket {
     preco_base: string;
     status: 'ATIVO' | 'INATIVO';
 }
-
 
 interface ItemPedidoProcessado {
     produto_id: number;
@@ -48,13 +54,19 @@ interface ItemPedidoProcessado {
 }
 
 
+// ======================================================
+// ERRO DO SERVICE
+// ======================================================
+
 export class PedidoServiceError extends Error {
+
     statusHttp: number;
 
     constructor(
         mensagem: string,
         statusHttp: number
     ) {
+
         super(mensagem);
 
         this.name = 'PedidoServiceError';
@@ -62,6 +74,10 @@ export class PedidoServiceError extends Error {
     }
 }
 
+
+// ======================================================
+// VALIDAÇÃO DOS DADOS DO PEDIDO
+// ======================================================
 
 const validarDadosPedido = (
     dados: CriarPedidoEntrada
@@ -71,6 +87,7 @@ const validarDadosPedido = (
         !dados.cliente_nome ||
         String(dados.cliente_nome).trim().length === 0
     ) {
+
         throw new PedidoServiceError(
             'O nome do cliente é obrigatório.',
             400
@@ -82,6 +99,7 @@ const validarDadosPedido = (
         !dados.endereco_entrega ||
         String(dados.endereco_entrega).trim().length === 0
     ) {
+
         throw new PedidoServiceError(
             'O endereço de entrega é obrigatório.',
             400
@@ -93,6 +111,7 @@ const validarDadosPedido = (
         !Array.isArray(dados.itens) ||
         dados.itens.length === 0
     ) {
+
         throw new PedidoServiceError(
             'O pedido deve possuir pelo menos um item.',
             400
@@ -101,11 +120,16 @@ const validarDadosPedido = (
 };
 
 
+// ======================================================
+// VALIDAR ITENS DUPLICADOS
+// ======================================================
+
 const validarItensDuplicados = (
     itens: ItemPedidoEntrada[]
 ) => {
 
     const skus = new Set<string>();
+
 
     for (const item of itens) {
 
@@ -115,6 +139,7 @@ const validarItensDuplicados = (
 
 
         if (skus.has(skuNormalizado)) {
+
             throw new PedidoServiceError(
                 `O produto ${skuNormalizado} foi informado mais de uma vez no pedido.`,
                 400
@@ -126,6 +151,10 @@ const validarItensDuplicados = (
     }
 };
 
+
+// ======================================================
+// PROCESSAR ITENS DO PEDIDO
+// ======================================================
 
 const processarItensPedido = async (
     conexao: PoolConnection,
@@ -145,6 +174,7 @@ const processarItensPedido = async (
 
 
         if (!skuNormalizado) {
+
             throw new PedidoServiceError(
                 'Todos os itens devem possuir um SKU válido.',
                 400
@@ -156,6 +186,7 @@ const processarItensPedido = async (
             !Number.isInteger(quantidade) ||
             quantidade <= 0
         ) {
+
             throw new PedidoServiceError(
                 `Quantidade inválida para o produto ${skuNormalizado}.`,
                 400
@@ -180,6 +211,7 @@ const processarItensPedido = async (
 
 
         if (produtos.length === 0) {
+
             throw new PedidoServiceError(
                 `Produto ${skuNormalizado} não encontrado.`,
                 404
@@ -191,6 +223,7 @@ const processarItensPedido = async (
 
 
         if (produto.status !== 'ATIVO') {
+
             throw new PedidoServiceError(
                 `O produto ${skuNormalizado} está inativo.`,
                 409
@@ -200,6 +233,7 @@ const processarItensPedido = async (
 
         const precoUnitario =
             Number(produto.preco_base);
+
 
         const subtotal =
             Number(
@@ -231,6 +265,10 @@ const processarItensPedido = async (
     return itensProcessados;
 };
 
+
+// ======================================================
+// CRIAR PEDIDO
+// ======================================================
 
 export const criarPedido = async (
     dados: CriarPedidoEntrada
@@ -283,13 +321,17 @@ export const criarPedido = async (
                 `,
                 [
                     String(dados.cliente_nome).trim(),
+
                     dados.cliente_email
                         ? String(dados.cliente_email).trim()
                         : null,
+
                     dados.cliente_telefone
                         ? String(dados.cliente_telefone).trim()
                         : null,
+
                     String(dados.endereco_entrega).trim(),
+
                     valorTotal
                 ]
             );
@@ -328,6 +370,7 @@ export const criarPedido = async (
 
         return {
             id: pedidoId,
+
             cliente_nome:
                 String(dados.cliente_nome).trim(),
 
@@ -361,6 +404,7 @@ export const criarPedido = async (
             erro instanceof PedidoServiceError ||
             erro instanceof EstoqueServiceError
         ) {
+
             throw erro;
         }
 
@@ -383,6 +427,11 @@ export const criarPedido = async (
     }
 };
 
+
+// ======================================================
+// LISTAGEM DE PEDIDOS
+// ======================================================
+
 interface PedidoResumo extends RowDataPacket {
     id: number;
     cliente_nome: string;
@@ -398,22 +447,23 @@ interface PedidoResumo extends RowDataPacket {
 
 export const listarPedidos = async () => {
 
-    const [pedidos] = await pool.execute<PedidoResumo[]>(
-        `
-        SELECT
-            id,
-            cliente_nome,
-            cliente_email,
-            cliente_telefone,
-            endereco_entrega,
-            status,
-            valor_total,
-            criado_em,
-            atualizado_em
-        FROM pedidos
-        ORDER BY criado_em DESC, id DESC
-        `
-    );
+    const [pedidos] =
+        await pool.execute<PedidoResumo[]>(
+            `
+            SELECT
+                id,
+                cliente_nome,
+                cliente_email,
+                cliente_telefone,
+                endereco_entrega,
+                status,
+                valor_total,
+                criado_em,
+                atualizado_em
+            FROM pedidos
+            ORDER BY criado_em DESC, id DESC
+            `
+        );
 
 
     return pedidos.map((pedido) => ({
@@ -421,6 +471,11 @@ export const listarPedidos = async () => {
         valor_total: Number(pedido.valor_total)
     }));
 };
+
+
+// ======================================================
+// DETALHES DO PEDIDO
+// ======================================================
 
 interface PedidoDetalhado extends RowDataPacket {
     id: number;
@@ -434,6 +489,7 @@ interface PedidoDetalhado extends RowDataPacket {
     atualizado_em: Date;
 }
 
+
 interface ItemPedidoDetalhado extends RowDataPacket {
     id: number;
     produto_id: number;
@@ -444,64 +500,87 @@ interface ItemPedidoDetalhado extends RowDataPacket {
     subtotal: string;
 }
 
-export const buscarPedidoPorId = async (id: number) => {
 
-    const [pedidos] = await pool.execute<PedidoDetalhado[]>(
-        `
-        SELECT
-            id,
-            cliente_nome,
-            cliente_email,
-            cliente_telefone,
-            endereco_entrega,
-            status,
-            valor_total,
-            criado_em,
-            atualizado_em
-        FROM pedidos
-        WHERE id = ?
-        `,
-        [id]
-    );
+export const buscarPedidoPorId = async (
+    id: number
+) => {
+
+    const [pedidos] =
+        await pool.execute<PedidoDetalhado[]>(
+            `
+            SELECT
+                id,
+                cliente_nome,
+                cliente_email,
+                cliente_telefone,
+                endereco_entrega,
+                status,
+                valor_total,
+                criado_em,
+                atualizado_em
+            FROM pedidos
+            WHERE id = ?
+            `,
+            [id]
+        );
+
 
     if (pedidos.length === 0) {
+
         throw new PedidoServiceError(
             'Pedido não encontrado.',
             404
         );
     }
 
+
     const pedido = pedidos[0];
 
-    const [itens] = await pool.execute<ItemPedidoDetalhado[]>(
-        `
-        SELECT
-            ip.id,
-            ip.produto_id,
-            p.sku,
-            p.nome,
-            ip.quantidade,
-            ip.preco_unitario,
-            ip.subtotal
-        FROM itens_pedido ip
-        INNER JOIN produtos p
-            ON p.id = ip.produto_id
-        WHERE ip.pedido_id = ?
-        ORDER BY ip.id ASC
-        `,
-        [id]
-    );
+
+    const [itens] =
+        await pool.execute<ItemPedidoDetalhado[]>(
+            `
+            SELECT
+                ip.id,
+                ip.produto_id,
+                p.sku,
+                p.nome,
+                ip.quantidade,
+                ip.preco_unitario,
+                ip.subtotal
+            FROM itens_pedido ip
+            INNER JOIN produtos p
+                ON p.id = ip.produto_id
+            WHERE ip.pedido_id = ?
+            ORDER BY ip.id ASC
+            `,
+            [id]
+        );
+
 
     return {
         ...pedido,
-        valor_total: Number(pedido.valor_total),
-        itens: itens.map((item) => ({
-            ...item,
-            preco_unitario: Number(item.preco_unitario),
-            subtotal: Number(item.subtotal)
-        }))
+
+        valor_total:
+            Number(pedido.valor_total),
+
+        itens:
+            itens.map((item) => ({
+                ...item,
+
+                preco_unitario:
+                    Number(item.preco_unitario),
+
+                subtotal:
+                    Number(item.subtotal)
+            }))
     };
 };
+
+
+// ======================================================
+// STATUS DO PEDIDO
+// ======================================================
 
 type PedidoStatus =
     | 'PENDENTE'
@@ -534,6 +613,10 @@ const statusValidos: PedidoStatus[] = [
 ];
 
 
+// ======================================================
+// TRANSIÇÕES MANUAIS PERMITIDAS
+// ======================================================
+
 const transicoesPermitidas: Record<
     PedidoStatus,
     PedidoStatus[]
@@ -549,20 +632,34 @@ const transicoesPermitidas: Record<
         'CANCELADO'
     ],
 
+    /*
+     * EM_TRANSPORTE não é alterado manualmente
+     * pelo módulo de pedidos.
+     *
+     * Ele será definido pelo módulo de viagens
+     * quando a viagem for iniciada.
+     */
+
     PRONTO_PARA_ENVIO: [
-        'EM_TRANSPORTE',
         'CANCELADO'
     ],
 
-    EM_TRANSPORTE: [
-        'ENTREGUE'
-    ],
+    /*
+     * ENTREGUE também é responsabilidade
+     * do módulo de viagens.
+     */
+
+    EM_TRANSPORTE: [],
 
     ENTREGUE: [],
 
     CANCELADO: []
 };
 
+
+// ======================================================
+// ATUALIZAR STATUS DO PEDIDO
+// ======================================================
 
 export const atualizarStatusPedido = async (
     pedidoId: number,
@@ -573,6 +670,7 @@ export const atualizarStatusPedido = async (
         !Number.isInteger(pedidoId) ||
         pedidoId <= 0
     ) {
+
         throw new PedidoServiceError(
             'ID do pedido inválido.',
             400
@@ -587,6 +685,7 @@ export const atualizarStatusPedido = async (
 
 
     if (!statusValidos.includes(novoStatus)) {
+
         throw new PedidoServiceError(
             'Status de pedido inválido.',
             400
@@ -594,7 +693,8 @@ export const atualizarStatusPedido = async (
     }
 
 
-    const conexao = await pool.getConnection();
+    const conexao =
+        await pool.getConnection();
 
 
     try {
@@ -617,6 +717,7 @@ export const atualizarStatusPedido = async (
 
 
         if (pedidos.length === 0) {
+
             throw new PedidoServiceError(
                 'Pedido não encontrado.',
                 404
@@ -629,6 +730,7 @@ export const atualizarStatusPedido = async (
 
 
         if (statusAtual === novoStatus) {
+
             throw new PedidoServiceError(
                 `O pedido já está com o status ${novoStatus}.`,
                 409
@@ -648,6 +750,53 @@ export const atualizarStatusPedido = async (
             );
         }
 
+
+        // ======================================================
+        // PROTEÇÃO CONTRA CANCELAMENTO COM VIAGEM ATIVA
+        // ======================================================
+
+        /*
+         * Se o pedido já chegou em PRONTO_PARA_ENVIO
+         * e possui uma viagem ativa, ele não pode ser
+         * cancelado diretamente.
+         *
+         * Primeiro a viagem precisa ser cancelada.
+         */
+
+        if (
+            novoStatus === 'CANCELADO' &&
+            statusAtual === 'PRONTO_PARA_ENVIO'
+        ) {
+
+            const [viagensAtivas] =
+                await conexao.execute<RowDataPacket[]>(
+                    `
+                    SELECT id
+                    FROM viagens
+                    WHERE pedido_id = ?
+                      AND status IN (
+                          'PLANEJADA',
+                          'EM_ANDAMENTO'
+                      )
+                    LIMIT 1
+                    `,
+                    [pedidoId]
+                );
+
+
+            if (viagensAtivas.length > 0) {
+
+                throw new PedidoServiceError(
+                    'Este pedido possui uma viagem ativa e não pode ser cancelado.',
+                    409
+                );
+            }
+        }
+
+
+        // ======================================================
+        // MOVIMENTAÇÃO DE ESTOQUE
+        // ======================================================
 
         if (
             novoStatus === 'CANCELADO' ||
@@ -669,6 +818,7 @@ export const atualizarStatusPedido = async (
 
 
             if (itens.length === 0) {
+
                 throw new PedidoServiceError(
                     'O pedido não possui itens para movimentação de estoque.',
                     409
@@ -678,29 +828,50 @@ export const atualizarStatusPedido = async (
 
             for (const item of itens) {
 
-                if (novoStatus === 'CANCELADO') {
+                /*
+                 * Cancelamento:
+                 * devolve a quantidade reservada.
+                 */
+
+                if (
+                    novoStatus ===
+                    'CANCELADO'
+                ) {
 
                     await liberarReservaEstoqueTransacional(
                         conexao,
                         item.produto_id,
                         item.quantidade
                     );
-
                 }
 
 
-                if (novoStatus === 'EM_TRANSPORTE') {
+                /*
+                 * Entrada em transporte:
+                 * confirma saída física do estoque.
+                 *
+                 * Atualmente essa operação será usada
+                 * pelo fluxo do módulo de viagens.
+                 */
+
+                if (
+                    novoStatus ===
+                    'EM_TRANSPORTE'
+                ) {
 
                     await confirmarSaidaEstoqueTransacional(
                         conexao,
                         item.produto_id,
                         item.quantidade
                     );
-
                 }
             }
         }
 
+
+        // ======================================================
+        // ATUALIZAÇÃO DO PEDIDO
+        // ======================================================
 
         await conexao.execute<ResultSetHeader>(
             `
@@ -734,6 +905,7 @@ export const atualizarStatusPedido = async (
             erro instanceof PedidoServiceError ||
             erro instanceof EstoqueServiceError
         ) {
+
             throw erro;
         }
 
