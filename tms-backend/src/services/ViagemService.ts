@@ -10,9 +10,12 @@ import {
     EstoqueServiceError
 } from './EstoqueService';
 
+
 interface ViagemStatusAtual extends RowDataPacket {
     id: number;
     pedido_id: number;
+    motorista_cnh: string;
+    caminhao_id: number;
     status: string;
 }
 
@@ -70,6 +73,7 @@ interface ViagemListagem extends RowDataPacket {
     atualizado_em: Date;
 }
 
+
 interface ItemViagemEstoque extends RowDataPacket {
     produto_id: number;
     quantidade: number;
@@ -77,14 +81,12 @@ interface ItemViagemEstoque extends RowDataPacket {
 
 
 export class ViagemServiceError extends Error {
-
     statusHttp: number;
 
     constructor(
         mensagem: string,
         statusHttp: number
     ) {
-
         super(mensagem);
 
         this.name = 'ViagemServiceError';
@@ -96,7 +98,6 @@ export class ViagemServiceError extends Error {
 export const criarViagem = async (
     dados: CriarViagemEntrada
 ) => {
-
     const {
         pedido_id,
         motorista_cnh,
@@ -109,7 +110,6 @@ export const criarViagem = async (
         !Number.isInteger(pedido_id) ||
         pedido_id <= 0
     ) {
-
         throw new ViagemServiceError(
             'ID do pedido inválido.',
             400
@@ -121,7 +121,6 @@ export const criarViagem = async (
         !motorista_cnh ||
         !String(motorista_cnh).trim()
     ) {
-
         throw new ViagemServiceError(
             'CNH do motorista é obrigatória.',
             400
@@ -133,7 +132,6 @@ export const criarViagem = async (
         !Number.isInteger(caminhao_id) ||
         caminhao_id <= 0
     ) {
-
         throw new ViagemServiceError(
             'ID do caminhão inválido.',
             400
@@ -145,9 +143,12 @@ export const criarViagem = async (
 
 
     try {
-
         await conexao.beginTransaction();
 
+
+        // ==========================================================
+        // PEDIDO
+        // ==========================================================
 
         // Verifica e bloqueia o pedido durante a criação da viagem.
         const [pedidos] =
@@ -165,7 +166,6 @@ export const criarViagem = async (
 
 
         if (pedidos.length === 0) {
-
             throw new ViagemServiceError(
                 'Pedido não encontrado.',
                 404
@@ -177,7 +177,6 @@ export const criarViagem = async (
             pedidos[0].status !==
             'PRONTO_PARA_ENVIO'
         ) {
-
             throw new ViagemServiceError(
                 'Somente pedidos PRONTO_PARA_ENVIO podem gerar uma viagem.',
                 409
@@ -185,35 +184,45 @@ export const criarViagem = async (
         }
 
 
-        // Impede mais de uma viagem para o mesmo pedido.
-// Impede mais de uma viagem ATIVA para o mesmo pedido.
-// Viagens CANCELADAS ficam preservadas no histórico
-// e não impedem um novo planejamento.
-            const [viagensPedido] =
-                await conexao.execute<ViagemExistente[]>(
-                    `
-                    SELECT id
-                    FROM viagens
-                    WHERE pedido_id = ?
-                    AND status IN (
-                        'PLANEJADA',
-                        'EM_ANDAMENTO'
-                    )
-                    LIMIT 1
-                    `,
-                    [pedido_id]
-                );
-
-            if (viagensPedido.length > 0) {
-
-                throw new ViagemServiceError(
-                    'Este pedido já possui uma viagem ativa.',
-                    409
-                );
-            }
+        /*
+         * Impede mais de uma viagem ATIVA para o mesmo pedido.
+         *
+         * Viagens CANCELADAS ficam preservadas no histórico
+         * e não impedem um novo planejamento.
+         *
+         * FOR UPDATE garante uma leitura atual dentro da
+         * transação e bloqueia os registros encontrados.
+         */
+        const [viagensPedido] =
+            await conexao.execute<ViagemExistente[]>(
+                `
+                SELECT id
+                FROM viagens
+                WHERE pedido_id = ?
+                  AND status IN (
+                      'PLANEJADA',
+                      'EM_ANDAMENTO'
+                  )
+                LIMIT 1
+                FOR UPDATE
+                `,
+                [pedido_id]
+            );
 
 
-        // Verifica o motorista.
+        if (viagensPedido.length > 0) {
+            throw new ViagemServiceError(
+                'Este pedido já possui uma viagem ativa.',
+                409
+            );
+        }
+
+
+        // ==========================================================
+        // MOTORISTA
+        // ==========================================================
+
+        // Verifica e bloqueia o motorista.
         const [motoristas] =
             await conexao.execute<MotoristaViagem[]>(
                 `
@@ -229,7 +238,6 @@ export const criarViagem = async (
 
 
         if (motoristas.length === 0) {
-
             throw new ViagemServiceError(
                 'Motorista não encontrado.',
                 404
@@ -241,7 +249,6 @@ export const criarViagem = async (
             motoristas[0].status !==
             'DISPONIVEL'
         ) {
-
             throw new ViagemServiceError(
                 'Motorista não está disponível.',
                 409
@@ -249,7 +256,10 @@ export const criarViagem = async (
         }
 
 
-        // Impede o mesmo motorista de ficar em duas viagens ativas.
+        /*
+         * Impede o mesmo motorista de ficar
+         * associado a duas viagens ativas.
+         */
         const [viagensMotorista] =
             await conexao.execute<ViagemExistente[]>(
                 `
@@ -261,13 +271,13 @@ export const criarViagem = async (
                       'EM_ANDAMENTO'
                   )
                 LIMIT 1
+                FOR UPDATE
                 `,
                 [String(motorista_cnh).trim()]
             );
 
 
         if (viagensMotorista.length > 0) {
-
             throw new ViagemServiceError(
                 'Motorista já está associado a uma viagem ativa.',
                 409
@@ -275,7 +285,11 @@ export const criarViagem = async (
         }
 
 
-        // Verifica o caminhão.
+        // ==========================================================
+        // CAMINHÃO
+        // ==========================================================
+
+        // Verifica e bloqueia o caminhão.
         const [caminhoes] =
             await conexao.execute<CaminhaoViagem[]>(
                 `
@@ -291,7 +305,6 @@ export const criarViagem = async (
 
 
         if (caminhoes.length === 0) {
-
             throw new ViagemServiceError(
                 'Caminhão não encontrado.',
                 404
@@ -303,7 +316,6 @@ export const criarViagem = async (
             caminhoes[0].status !==
             'DISPONIVEL'
         ) {
-
             throw new ViagemServiceError(
                 'Caminhão não está disponível.',
                 409
@@ -311,7 +323,10 @@ export const criarViagem = async (
         }
 
 
-        // Impede o mesmo caminhão de ficar em duas viagens ativas.
+        /*
+         * Impede o mesmo caminhão de ficar
+         * associado a duas viagens ativas.
+         */
         const [viagensCaminhao] =
             await conexao.execute<ViagemExistente[]>(
                 `
@@ -323,19 +338,23 @@ export const criarViagem = async (
                       'EM_ANDAMENTO'
                   )
                 LIMIT 1
+                FOR UPDATE
                 `,
                 [caminhao_id]
             );
 
 
         if (viagensCaminhao.length > 0) {
-
             throw new ViagemServiceError(
                 'Caminhão já está associado a uma viagem ativa.',
                 409
             );
         }
 
+
+        // ==========================================================
+        // CRIAÇÃO DA VIAGEM
+        // ==========================================================
 
         const [resultado] =
             await conexao.execute<ResultSetHeader>(
@@ -373,7 +392,6 @@ export const criarViagem = async (
 
 
     } catch (erro) {
-
         await conexao.rollback();
 
 
@@ -381,7 +399,6 @@ export const criarViagem = async (
             erro instanceof
             ViagemServiceError
         ) {
-
             throw erro;
         }
 
@@ -399,16 +416,13 @@ export const criarViagem = async (
 
 
     } finally {
-
         conexao.release();
     }
 };
 
 
 export const listarViagens = async () => {
-
     try {
-
         const [viagens] =
             await pool.execute<ViagemListagem[]>(
                 `
@@ -455,7 +469,6 @@ export const listarViagens = async () => {
 
 
     } catch (erro) {
-
         console.error(
             'Erro ao listar viagens:',
             erro
@@ -469,15 +482,14 @@ export const listarViagens = async () => {
     }
 };
 
+
 export const buscarViagemPorId = async (
     id: number
 ) => {
-
     if (
         !Number.isInteger(id) ||
         id <= 0
     ) {
-
         throw new ViagemServiceError(
             'ID da viagem inválido.',
             400
@@ -486,7 +498,6 @@ export const buscarViagemPorId = async (
 
 
     try {
-
         const [viagens] =
             await pool.execute<ViagemListagem[]>(
                 `
@@ -531,7 +542,6 @@ export const buscarViagemPorId = async (
 
 
         if (viagens.length === 0) {
-
             throw new ViagemServiceError(
                 'Viagem não encontrada.',
                 404
@@ -543,7 +553,6 @@ export const buscarViagemPorId = async (
 
 
     } catch (erro) {
-
         if (erro instanceof ViagemServiceError) {
             throw erro;
         }
@@ -562,16 +571,15 @@ export const buscarViagemPorId = async (
     }
 };
 
+
 export const atualizarStatusViagem = async (
     id: number,
     novoStatus: string
 ) => {
-
     if (
         !Number.isInteger(id) ||
         id <= 0
     ) {
-
         throw new ViagemServiceError(
             'ID da viagem inválido.',
             400
@@ -587,7 +595,6 @@ export const atualizarStatusViagem = async (
 
 
     if (!statusPermitidos.includes(novoStatus)) {
-
         throw new ViagemServiceError(
             'Status da viagem inválido.',
             400
@@ -599,32 +606,24 @@ export const atualizarStatusViagem = async (
 
 
     try {
-
         await conexao.beginTransaction();
 
 
-        const [viagens] =
-            await conexao.execute<ViagemStatusAtual[]>(
-                `
-                SELECT
-                    id,
-                    pedido_id,
-                    status
-                FROM viagens
-                WHERE id = ?
-                FOR UPDATE
-                `,
-                [id]
-            );
-
-
-        if (viagens.length === 0) {
-
-            throw new ViagemServiceError(
-                'Viagem não encontrada.',
-                404
-            );
-        }
+    const [viagens] =
+        await conexao.execute<ViagemStatusAtual[]>(
+            `
+            SELECT
+                id,
+                pedido_id,
+                motorista_cnh,
+                caminhao_id,
+                status
+            FROM viagens
+            WHERE id = ?
+            FOR UPDATE
+            `,
+            [id]
+        );
 
 
         const viagem = viagens[0];
@@ -635,14 +634,75 @@ export const atualizarStatusViagem = async (
         // ======================================================
 
         if (novoStatus === 'EM_ANDAMENTO') {
-
             if (viagem.status !== 'PLANEJADA') {
-
                 throw new ViagemServiceError(
                     `Não é permitido alterar a viagem de ${viagem.status} para EM_ANDAMENTO.`,
                     409
                 );
             }
+
+        // ==================================================
+// REVALIDA O MOTORISTA ANTES DO INÍCIO
+// ==================================================
+
+const [motoristas] =
+    await conexao.execute<MotoristaViagem[]>(
+        `
+        SELECT
+            cnh,
+            status
+        FROM motoristas
+        WHERE cnh = ?
+        FOR UPDATE
+        `,
+        [viagem.motorista_cnh]
+    );
+
+if (motoristas.length === 0) {
+    throw new ViagemServiceError(
+        'Motorista associado à viagem não foi encontrado.',
+        404
+    );
+}
+
+if (motoristas[0].status !== 'DISPONIVEL') {
+    throw new ViagemServiceError(
+        'Não é possível iniciar a viagem porque o motorista não está disponível.',
+        409
+    );
+}
+
+
+    // ==================================================
+    // REVALIDA O CAMINHÃO ANTES DO INÍCIO
+    // ==================================================
+
+    const [caminhoes] =
+        await conexao.execute<CaminhaoViagem[]>(
+            `
+            SELECT
+                id,
+                status
+            FROM caminhoes
+            WHERE id = ?
+            FOR UPDATE
+            `,
+            [viagem.caminhao_id]
+        );
+
+    if (caminhoes.length === 0) {
+        throw new ViagemServiceError(
+            'Caminhão associado à viagem não foi encontrado.',
+            404
+        );
+    }
+
+    if (caminhoes[0].status !== 'DISPONIVEL') {
+        throw new ViagemServiceError(
+            'Não é possível iniciar a viagem porque o caminhão não está disponível.',
+            409
+        );
+    }
 
 
             /*
@@ -651,7 +711,6 @@ export const atualizarStatusViagem = async (
              * Como tudo está dentro da mesma transação,
              * qualquer erro posterior desfaz essa alteração.
              */
-
             const [pedidoAtualizado] =
                 await conexao.execute<ResultSetHeader>(
                     `
@@ -665,7 +724,6 @@ export const atualizarStatusViagem = async (
 
 
             if (pedidoAtualizado.affectedRows === 0) {
-
                 throw new ViagemServiceError(
                     'O pedido não está PRONTO_PARA_ENVIO.',
                     409
@@ -692,7 +750,6 @@ export const atualizarStatusViagem = async (
 
 
             if (itensPedido.length === 0) {
-
                 throw new ViagemServiceError(
                     'O pedido não possui itens para movimentação de estoque.',
                     409
@@ -705,7 +762,6 @@ export const atualizarStatusViagem = async (
             // ==================================================
 
             for (const item of itensPedido) {
-
                 await confirmarSaidaEstoqueTransacional(
                     conexao,
                     item.produto_id,
@@ -747,9 +803,7 @@ export const atualizarStatusViagem = async (
         // ======================================================
 
         if (novoStatus === 'CONCLUIDA') {
-
             if (viagem.status !== 'EM_ANDAMENTO') {
-
                 throw new ViagemServiceError(
                     `Não é permitido alterar a viagem de ${viagem.status} para CONCLUIDA.`,
                     409
@@ -770,7 +824,6 @@ export const atualizarStatusViagem = async (
 
 
             if (pedidoAtualizado.affectedRows === 0) {
-
                 throw new ViagemServiceError(
                     'O pedido não está EM_TRANSPORTE.',
                     409
@@ -807,9 +860,7 @@ export const atualizarStatusViagem = async (
         // ======================================================
 
         if (novoStatus === 'CANCELADA') {
-
             if (viagem.status !== 'PLANEJADA') {
-
                 throw new ViagemServiceError(
                     `Não é permitido alterar a viagem de ${viagem.status} para CANCELADA.`,
                     409
@@ -840,7 +891,6 @@ export const atualizarStatusViagem = async (
 
 
             if (pedidos.length === 0) {
-
                 throw new ViagemServiceError(
                     'Pedido associado à viagem não foi encontrado.',
                     404
@@ -852,7 +902,6 @@ export const atualizarStatusViagem = async (
                 pedidos[0].status !==
                 'PRONTO_PARA_ENVIO'
             ) {
-
                 throw new ViagemServiceError(
                     'O pedido associado não está PRONTO_PARA_ENVIO.',
                     409
@@ -889,7 +938,6 @@ export const atualizarStatusViagem = async (
 
 
     } catch (erro) {
-
         await conexao.rollback();
 
 
@@ -902,9 +950,7 @@ export const atualizarStatusViagem = async (
          * Converte um erro do EstoqueService
          * para o padrão de erro do módulo de viagens.
          */
-
         if (erro instanceof EstoqueServiceError) {
-
             throw new ViagemServiceError(
                 erro.message,
                 erro.statusHttp
@@ -925,7 +971,6 @@ export const atualizarStatusViagem = async (
 
 
     } finally {
-
         conexao.release();
     }
 };

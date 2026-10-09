@@ -297,6 +297,10 @@ async function carregarResumoDashboard() {
 // CAMINHÕES
 // ======================================================
 
+// ======================================================
+// CAMINHÕES
+// ======================================================
+
 async function carregarCaminhoes() {
 
     const corpoTabela =
@@ -341,7 +345,7 @@ async function carregarCaminhoes() {
          *
          * [...]
          *
-         * quanto uma resposta:
+         * quanto:
          *
          * {
          *     caminhoes: [...]
@@ -353,18 +357,28 @@ async function carregarCaminhoes() {
                 : dados.caminhoes ?? [];
 
 
-        corpoTabela.innerHTML = '';
+        // Remove as linhas existentes sem utilizar innerHTML.
+        corpoTabela.replaceChildren();
 
 
         if (caminhoes.length === 0) {
 
-            corpoTabela.innerHTML = `
-                <tr>
-                    <td colspan="5">
-                        Nenhum caminhão cadastrado.
-                    </td>
-                </tr>
-            `;
+            const linha =
+                document.createElement('tr');
+
+            const celula =
+                document.createElement('td');
+
+
+            celula.colSpan = 5;
+
+            celula.textContent =
+                'Nenhum caminhão cadastrado.';
+
+
+            linha.appendChild(celula);
+
+            corpoTabela.appendChild(linha);
 
             return;
         }
@@ -376,13 +390,30 @@ async function carregarCaminhoes() {
                 document.createElement('tr');
 
 
-            linha.innerHTML = `
-                <td>${caminhao.id}</td>
-                <td>${caminhao.placa}</td>
-                <td>${caminhao.modelo}</td>
-                <td>${caminhao.capacidade_kg} kg</td>
-                <td>${caminhao.status ?? '-'}</td>
-            `;
+            const valores = [
+                caminhao.id ?? '-',
+                caminhao.placa ?? '-',
+                caminhao.modelo ?? '-',
+                `${caminhao.capacidade_kg ?? 0} kg`,
+                caminhao.status ?? '-'
+            ];
+
+
+            valores.forEach((valor) => {
+
+                const celula =
+                    document.createElement('td');
+
+                /*
+                 * textContent trata o conteúdo como texto,
+                 * impedindo que HTML vindo da API seja
+                 * interpretado pelo navegador.
+                 */
+                celula.textContent =
+                    String(valor);
+
+                linha.appendChild(celula);
+            });
 
 
             corpoTabela.appendChild(linha);
@@ -397,13 +428,25 @@ async function carregarCaminhoes() {
         );
 
 
-        corpoTabela.innerHTML = `
-            <tr>
-                <td colspan="5">
-                    Não foi possível carregar os caminhões.
-                </td>
-            </tr>
-        `;
+        corpoTabela.replaceChildren();
+
+
+        const linha =
+            document.createElement('tr');
+
+        const celula =
+            document.createElement('td');
+
+
+        celula.colSpan = 5;
+
+        celula.textContent =
+            'Não foi possível carregar os caminhões.';
+
+
+        linha.appendChild(celula);
+
+        corpoTabela.appendChild(linha);
     }
 }
 

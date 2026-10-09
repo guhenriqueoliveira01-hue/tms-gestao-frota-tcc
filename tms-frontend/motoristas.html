@@ -1,7 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -20,13 +22,12 @@
         rel="stylesheet"
         href="dashboard.css"
     >
-</head>
 
+</head>
 
 <body class="pagina-motoristas">
 
     <div class="layout">
-
 
         <!-- =====================================================
              SIDEBAR
@@ -34,60 +35,59 @@
 
         <aside class="sidebar">
 
-    <div class="logo">
-        <span class="destaque-ciano">
-            TMS
-        </span>
+            <div class="logo">
 
-        Logística
-    </div>
+                <span class="destaque-ciano">
+                    TMS
+                </span>
 
+                Logística
 
-    <nav class="menu">
+            </div>
 
-        <a href="dashboard.html">
-            Dashboard
-        </a>
+            <nav class="menu">
 
-        <a href="caminhoes.html">
-            Caminhões
-        </a>
+                <a href="dashboard.html">
+                    Dashboard
+                </a>
 
-        <a
-            href="motoristas.html"
-            class="ativo"
-        >
-            Motoristas
-        </a>
+                <a href="caminhoes.html">
+                    Caminhões
+                </a>
 
-        <a href="pedidos.html">
-            Pedidos
-        </a>
+                <a
+                    href="motoristas.html"
+                    class="ativo"
+                >
+                    Motoristas
+                </a>
 
-        <a href="#">
-            Viagens
-        </a>
+                <a href="pedidos.html">
+                    Pedidos
+                </a>
 
-        <a href="#">
-            Despesas
-        </a>
+                <a href="viagens.html">
+                    Viagens
+                </a>
 
-    </nav>
+                <a href="despesas.html">
+                    Despesas
+                </a>
 
+            </nav>
 
-    <div class="logout">
+            <div class="logout">
 
-        <a
-            href="#"
-            id="btnSair"
-        >
-            Sair
-        </a>
+                <a
+                    href="#"
+                    id="btnSair"
+                >
+                    Sair
+                </a>
 
-    </div>
+            </div>
 
-</aside>
-
+        </aside>
 
         <!-- =====================================================
              CONTEÚDO PRINCIPAL
@@ -96,7 +96,6 @@
         <main class="conteudo">
 
             <div class="wrapper">
-
 
                 <!-- =================================================
                      CABEÇALHO
@@ -117,7 +116,6 @@
 
                     </div>
 
-
                     <button
                         type="button"
                         id="btnNovoMotorista"
@@ -127,7 +125,6 @@
                     </button>
 
                 </div>
-
 
                 <!-- =================================================
                      MENSAGEM DE SUCESSO / ERRO
@@ -139,13 +136,11 @@
                     hidden
                 ></div>
 
-
                 <!-- =================================================
                      CARDS
                 ================================================== -->
 
                 <div class="cards-container cards-frota">
-
 
                     <div class="card">
 
@@ -166,7 +161,6 @@
 
                     </div>
 
-
                     <div class="card">
 
                         <h3>
@@ -185,7 +179,6 @@
                         </span>
 
                     </div>
-
 
                     <div class="card">
 
@@ -206,9 +199,7 @@
 
                     </div>
 
-
                 </div>
-
 
                 <!-- =================================================
                      TABELA
@@ -232,7 +223,6 @@
 
                     </div>
 
-
                     <div class="tabela-responsiva">
 
                         <table>
@@ -241,33 +231,17 @@
 
                                 <tr>
 
-                                    <th>
-                                        CNH
-                                    </th>
-
-                                    <th>
-                                        NOME
-                                    </th>
-
-                                    <th>
-                                        TELEFONE
-                                    </th>
-
-                                    <th>
-                                        STATUS
-                                    </th>
-
-                                    <th>
-                                        AÇÕES
-                                    </th>
+                                    <th>CNH</th>
+                                    <th>NOME</th>
+                                    <th>TELEFONE</th>
+                                    <th>STATUS</th>
+                                    <th>AÇÕES</th>
 
                                 </tr>
 
                             </thead>
 
-
                             <tbody id="corpoTabelaMotoristas">
-
                             </tbody>
 
                         </table>
@@ -282,7 +256,6 @@
 
     </div>
 
-
     <!-- =========================================================
          MODAL DE MOTORISTA
     ========================================================== -->
@@ -294,7 +267,6 @@
     >
 
         <div class="modal-card">
-
 
             <!-- CABEÇALHO -->
 
@@ -312,7 +284,6 @@
 
                 </div>
 
-
                 <button
                     type="button"
                     id="btnFecharModalMotorista"
@@ -324,11 +295,9 @@
 
             </div>
 
-
             <!-- FORMULÁRIO -->
 
             <form id="formMotorista">
-
 
                 <!-- CNH -->
 
@@ -349,7 +318,6 @@
 
                 </div>
 
-
                 <!-- NOME -->
 
                 <div class="campo-formulario">
@@ -368,7 +336,6 @@
 
                 </div>
 
-
                 <!-- TELEFONE -->
 
                 <div class="campo-formulario">
@@ -385,7 +352,6 @@
                     >
 
                 </div>
-
 
                 <!-- STATUS -->
 
@@ -413,7 +379,6 @@
 
                 </div>
 
-
                 <!-- AÇÕES -->
 
                 <div class="acoes-formulario">
@@ -425,7 +390,6 @@
                     >
                         Cancelar
                     </button>
-
 
                     <button
                         type="submit"
@@ -442,7 +406,6 @@
         </div>
 
     </div>
-
 
     <!-- =========================================================
          JAVASCRIPT

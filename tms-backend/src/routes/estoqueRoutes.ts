@@ -2,9 +2,7 @@ import { Router } from 'express';
 
 import {
     adicionarEstoque,
-    retirarEstoque,
-    reservarEstoque,
-    liberarReservaEstoque
+    retirarEstoque
 } from '../controllers/EstoqueController';
 
 import {
@@ -22,28 +20,12 @@ router.post(
     adicionarEstoque
 );
 
-// Saída de estoque
+// Saída manual de estoque
 router.post(
     '/estoque/:sku/saida',
     verificarToken,
     verificarAdmin,
     retirarEstoque
-);
-
-// Reserva de estoque
-router.post(
-    '/estoque/:sku/reservar',
-    verificarToken,
-    verificarAdmin,
-    reservarEstoque
-);
-
-// Liberar reserva de estoque
-router.post(
-    '/estoque/:sku/liberar-reserva',
-    verificarToken,
-    verificarAdmin,
-    liberarReservaEstoque
 );
 
 export default router;

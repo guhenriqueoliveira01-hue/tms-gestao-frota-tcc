@@ -1,7 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -13,6 +15,7 @@
 
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="dashboard.css">
+
 </head>
 
 <body>
@@ -22,13 +25,13 @@
         <!-- =================================================
              SIDEBAR
         ================================================== -->
+
         <aside class="sidebar">
 
             <div class="logo">
                 <span class="destaque-ciano">TMS</span>
                 Logística
             </div>
-
 
             <nav class="menu">
 
@@ -51,16 +54,15 @@
                     Pedidos
                 </a>
 
-                <a href="#">
+                <a href="viagens.html">
                     Viagens
                 </a>
 
-                <a href="#">
+                <a href="despesas.html">
                     Despesas
                 </a>
 
             </nav>
-
 
             <div class="logout">
 
@@ -72,10 +74,10 @@
 
         </aside>
 
-
         <!-- =================================================
              CONTEÚDO PRINCIPAL
         ================================================== -->
+
         <main class="conteudo">
 
             <div class="wrapper">
@@ -83,6 +85,7 @@
                 <!-- =================================================
                      CABEÇALHO
                 ================================================== -->
+
                 <div class="topo">
 
                     <div>
@@ -99,20 +102,20 @@
 
                 </div>
 
-
                 <!-- =================================================
                      MENSAGEM DE ERRO
                 ================================================== -->
+
                 <div
                     id="dashboard-erro"
                     class="dashboard-erro"
                     hidden
                 ></div>
 
-
                 <!-- =================================================
                      CARDS PRINCIPAIS
                 ================================================== -->
+
                 <section class="cards-container">
 
                     <div class="card">
@@ -134,7 +137,6 @@
 
                     </div>
 
-
                     <div class="card">
 
                         <h3>
@@ -154,7 +156,6 @@
 
                     </div>
 
-
                     <div class="card">
 
                         <h3>
@@ -173,7 +174,6 @@
                         </span>
 
                     </div>
-
 
                     <div class="card">
 
@@ -196,7 +196,6 @@
                         </span>
 
                     </div>
-
 
                     <div class="card">
 
@@ -222,13 +221,14 @@
 
                 </section>
 
-
                 <!-- =================================================
                      RESUMO OPERACIONAL
                 ================================================== -->
+
                 <section class="resumo-operacional">
 
                     <!-- PEDIDOS -->
+
                     <div class="painel-resumo">
 
                         <div class="painel-titulo">
@@ -243,7 +243,6 @@
 
                         </div>
 
-
                         <div class="linha-indicador">
 
                             <span>
@@ -255,7 +254,6 @@
                             </strong>
 
                         </div>
-
 
                         <div class="linha-indicador">
 
@@ -271,8 +269,8 @@
 
                     </div>
 
-
                     <!-- VIAGENS -->
+
                     <div class="painel-resumo">
 
                         <div class="painel-titulo">
@@ -287,7 +285,6 @@
 
                         </div>
 
-
                         <div class="linha-indicador">
 
                             <span>
@@ -299,7 +296,6 @@
                             </strong>
 
                         </div>
-
 
                         <div class="linha-indicador">
 
@@ -315,8 +311,8 @@
 
                     </div>
 
-
                     <!-- DESPESAS -->
+
                     <div class="painel-resumo">
 
                         <div class="painel-titulo">
@@ -331,7 +327,6 @@
 
                         </div>
 
-
                         <div class="linha-indicador">
 
                             <span>
@@ -343,7 +338,6 @@
                             </strong>
 
                         </div>
-
 
                         <div class="linha-indicador">
 
@@ -357,7 +351,6 @@
 
                         </div>
 
-
                         <div class="linha-indicador">
 
                             <span>
@@ -369,7 +362,6 @@
                             </strong>
 
                         </div>
-
 
                         <div class="linha-indicador">
 
@@ -387,10 +379,10 @@
 
                 </section>
 
-
                 <!-- =================================================
                      TABELA DE CAMINHÕES
                 ================================================== -->
+
                 <section class="tabela-container">
 
                     <div class="painel-titulo">
@@ -409,7 +401,6 @@
 
                     </div>
 
-
                     <div class="tabela-responsiva">
 
                         <table>
@@ -417,15 +408,16 @@
                             <thead>
 
                                 <tr>
+
                                     <th>ID</th>
                                     <th>Placa</th>
                                     <th>Modelo</th>
                                     <th>Capacidade</th>
                                     <th>Status</th>
+
                                 </tr>
 
                             </thead>
-
 
                             <tbody id="corpo-tabela-caminhoes">
 
@@ -447,7 +439,6 @@
         </main>
 
     </div>
-
 
     <script src="dashboard.js"></script>
 

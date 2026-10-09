@@ -1,7 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -13,6 +15,7 @@
 
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="dashboard.css">
+
 </head>
 
 <body>
@@ -22,6 +25,7 @@
         <!-- =================================================
              SIDEBAR
         ================================================== -->
+
         <aside class="sidebar">
 
             <div class="logo">
@@ -29,38 +33,36 @@
                 Logística
             </div>
 
+            <nav class="menu">
 
-           <nav class="menu">
+                <a href="dashboard.html">
+                    Dashboard
+                </a>
 
-            <a href="dashboard.html">
-                Dashboard
-            </a>
+                <a
+                    href="caminhoes.html"
+                    class="ativo"
+                >
+                    Caminhões
+                </a>
 
-            <a
-                href="caminhoes.html"
-                class="ativo"
-            >
-                Caminhões
-            </a>
+                <a href="motoristas.html">
+                    Motoristas
+                </a>
 
-            <a href="motoristas.html">
-                Motoristas
-            </a>
+                <a href="pedidos.html">
+                    Pedidos
+                </a>
 
-            <a href="pedidos.html">
-                Pedidos
-            </a>
+                <a href="viagens.html">
+                    Viagens
+                </a>
 
-            <a href="#">
-                Viagens
-            </a>
+                <a href="despesas.html">
+                    Despesas
+                </a>
 
-            <a href="#">
-                Despesas
-            </a>
-
-        </nav>
-
+            </nav>
 
             <div class="logout">
 
@@ -72,18 +74,18 @@
 
         </aside>
 
-
         <!-- =================================================
              CONTEÚDO PRINCIPAL
         ================================================== -->
+
         <main class="conteudo">
 
             <div class="wrapper">
 
-
                 <!-- =================================================
                      CABEÇALHO
                 ================================================== -->
+
                 <div class="topo">
 
                     <div>
@@ -98,7 +100,6 @@
 
                     </div>
 
-
                     <button
                         type="button"
                         id="btnNovoCaminhao"
@@ -109,20 +110,20 @@
 
                 </div>
 
-
                 <!-- =================================================
                      MENSAGENS
                 ================================================== -->
+
                 <div
                     id="mensagemCaminhoes"
                     class="mensagem-sistema"
                     hidden
                 ></div>
 
-
                 <!-- =================================================
                      CARDS DE RESUMO
                 ================================================== -->
+
                 <section class="cards-container cards-frota">
 
                     <div class="card">
@@ -144,7 +145,6 @@
 
                     </div>
 
-
                     <div class="card">
 
                         <h3>
@@ -164,7 +164,6 @@
 
                     </div>
 
-
                     <div class="card">
 
                         <h3>
@@ -183,7 +182,6 @@
                         </span>
 
                     </div>
-
 
                     <div class="card">
 
@@ -206,10 +204,10 @@
 
                 </section>
 
-
                 <!-- =================================================
                      TABELA
                 ================================================== -->
+
                 <section class="tabela-container">
 
                     <div class="painel-titulo">
@@ -228,7 +226,6 @@
 
                     </div>
 
-
                     <div class="tabela-responsiva">
 
                         <table>
@@ -236,16 +233,17 @@
                             <thead>
 
                                 <tr>
+
                                     <th>ID</th>
                                     <th>Placa</th>
                                     <th>Modelo</th>
                                     <th>Capacidade</th>
                                     <th>Status</th>
                                     <th>Ações</th>
+
                                 </tr>
 
                             </thead>
-
 
                             <tbody id="corpoTabelaCaminhoes">
 
@@ -271,10 +269,10 @@
 
     </div>
 
-
     <!-- =================================================
          MODAL / FORMULÁRIO DE CAMINHÃO
     ================================================== -->
+
     <div
         id="modalCaminhao"
         class="modal-overlay"
@@ -297,7 +295,6 @@
 
                 </div>
 
-
                 <button
                     type="button"
                     id="btnFecharModal"
@@ -309,11 +306,10 @@
 
             </div>
 
-
             <form id="formCaminhao">
 
-
                 <!-- Placa -->
+
                 <div class="campo-formulario">
 
                     <label for="placa">
@@ -331,8 +327,8 @@
 
                 </div>
 
-
                 <!-- Modelo -->
+
                 <div class="campo-formulario">
 
                     <label for="modelo">
@@ -349,8 +345,8 @@
 
                 </div>
 
-
                 <!-- Capacidade -->
+
                 <div class="campo-formulario">
 
                     <label for="capacidade_kg">
@@ -369,8 +365,8 @@
 
                 </div>
 
-
                 <!-- Status -->
+
                 <div class="campo-formulario">
 
                     <label for="status">
@@ -399,8 +395,8 @@
 
                 </div>
 
-
                 <!-- Botões -->
+
                 <div class="acoes-formulario">
 
                     <button
@@ -410,7 +406,6 @@
                     >
                         Cancelar
                     </button>
-
 
                     <button
                         type="submit"
@@ -427,7 +422,6 @@
         </div>
 
     </div>
-
 
     <script src="caminhoes.js"></script>
 
