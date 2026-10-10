@@ -71,6 +71,14 @@ export const cadastrarMotorista = async (
     }
 
 
+    if (!telefoneNormalizado) {
+
+        return res.status(400).json({
+            erro: 'O telefone do motorista é obrigatório.'
+        });
+    }
+
+
     if (
         !STATUS_PERMITIDOS.includes(
             statusNormalizado
@@ -118,7 +126,7 @@ export const cadastrarMotorista = async (
             [
                 cnhNormalizada,
                 nomeNormalizado,
-                telefoneNormalizado || null,
+                telefoneNormalizado,
                 statusNormalizado
             ]
         );
@@ -240,6 +248,14 @@ export const atualizarMotorista = async (
     }
 
 
+    if (!telefoneNormalizado) {
+
+        return res.status(400).json({
+            erro: 'O telefone do motorista é obrigatório.'
+        });
+    }
+
+
     if (
         !STATUS_PERMITIDOS.includes(
             statusNormalizado
@@ -266,7 +282,7 @@ export const atualizarMotorista = async (
                 `,
                 [
                     nomeNormalizado,
-                    telefoneNormalizado || null,
+                    telefoneNormalizado,
                     statusNormalizado,
                     cnh
                 ]
