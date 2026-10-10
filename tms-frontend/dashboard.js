@@ -29,15 +29,15 @@ if (!token) {
 
 const btnSair = document.getElementById('btnSair');
 
+if (btnSair) {
+    btnSair.addEventListener('click', (evento) => {
+        evento.preventDefault();
 
-btnSair.addEventListener('click', (evento) => {
+        localStorage.removeItem('token');
 
-    evento.preventDefault();
-
-    localStorage.removeItem('token');
-
-    window.location.href = 'index.html';
-});
+        window.location.href = 'index.html';
+    });
+}
 
 
 // ======================================================
@@ -53,6 +53,12 @@ function formatarMoeda(valor) {
             currency: 'BRL'
         }
     );
+}
+
+function formatarNumero(valor) {
+    return Number(valor || 0).toLocaleString('pt-BR', {
+        maximumFractionDigits: 2
+    });
 }
 
 
@@ -394,7 +400,7 @@ async function carregarCaminhoes() {
                 caminhao.id ?? '-',
                 caminhao.placa ?? '-',
                 caminhao.modelo ?? '-',
-                `${caminhao.capacidade_kg ?? 0} kg`,
+                `${formatarNumero(caminhao.capacidade_kg)} kg`,
                 caminhao.status ?? '-'
             ];
 
