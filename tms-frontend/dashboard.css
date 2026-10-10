@@ -2228,3 +2228,1401 @@ tbody td:last-child {
         grid-template-columns: 1fr;
     }
 }
+/* =========================================================
+   DASHBOARD — REFINAMENTO VISUAL FINAL
+========================================================= */
+
+/* NÚMEROS PRINCIPAIS */
+
+.dashboard-page .numero-destaque {
+    color: #38bdf8;
+
+    font-size: 30px;
+    font-weight: 800;
+
+    line-height: 1;
+
+    letter-spacing: -0.7px;
+
+    text-shadow:
+        0 0 18px rgba(56, 189, 248, 0.18);
+}
+
+
+/* CARDS PRINCIPAIS */
+
+.dashboard-page .cards-container .card {
+    border-color: rgba(255, 255, 255, 0.075);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(30, 41, 59, 0.82),
+            rgba(15, 23, 42, 0.72)
+        );
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.dashboard-page .cards-container .card:hover {
+    transform: translateY(-2px);
+
+    border-color:
+        rgba(56, 189, 248, 0.18);
+
+    box-shadow:
+        0 14px 35px rgba(0, 0, 0, 0.18),
+        0 0 25px rgba(14, 165, 233, 0.035);
+}
+
+
+/* TÍTULOS DOS CARDS */
+
+.dashboard-page .cards-container .card h3 {
+    color: #e2e8f0;
+
+    font-weight: 700;
+}
+
+
+/* TEXTOS SECUNDÁRIOS */
+
+.dashboard-page .card-legenda {
+    color: #718096;
+}
+
+
+/* =========================================================
+   PEDIDOS / VIAGENS / DESPESAS
+========================================================= */
+
+.dashboard-page .painel-resumo {
+    border-color:
+        rgba(255, 255, 255, 0.07);
+
+    transition:
+        border-color 0.25s ease,
+        background 0.25s ease;
+}
+
+.dashboard-page .painel-resumo:hover {
+    border-color:
+        rgba(56, 189, 248, 0.12);
+
+    background:
+        rgba(15, 23, 42, 0.76);
+}
+
+
+/* NÚMEROS E VALORES DOS RESUMOS */
+
+.dashboard-page .linha-indicador strong {
+    min-width: 31px;
+
+    padding: 5px 10px;
+
+    border-radius: 8px;
+
+    color: #67e8f9;
+
+    background:
+        rgba(14, 165, 233, 0.10);
+
+    font-weight: 800;
+
+    text-align: center;
+
+    box-shadow:
+        inset 0 0 0 1px
+        rgba(56, 189, 248, 0.04);
+}
+
+
+/* VALORES EM DINHEIRO PODEM SER MAIS LARGOS */
+
+.dashboard-page #despesas-combustivel,
+.dashboard-page #despesas-pedagio,
+.dashboard-page #despesas-manutencao,
+.dashboard-page #despesas-outros {
+    min-width: auto;
+
+    color: #e2e8f0;
+
+    background: transparent;
+
+    padding-left: 0;
+    padding-right: 0;
+
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   TABELA DE CAMINHÕES
+========================================================= */
+
+.dashboard-page .tabela-container {
+    border-color:
+        rgba(255, 255, 255, 0.07);
+}
+
+.dashboard-page .tabela-container tbody tr {
+    transition: background 0.2s ease;
+}
+
+.dashboard-page .tabela-container tbody tr:hover {
+    background:
+        rgba(56, 189, 248, 0.025);
+}
+
+
+/* =========================================================
+   BOTÃO SAIR
+========================================================= */
+
+.dashboard-page .logout a {
+    transition:
+        color 0.2s ease,
+        background 0.2s ease;
+}
+
+.dashboard-page .logout a:hover {
+    color: #fca5a5;
+
+    background:
+        rgba(239, 68, 68, 0.06);
+}
+/* =========================================================
+   DASHBOARD-NUMEROS-FINAL
+========================================================= */
+
+body.dashboard-page #total-pedidos,
+body.dashboard-page #total-viagens,
+body.dashboard-page #caminhoes-disponiveis,
+body.dashboard-page #motoristas-disponiveis {
+    color: #22d3ee !important;
+    font-size: 32px !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+    opacity: 1 !important;
+
+    text-shadow:
+        0 0 18px rgba(34, 211, 238, 0.20) !important;
+}
+
+body.dashboard-page #total-despesas {
+    color: #22d3ee !important;
+    font-size: 26px !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+    opacity: 1 !important;
+
+    text-shadow:
+        0 0 18px rgba(34, 211, 238, 0.20) !important;
+}
+/* =========================================================
+   CAMINHÕES — REFINAMENTO VISUAL FINAL
+========================================================= */
+
+
+/* =========================================================
+   NÚMEROS DOS CARDS
+========================================================= */
+
+body.caminhoes-page #totalCaminhoes,
+body.caminhoes-page #caminhoesDisponiveis,
+body.caminhoes-page #caminhoesManutencao,
+body.caminhoes-page #caminhoesInativos {
+    color: #22d3ee !important;
+
+    font-size: 32px !important;
+    font-weight: 800 !important;
+
+    line-height: 1 !important;
+
+    opacity: 1 !important;
+
+    text-shadow:
+        0 0 18px
+        rgba(34, 211, 238, 0.20) !important;
+}
+
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+body.caminhoes-page .cards-frota .card {
+    position: relative;
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.075);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(30, 41, 59, 0.86),
+            rgba(15, 23, 42, 0.74)
+        );
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+body.caminhoes-page .cards-frota .card::before {
+    content: "";
+
+    position: absolute;
+
+    width: 120px;
+    height: 120px;
+
+    right: -70px;
+    bottom: -70px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(14, 165, 233, 0.07);
+
+    filter: blur(25px);
+
+    pointer-events: none;
+}
+
+
+body.caminhoes-page .cards-frota .card:hover {
+    transform: translateY(-3px);
+
+    border-color:
+        rgba(56, 189, 248, 0.22);
+
+    box-shadow:
+        0 16px 38px rgba(0, 0, 0, 0.18),
+        0 0 26px rgba(14, 165, 233, 0.04);
+}
+
+
+/* =========================================================
+   TÍTULOS DOS CARDS
+========================================================= */
+
+body.caminhoes-page .cards-frota .card h3 {
+    color: #f1f5f9 !important;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   LEGENDAS
+========================================================= */
+
+body.caminhoes-page .cards-frota .card-legenda {
+    color: #94a3b8 !important;
+
+    opacity: 1 !important;
+}
+
+
+/* =========================================================
+   TÍTULO PRINCIPAL
+========================================================= */
+
+body.caminhoes-page .topo h1 {
+    color: #f8fafc;
+
+    letter-spacing: -1px;
+}
+
+
+body.caminhoes-page .topo p {
+    color: #8fb4df;
+}
+
+
+/* =========================================================
+   BOTÃO NOVO CAMINHÃO
+========================================================= */
+
+body.caminhoes-page .btn-acao-principal {
+    box-shadow:
+        0 8px 22px
+        rgba(14, 165, 233, 0.16);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+body.caminhoes-page .btn-acao-principal:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 28px
+        rgba(14, 165, 233, 0.26);
+}
+
+
+/* =========================================================
+   ÁREA DA TABELA
+========================================================= */
+
+body.caminhoes-page .tabela-container {
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.07);
+
+    background:
+        rgba(15, 23, 42, 0.62);
+
+    transition:
+        border-color 0.25s ease;
+}
+
+
+body.caminhoes-page .tabela-container:hover {
+    border-color:
+        rgba(56, 189, 248, 0.11);
+}
+
+
+/* Título da tabela */
+
+body.caminhoes-page .painel-titulo h2 {
+    color: #f1f5f9;
+}
+
+
+body.caminhoes-page .painel-titulo span {
+    color: #7890ad;
+}
+
+
+/* =========================================================
+   CABEÇALHO DA TABELA
+========================================================= */
+
+body.caminhoes-page .tabela-container thead th {
+    color: #93b9e8 !important;
+
+    font-weight: 650;
+
+    letter-spacing: 0.4px;
+}
+
+
+/* =========================================================
+   DADOS DA TABELA
+========================================================= */
+
+body.caminhoes-page .tabela-container tbody td {
+    color: #e2e8f0;
+}
+
+
+body.caminhoes-page .tabela-container tbody tr {
+    transition:
+        background 0.2s ease;
+}
+
+
+body.caminhoes-page .tabela-container tbody tr:hover {
+    background:
+        rgba(56, 189, 248, 0.035);
+}
+
+
+/* =========================================================
+   BOTÕES EDITAR / EXCLUIR
+========================================================= */
+
+body.caminhoes-page .btn-editar {
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+body.caminhoes-page .btn-editar:hover {
+    transform: translateY(-1px);
+
+    border-color:
+        rgba(56, 189, 248, 0.40);
+
+    background:
+        rgba(14, 165, 233, 0.12);
+}
+
+
+body.caminhoes-page .btn-excluir {
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+body.caminhoes-page .btn-excluir:hover {
+    transform: translateY(-1px);
+
+    background:
+        rgba(239, 68, 68, 0.10);
+}
+
+
+/* =========================================================
+   RESPONSIVIDADE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    body.caminhoes-page #totalCaminhoes,
+    body.caminhoes-page #caminhoesDisponiveis,
+    body.caminhoes-page #caminhoesManutencao,
+    body.caminhoes-page #caminhoesInativos {
+        font-size: 28px !important;
+    }
+
+}
+/* =========================================================
+   MOTORISTAS — REFINAMENTO VISUAL FINAL
+========================================================= */
+
+
+/* =========================================================
+   NÚMEROS DOS CARDS
+========================================================= */
+
+body.motoristas-page #totalMotoristas,
+body.motoristas-page #motoristasDisponiveis,
+body.motoristas-page #motoristasInativos {
+    color: #22d3ee !important;
+
+    font-size: 32px !important;
+    font-weight: 800 !important;
+
+    line-height: 1 !important;
+
+    opacity: 1 !important;
+
+    text-shadow:
+        0 0 18px
+        rgba(34, 211, 238, 0.20) !important;
+}
+
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+body.motoristas-page .cards-frota .card {
+    position: relative;
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.075);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(30, 41, 59, 0.86),
+            rgba(15, 23, 42, 0.74)
+        );
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+body.motoristas-page .cards-frota .card::before {
+    content: "";
+
+    position: absolute;
+
+    width: 120px;
+    height: 120px;
+
+    right: -70px;
+    bottom: -70px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(14, 165, 233, 0.07);
+
+    filter: blur(25px);
+
+    pointer-events: none;
+}
+
+
+body.motoristas-page .cards-frota .card:hover {
+    transform: translateY(-3px);
+
+    border-color:
+        rgba(56, 189, 248, 0.22);
+
+    box-shadow:
+        0 16px 38px rgba(0, 0, 0, 0.18),
+        0 0 26px rgba(14, 165, 233, 0.04);
+}
+
+
+/* =========================================================
+   TÍTULOS DOS CARDS
+========================================================= */
+
+body.motoristas-page .cards-frota .card h3 {
+    color: #f1f5f9 !important;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   DESCRIÇÕES DOS CARDS
+========================================================= */
+
+body.motoristas-page .cards-frota .card-descricao {
+    color: #94a3b8 !important;
+
+    opacity: 1 !important;
+}
+
+
+/* =========================================================
+   CABEÇALHO PRINCIPAL
+========================================================= */
+
+body.motoristas-page .topo h1 {
+    color: #f8fafc;
+
+    letter-spacing: -1px;
+}
+
+
+body.motoristas-page .topo p {
+    color: #8fb4df;
+}
+
+
+/* =========================================================
+   BOTÃO NOVO MOTORISTA
+========================================================= */
+
+body.motoristas-page .btn-acao-principal {
+    box-shadow:
+        0 8px 22px
+        rgba(14, 165, 233, 0.16);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+body.motoristas-page .btn-acao-principal:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 28px
+        rgba(14, 165, 233, 0.26);
+}
+
+
+/* =========================================================
+   CONTAINER DA TABELA
+========================================================= */
+
+body.motoristas-page .tabela-container {
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.07);
+
+    background:
+        rgba(15, 23, 42, 0.62);
+
+    transition:
+        border-color 0.25s ease;
+}
+
+
+body.motoristas-page .tabela-container:hover {
+    border-color:
+        rgba(56, 189, 248, 0.11);
+}
+
+
+/* =========================================================
+   TÍTULO DA TABELA
+========================================================= */
+
+body.motoristas-page .cabecalho-secao h2 {
+    color: #f1f5f9;
+}
+
+
+body.motoristas-page .cabecalho-secao p {
+    color: #7890ad;
+}
+
+
+/* =========================================================
+   CABEÇALHO DA TABELA
+========================================================= */
+
+body.motoristas-page .tabela-container thead th {
+    color: #93b9e8 !important;
+
+    font-weight: 650;
+
+    letter-spacing: 0.4px;
+}
+
+
+/* =========================================================
+   DADOS DA TABELA
+========================================================= */
+
+body.motoristas-page .tabela-container tbody td {
+    color: #e2e8f0;
+}
+
+
+body.motoristas-page .tabela-container tbody tr {
+    transition:
+        background 0.2s ease;
+}
+
+
+body.motoristas-page .tabela-container tbody tr:hover {
+    background:
+        rgba(56, 189, 248, 0.035);
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+body.motoristas-page .tabela-container tbody td:nth-child(4) {
+    color: #4ade80;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   BOTÕES EDITAR / EXCLUIR
+========================================================= */
+
+body.motoristas-page .btn-editar {
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+body.motoristas-page .btn-editar:hover {
+    transform: translateY(-1px);
+
+    border-color:
+        rgba(56, 189, 248, 0.40);
+
+    background:
+        rgba(14, 165, 233, 0.12);
+}
+
+
+body.motoristas-page .btn-excluir {
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+body.motoristas-page .btn-excluir:hover {
+    transform: translateY(-1px);
+
+    background:
+        rgba(239, 68, 68, 0.10);
+}
+
+
+/* =========================================================
+   RESPONSIVIDADE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    body.motoristas-page #totalMotoristas,
+    body.motoristas-page #motoristasDisponiveis,
+    body.motoristas-page #motoristasInativos {
+        font-size: 28px !important;
+    }
+
+}
+/* =========================================================
+   VIAGENS — REFINAMENTO VISUAL FINAL
+========================================================= */
+
+
+/* NÚMEROS DOS 5 CARDS */
+
+body.viagens-page #totalViagens,
+body.viagens-page #totalPlanejadas,
+body.viagens-page #totalEmAndamento,
+body.viagens-page #totalConcluidas,
+body.viagens-page #totalCanceladas {
+    color: #22d3ee !important;
+
+    font-size: 32px !important;
+    font-weight: 800 !important;
+
+    line-height: 1 !important;
+
+    opacity: 1 !important;
+
+    text-shadow:
+        0 0 18px
+        rgba(34, 211, 238, 0.20) !important;
+}
+
+
+/* CARDS */
+
+body.viagens-page .cards-container .card {
+    position: relative;
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.075);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(30, 41, 59, 0.86),
+            rgba(15, 23, 42, 0.74)
+        );
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+body.viagens-page .cards-container .card::before {
+    content: "";
+
+    position: absolute;
+
+    width: 120px;
+    height: 120px;
+
+    right: -70px;
+    bottom: -70px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(14, 165, 233, 0.07);
+
+    filter: blur(25px);
+
+    pointer-events: none;
+}
+
+
+body.viagens-page .cards-container .card:hover {
+    transform: translateY(-3px);
+
+    border-color:
+        rgba(56, 189, 248, 0.22);
+
+    box-shadow:
+        0 16px 38px rgba(0, 0, 0, 0.18),
+        0 0 26px rgba(14, 165, 233, 0.04);
+}
+
+
+/* TÍTULOS DOS CARDS */
+
+body.viagens-page .cards-container .card strong {
+    color: #f1f5f9 !important;
+
+    font-weight: 700;
+}
+
+
+/* DESCRIÇÕES DOS CARDS */
+
+body.viagens-page .cards-container .card p {
+    color: #94a3b8 !important;
+
+    opacity: 1 !important;
+}
+
+
+/* CABEÇALHO */
+
+body.viagens-page .pagina-cabecalho h1 {
+    color: #f8fafc;
+
+    letter-spacing: -1px;
+}
+
+
+body.viagens-page .pagina-cabecalho p {
+    color: #8fb4df;
+}
+
+
+/* BOTÃO NOVA VIAGEM */
+
+body.viagens-page .btn-primario {
+    box-shadow:
+        0 8px 22px
+        rgba(14, 165, 233, 0.16);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+body.viagens-page .btn-primario:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 28px
+        rgba(14, 165, 233, 0.26);
+}
+
+
+/* TABELA */
+
+body.viagens-page .tabela-container {
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.07);
+
+    background:
+        rgba(15, 23, 42, 0.62);
+
+    transition:
+        border-color 0.25s ease;
+}
+
+
+body.viagens-page .tabela-container:hover {
+    border-color:
+        rgba(56, 189, 248, 0.11);
+}
+
+
+/* TÍTULO DA TABELA */
+
+body.viagens-page .secao-cabecalho h2 {
+    color: #f1f5f9;
+}
+
+
+body.viagens-page .secao-cabecalho p {
+    color: #7890ad;
+}
+
+
+/* CABEÇALHO DA TABELA */
+
+body.viagens-page .tabela-container thead th {
+    color: #93b9e8 !important;
+
+    font-weight: 650;
+
+    letter-spacing: 0.4px;
+}
+
+
+/* DADOS DA TABELA */
+
+body.viagens-page .tabela-container tbody td {
+    color: #e2e8f0;
+}
+
+
+body.viagens-page .tabela-container tbody tr {
+    transition:
+        background 0.2s ease;
+}
+
+
+body.viagens-page .tabela-container tbody tr:hover {
+    background:
+        rgba(56, 189, 248, 0.035);
+}
+
+
+/* STATUS */
+
+body.viagens-page .tabela-container tbody td:nth-child(5) {
+    color: #4ade80 !important;
+
+    font-weight: 700;
+}
+
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 900px) {
+
+    body.viagens-page #totalViagens,
+    body.viagens-page #totalPlanejadas,
+    body.viagens-page #totalEmAndamento,
+    body.viagens-page #totalConcluidas,
+    body.viagens-page #totalCanceladas {
+        font-size: 28px !important;
+    }
+
+}
+/* =========================================================
+   DESPESAS — REFINAMENTO VISUAL FINAL
+========================================================= */
+
+
+/* =========================================================
+   CABEÇALHO PRINCIPAL
+========================================================= */
+
+body.despesas-page .pagina-cabecalho h1 {
+    color: #f8fafc;
+    letter-spacing: -1px;
+}
+
+body.despesas-page .pagina-cabecalho p {
+    color: #8fb4df;
+}
+
+
+/* =========================================================
+   BOTÃO NOVA DESPESA
+========================================================= */
+
+body.despesas-page .pagina-cabecalho .btn-primario {
+    box-shadow:
+        0 8px 22px
+        rgba(14, 165, 233, 0.16);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+body.despesas-page .pagina-cabecalho .btn-primario:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 28px
+        rgba(14, 165, 233, 0.26);
+}
+
+
+/* =========================================================
+   BLOCO CONSULTAR VIAGEM
+========================================================= */
+
+body.despesas-page .tabela-container {
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.07);
+
+    background:
+        rgba(15, 23, 42, 0.62);
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+body.despesas-page .tabela-container:hover {
+    border-color:
+        rgba(56, 189, 248, 0.11);
+}
+
+
+/* Cabeçalhos das seções */
+
+body.despesas-page .secao-cabecalho h2 {
+    color: #f1f5f9;
+}
+
+body.despesas-page .secao-cabecalho p {
+    color: #7890ad;
+}
+
+
+/* =========================================================
+   FORMULÁRIO DE CONSULTA
+========================================================= */
+
+body.despesas-page #formBuscarViagem {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        auto;
+
+    gap: 16px;
+
+    align-items: end;
+}
+
+
+/* Remove espaços excessivos */
+
+body.despesas-page #formBuscarViagem .campo-formulario {
+    margin-bottom: 0;
+}
+
+body.despesas-page #formBuscarViagem .acoes-formulario {
+    margin: 0;
+}
+
+
+/* Input */
+
+body.despesas-page #viagemConsultaId {
+    height: 48px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.08);
+
+    background:
+        rgba(2, 6, 23, 0.55);
+
+    color: #f8fafc;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+body.despesas-page #viagemConsultaId:focus {
+    border-color:
+        rgba(34, 211, 238, 0.65);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(34, 211, 238, 0.08);
+
+    outline: none;
+}
+
+
+/* Botão buscar */
+
+body.despesas-page #formBuscarViagem .btn-primario {
+    min-width: 180px;
+    height: 48px;
+
+    padding-left: 22px;
+    padding-right: 22px;
+
+    white-space: nowrap;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+body.despesas-page #formBuscarViagem .btn-primario:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 24px
+        rgba(14, 165, 233, 0.20);
+}
+
+
+/* =========================================================
+   CARDS DE DESPESAS
+========================================================= */
+
+body.despesas-page .cards-container .card {
+    position: relative;
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.075);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(30, 41, 59, 0.86),
+            rgba(15, 23, 42, 0.74)
+        );
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+body.despesas-page .cards-container .card::before {
+    content: "";
+
+    position: absolute;
+
+    width: 120px;
+    height: 120px;
+
+    right: -70px;
+    bottom: -70px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(14, 165, 233, 0.07);
+
+    filter: blur(25px);
+
+    pointer-events: none;
+}
+
+body.despesas-page .cards-container .card:hover {
+    transform: translateY(-3px);
+
+    border-color:
+        rgba(56, 189, 248, 0.22);
+
+    box-shadow:
+        0 16px 38px rgba(0, 0, 0, 0.18),
+        0 0 26px rgba(14, 165, 233, 0.04);
+}
+
+
+/* Títulos dos cards */
+
+body.despesas-page .cards-container .card strong {
+    color: #f1f5f9 !important;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   VALORES DOS CARDS
+========================================================= */
+
+body.despesas-page #totalDespesas,
+body.despesas-page #totalCombustivel,
+body.despesas-page #totalPedagio,
+body.despesas-page #totalManutencao,
+body.despesas-page #totalOutros {
+    color: #22d3ee !important;
+
+    font-size: 27px !important;
+    font-weight: 800 !important;
+
+    line-height: 1 !important;
+
+    opacity: 1 !important;
+
+    font-variant-numeric:
+        tabular-nums;
+
+    text-shadow:
+        0 0 18px
+        rgba(34, 211, 238, 0.18) !important;
+}
+
+
+/* =========================================================
+   CARD TOTAL DA VIAGEM
+========================================================= */
+
+body.despesas-page .cards-container .card:first-child {
+    border-color:
+        rgba(34, 211, 238, 0.14);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(15, 45, 68, 0.82),
+            rgba(15, 23, 42, 0.78)
+        );
+}
+
+body.despesas-page #totalDespesas {
+    color: #67e8f9 !important;
+
+    font-size: 30px !important;
+}
+
+
+/* Descrições dos cards */
+
+body.despesas-page .cards-container .card p {
+    color: #94a3b8 !important;
+
+    opacity: 1 !important;
+}
+
+
+/* =========================================================
+   TABELA DE DESPESAS
+========================================================= */
+
+body.despesas-page .tabela-container thead th {
+    color: #93b9e8 !important;
+
+    font-weight: 650;
+
+    letter-spacing: 0.4px;
+}
+
+body.despesas-page .tabela-container tbody td {
+    color: #e2e8f0;
+}
+
+body.despesas-page .tabela-container tbody tr {
+    transition:
+        background 0.2s ease;
+}
+
+body.despesas-page .tabela-container tbody tr:hover {
+    background:
+        rgba(56, 189, 248, 0.035);
+}
+
+
+/* =========================================================
+   MENSAGEM QUANDO NENHUMA VIAGEM FOI CONSULTADA
+========================================================= */
+
+body.despesas-page #corpoTabelaDespesas td[colspan="5"] {
+    color: #94a3b8 !important;
+
+    font-weight: 500 !important;
+}
+
+
+/* =========================================================
+   VIAGEM SELECIONADA
+========================================================= */
+
+body.despesas-page #textoViagemSelecionada {
+    color: #7890ad;
+}
+
+
+/* =========================================================
+   MODAL NOVA DESPESA
+========================================================= */
+
+body.despesas-page .modal-card {
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.09);
+
+    box-shadow:
+        0 30px 80px
+        rgba(0, 0, 0, 0.40);
+}
+
+body.despesas-page .modal-cabecalho h2 {
+    color: #f8fafc;
+}
+
+body.despesas-page .modal-cabecalho p {
+    color: #94a3b8;
+}
+
+
+/* =========================================================
+   RESPONSIVIDADE
+========================================================= */
+
+@media (max-width: 800px) {
+
+    body.despesas-page #formBuscarViagem {
+        grid-template-columns: 1fr;
+    }
+
+    body.despesas-page #formBuscarViagem .btn-primario {
+        width: 100%;
+    }
+
+    body.despesas-page #totalDespesas,
+    body.despesas-page #totalCombustivel,
+    body.despesas-page #totalPedagio,
+    body.despesas-page #totalManutencao,
+    body.despesas-page #totalOutros {
+        font-size: 25px !important;
+    }
+
+}
+/* =========================================================
+   DESPESAS — ESPAÇAMENTO ENTRE BUSCA E CARDS
+========================================================= */
+
+/*
+   Separa visualmente o bloco "Consultar viagem"
+   dos cards de valores.
+*/
+
+body.despesas-page #formBuscarViagem {
+    margin-bottom: 0;
+}
+
+body.despesas-page .cards-container {
+    margin-top: 26px !important;
+}
+
+
+/*
+   Mantém um bom espaçamento entre os cards
+   e a tabela "Despesas da viagem".
+*/
+
+body.despesas-page .cards-container + .tabela-container {
+    margin-top: 26px !important;
+}
+
+
+/* Ajuste para telas menores */
+
+@media (max-width: 800px) {
+
+    body.despesas-page .cards-container {
+        margin-top: 20px !important;
+    }
+
+    body.despesas-page .cards-container + .tabela-container {
+        margin-top: 20px !important;
+    }
+
+}

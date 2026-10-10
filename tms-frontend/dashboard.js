@@ -12,13 +12,9 @@ const API_URL = 'http://localhost:3000';
 // Recupera o token salvo após o login.
 const token = localStorage.getItem('token');
 
-
-// Se não existir token, o usuário não pode acessar
-// a área administrativa.
+// Sem token, o usuário não pode acessar a área restrita.
 if (!token) {
-
     alert('Acesso negado! Por favor, faça login.');
-
     window.location.href = 'index.html';
 }
 
@@ -45,7 +41,6 @@ if (btnSair) {
 // ======================================================
 
 function formatarMoeda(valor) {
-
     return Number(valor || 0).toLocaleString(
         'pt-BR',
         {
@@ -55,23 +50,24 @@ function formatarMoeda(valor) {
     );
 }
 
+
 function formatarNumero(valor) {
-    return Number(valor || 0).toLocaleString('pt-BR', {
-        maximumFractionDigits: 2
-    });
+    return Number(valor || 0).toLocaleString(
+        'pt-BR',
+        {
+            maximumFractionDigits: 2
+        }
+    );
 }
 
 
 function mostrarErro(mensagem) {
-
     const elementoErro =
         document.getElementById('dashboard-erro');
-
 
     if (!elementoErro) {
         return;
     }
-
 
     elementoErro.textContent = mensagem;
     elementoErro.hidden = false;
@@ -79,15 +75,12 @@ function mostrarErro(mensagem) {
 
 
 function esconderErro() {
-
     const elementoErro =
         document.getElementById('dashboard-erro');
-
 
     if (!elementoErro) {
         return;
     }
-
 
     elementoErro.hidden = true;
     elementoErro.textContent = '';
@@ -99,12 +92,10 @@ function esconderErro() {
 // ======================================================
 
 function tratarErroAutenticacao(resposta) {
-
     if (
         resposta.status === 401 ||
         resposta.status === 403
     ) {
-
         localStorage.removeItem('token');
 
         alert(
@@ -116,7 +107,6 @@ function tratarErroAutenticacao(resposta) {
         return true;
     }
 
-
     return false;
 }
 
@@ -126,11 +116,8 @@ function tratarErroAutenticacao(resposta) {
 // ======================================================
 
 async function carregarResumoDashboard() {
-
     try {
-
         esconderErro();
-
 
         const resposta = await fetch(
             `${API_URL}/dashboard/resumo`,
@@ -143,23 +130,18 @@ async function carregarResumoDashboard() {
             }
         );
 
-
         if (tratarErroAutenticacao(resposta)) {
             return;
         }
 
-
         const dados = await resposta.json();
 
-
         if (!resposta.ok) {
-
             throw new Error(
                 dados.erro ||
                 'Não foi possível carregar o dashboard.'
             );
         }
-
 
         const dashboard = dados.dashboard;
 
@@ -192,28 +174,53 @@ async function carregarResumoDashboard() {
         // FROTA
         // ==================================================
 
+        const caminhoesDisponiveis =
+            Number(
+                dashboard.frota.caminhoes.disponiveis || 0
+            );
+
+        const totalCaminhoes =
+            Number(
+                dashboard.frota.caminhoes.total || 0
+            );
+
+        const motoristasDisponiveis =
+            Number(
+                dashboard.frota.motoristas.disponiveis || 0
+            );
+
+        const totalMotoristas =
+            Number(
+                dashboard.frota.motoristas.total || 0
+            );
+
+
         document.getElementById(
             'caminhoes-disponiveis'
         ).textContent =
-            dashboard.frota.caminhoes.disponiveis;
+            caminhoesDisponiveis;
 
 
         document.getElementById(
             'total-caminhoes'
         ).textContent =
-            `${dashboard.frota.caminhoes.total} caminhão(ões) cadastrado(s)`;
+            totalCaminhoes === 1
+                ? '1 caminhão cadastrado'
+                : `${totalCaminhoes} caminhões cadastrados`;
 
 
         document.getElementById(
             'motoristas-disponiveis'
         ).textContent =
-            dashboard.frota.motoristas.disponiveis;
+            motoristasDisponiveis;
 
 
         document.getElementById(
             'total-motoristas'
         ).textContent =
-            `${dashboard.frota.motoristas.total} motorista(s) cadastrado(s)`;
+            totalMotoristas === 1
+                ? '1 motorista cadastrado'
+                : `${totalMotoristas} motoristas cadastrados`;
 
 
         // ==================================================
@@ -283,14 +290,11 @@ async function carregarResumoDashboard() {
                 dashboard.despesas.por_tipo.OUTROS ?? 0
             );
 
-
     } catch (erro) {
-
         console.error(
             'Erro ao carregar dashboard:',
             erro
         );
-
 
         mostrarErro(
             'Não foi possível carregar os dados do dashboard.'
@@ -303,20 +307,17 @@ async function carregarResumoDashboard() {
 // CAMINHÕES
 // ======================================================
 
-// ======================================================
-// CAMINHÕES
-// ======================================================
-
 async function carregarCaminhoes() {
-
     const corpoTabela =
         document.getElementById(
             'corpo-tabela-caminhoes'
         );
 
+    if (!corpoTabela) {
+        return;
+    }
 
     try {
-
         const resposta = await fetch(
             `${API_URL}/caminhoes`,
             {
@@ -328,17 +329,13 @@ async function carregarCaminhoes() {
             }
         );
 
-
         if (tratarErroAutenticacao(resposta)) {
             return;
         }
 
-
         const dados = await resposta.json();
 
-
         if (!resposta.ok) {
-
             throw new Error(
                 dados.erro ||
                 'Não foi possível carregar os caminhões.'
@@ -347,7 +344,7 @@ async function carregarCaminhoes() {
 
 
         /*
-         * Suporta tanto uma resposta direta em array:
+         * Aceita tanto:
          *
          * [...]
          *
@@ -357,30 +354,30 @@ async function carregarCaminhoes() {
          *     caminhoes: [...]
          * }
          */
+
         const caminhoes =
             Array.isArray(dados)
                 ? dados
                 : dados.caminhoes ?? [];
 
 
-        // Remove as linhas existentes sem utilizar innerHTML.
+        /*
+         * Limpa a tabela sem utilizar innerHTML.
+         */
         corpoTabela.replaceChildren();
 
 
         if (caminhoes.length === 0) {
-
             const linha =
                 document.createElement('tr');
 
             const celula =
                 document.createElement('td');
 
-
             celula.colSpan = 5;
 
             celula.textContent =
                 'Nenhum caminhão cadastrado.';
-
 
             linha.appendChild(celula);
 
@@ -391,7 +388,6 @@ async function carregarCaminhoes() {
 
 
         caminhoes.forEach((caminhao) => {
-
             const linha =
                 document.createElement('tr');
 
@@ -400,39 +396,52 @@ async function carregarCaminhoes() {
                 caminhao.id ?? '-',
                 caminhao.placa ?? '-',
                 caminhao.modelo ?? '-',
-                `${formatarNumero(caminhao.capacidade_kg)} kg`,
+                `${formatarNumero(
+                    caminhao.capacidade_kg
+                )} kg`,
                 caminhao.status ?? '-'
             ];
 
 
-            valores.forEach((valor) => {
+            valores.forEach(
+                (valor, indice) => {
 
-                const celula =
-                    document.createElement('td');
+                    const celula =
+                        document.createElement('td');
 
-                /*
-                 * textContent trata o conteúdo como texto,
-                 * impedindo que HTML vindo da API seja
-                 * interpretado pelo navegador.
-                 */
-                celula.textContent =
-                    String(valor);
 
-                linha.appendChild(celula);
-            });
+                    /*
+                     * textContent impede que um valor
+                     * recebido da API seja interpretado
+                     * como HTML pelo navegador.
+                     */
+                    celula.textContent =
+                        String(valor);
+
+
+                    /*
+                     * Última coluna = status.
+                     */
+                    if (indice === 4) {
+                        celula.classList.add(
+                            'status-caminhao'
+                        );
+                    }
+
+
+                    linha.appendChild(celula);
+                }
+            );
 
 
             corpoTabela.appendChild(linha);
         });
 
-
     } catch (erro) {
-
         console.error(
             'Erro ao buscar caminhões:',
             erro
         );
-
 
         corpoTabela.replaceChildren();
 
@@ -462,7 +471,6 @@ async function carregarCaminhoes() {
 // ======================================================
 
 async function iniciarDashboard() {
-
     await Promise.all([
         carregarResumoDashboard(),
         carregarCaminhoes()
